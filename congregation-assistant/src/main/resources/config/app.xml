@@ -10,6 +10,7 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
     <import resource="overrides.xml" /> 
+    <import resource="model.xml" /> 
     
     <!-- application UI -->
     <bean id="applicationUI" class="pl.exsio.ca.app.ui.ApplicationUI" scope="prototype">

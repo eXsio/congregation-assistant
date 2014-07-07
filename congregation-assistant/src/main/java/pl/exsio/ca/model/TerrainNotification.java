@@ -32,4 +32,10 @@ public interface TerrainNotification extends Serializable {
     String getComment();
     
     void setComment(String comment);
+    
+    boolean isOverriden();
+    
+    void setOverrideGroup(ServiceGroup group);
+    
+    ServiceGroup getOverrideGroup();
 }

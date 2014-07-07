@@ -342,6 +342,7 @@ CREATE TABLE IF NOT EXISTS `ca_terrain_notifications` (
   `created_by` varchar(255) NOT NULL,
   `date` date NOT NULL,
   `terrain_assignment_id` bigint(20) NOT NULL,
+  `override_group_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_eml25xy4koa1rbb8068xrilqo` (`terrain_assignment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -619,7 +620,8 @@ ALTER TABLE `ca_terrain_files`
 -- Ograniczenia dla tabeli `ca_terrain_notifications`
 --
 ALTER TABLE `ca_terrain_notifications`
-  ADD CONSTRAINT `FK_eml25xy4koa1rbb8068xrilqo` FOREIGN KEY (`terrain_assignment_id`) REFERENCES `ca_terrain_assignments` (`id`);
+  ADD CONSTRAINT `FK_eml25xy4koa1rbb8068xrilqo` FOREIGN KEY (`terrain_assignment_id`) REFERENCES `ca_terrain_assignments` (`id`),
+  ADD CONSTRAINT `FK_eml25xy4koa1rbb8068xrifds` FOREIGN KEY (`override_group_id`) REFERENCES `ca_service_groups` (`id`);
 
 --
 -- Ograniczenia dla tabeli `core_frames`
@@ -657,3 +659,8 @@ ALTER TABLE `vaadin_frames`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ALTER TABLE `security_users` MODIFY `username` VARCHAR(255) NOT NULL, MODIFY `password` VARCHAR(255) NOT NULL;
+ALTER IGNORE TABLE `security_users` ADD UNIQUE (`username`);
+
+ALTER TABLE `security_users` ADD `phone_no` varchar(255) NULL;
+

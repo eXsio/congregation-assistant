@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
@@ -52,6 +53,10 @@ public class TerrainNotificationImpl implements TerrainNotification {
     @ManyToOne(targetEntity = TerrainAssignmentImpl.class)
     @JoinColumn(name = "terrain_assignment_id", nullable = false)
     protected TerrainAssignment assignment;
+
+    @ManyToOne(targetEntity = ServiceGroupImpl.class)
+    @JoinColumn(name = "override_group_id", nullable = true)
+    protected ServiceGroup overrideGroup;
 
     @PrePersist
     public void prePersist() {
@@ -102,6 +107,21 @@ public class TerrainNotificationImpl implements TerrainNotification {
     @Override
     public void setAssignment(TerrainAssignment assignment) {
         this.assignment = assignment;
+    }
+
+    @Override
+    public ServiceGroup getOverrideGroup() {
+        return overrideGroup;
+    }
+
+    @Override
+    public void setOverrideGroup(ServiceGroup overrideGroup) {
+        this.overrideGroup = overrideGroup;
+    }
+
+    @Override
+    public boolean isOverriden() {
+        return this.overrideGroup instanceof ServiceGroup;
     }
 
 }
