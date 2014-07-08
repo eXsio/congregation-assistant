@@ -47,6 +47,9 @@ ca.priviledge.service_overseer: Nadzorca służby
 ca.priviledge.sound_servant: Sługa nagłośnienia
 ca.priviledge.accounts_servant: Sługa kont
 ca.priviledge.school_overseer: Nadzorca TSSK
+ca.priviledge.orderly: Porządkowy
+ca.priviledge.congregation_secretary: Sekretarz zboru
+ca.priviledge.service_group_overseer: Nadzorca grupy służby
 ca.groups.button.create: ""
 ca.groups.created: Dodano nową grupę
 ca.groups.window.create: Dodawanie grupy

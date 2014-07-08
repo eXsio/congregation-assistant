@@ -18,14 +18,17 @@ public enum Priviledge {
     LECTOR("lector"),
     SERVANT("servant", Priviledge.MIXER, Priviledge.MICROPHONE),
     ELDER("elder"),
-    MAGAZINES_SERVANT("magazines_servant", Priviledge.SERVANT),
-    TERRAINS_SERVANT("terrains_servant", Priviledge.SERVANT),
-    LITERATURE_SERVANT("literature_servant", Priviledge.SERVANT),
+    MAGAZINES_SERVANT("magazines_servant"),
+    TERRAINS_SERVANT("terrains_servant"),
+    LITERATURE_SERVANT("literature_servant"),
     ELDERS_COORDINATOR("elders_coordinator", Priviledge.ELDER),
-    SERVICE_OVERSEER("service_overseer", Priviledge.SERVANT),
-    SCHOOL_OVERSEER("school_overseer", Priviledge.SERVANT),
-    SOUND_SERVANT("sound_servant", Priviledge.SERVANT),
-    ACCOUNTS_SERVANT("accounts_servant", Priviledge.SERVANT);
+    SERVICE_OVERSEER("service_overseer"),
+    SCHOOL_OVERSEER("school_overseer"),
+    SOUND_SERVANT("sound_servant"),
+    SERVICE_GROUP_OVERSEER("service_group_overseer"),
+    ORDERLY("orderly"),
+    CONGREAGATION_SECRETARY("congregation_secretary"),
+    ACCOUNTS_SERVANT("accounts_servant");
 
     private static final String TRANSLATION_PREFIX = "ca.priviledge.";
 
