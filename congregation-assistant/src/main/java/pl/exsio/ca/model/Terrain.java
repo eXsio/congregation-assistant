@@ -32,4 +32,8 @@ public interface Terrain extends Serializable {
     Date getCreatedAt();
 
     String getCreatedBy();
+    
+    boolean isArchival();
+    
+    void setArchival(boolean archival);
 }

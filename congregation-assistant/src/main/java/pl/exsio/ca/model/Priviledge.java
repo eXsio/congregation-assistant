@@ -18,12 +18,14 @@ public enum Priviledge {
     LECTOR("lector"),
     SERVANT("servant", Priviledge.MIXER, Priviledge.MICROPHONE),
     ELDER("elder"),
-    MAGAZINES_OVERSEER("magazines_overseer", Priviledge.SERVANT),
-    TERRAINS_OVERSEER("terrains_overseer", Priviledge.SERVANT),
-    LITERATURE_OVERSEER("literature_overseer", Priviledge.SERVANT),
+    MAGAZINES_SERVANT("magazines_servant", Priviledge.SERVANT),
+    TERRAINS_SERVANT("terrains_servant", Priviledge.SERVANT),
+    LITERATURE_SERVANT("literature_servant", Priviledge.SERVANT),
     ELDERS_COORDINATOR("elders_coordinator", Priviledge.ELDER),
     SERVICE_OVERSEER("service_overseer", Priviledge.SERVANT),
-    SOUND_OVERSEER("sound_overseer", Priviledge.SERVANT);
+    SCHOOL_OVERSEER("school_overseer", Priviledge.SERVANT),
+    SOUND_SERVANT("sound_servant", Priviledge.SERVANT),
+    ACCOUNTS_SERVANT("accounts_servant", Priviledge.SERVANT);
 
     private static final String TRANSLATION_PREFIX = "ca.priviledge.";
 
@@ -42,6 +44,11 @@ public enum Priviledge {
 
     public Priviledge[] getSubPriviledges() {
         return subPriviledges;
+    }
+    
+    @Override
+    public String toString() {
+        return this.getCaption();
     }
 
 }

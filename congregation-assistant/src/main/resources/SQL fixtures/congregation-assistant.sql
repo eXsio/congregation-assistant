@@ -192,6 +192,7 @@ CREATE TABLE IF NOT EXISTS `ca_preachers` (
   `last_name` varchar(255) NOT NULL,
   `phone_no` varchar(255) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
+ `is_archival` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_kdu88d24t45cty544che467sb` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -243,8 +244,8 @@ CREATE TABLE IF NOT EXISTS `ca_service_groups` (
   `created_by` varchar(255) NOT NULL,
   `group_no` bigint(20) NOT NULL,
   `overseer_id` bigint(20) NOT NULL,
+  `is_archival` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_4ttbyud76dmd7xl5bsu2prs44` (`group_no`),
   KEY `FK_9dvo2pycwed4xho2o5q3txuqg` (`overseer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -260,6 +261,7 @@ CREATE TABLE IF NOT EXISTS `ca_terrains` (
   `created_by` varchar(255) NOT NULL,
   `terrain_no` bigint(20) NOT NULL,
   `type` varchar(255) NOT NULL,
+  `is_archival` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniqueTerrain` (`type`,`terrain_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

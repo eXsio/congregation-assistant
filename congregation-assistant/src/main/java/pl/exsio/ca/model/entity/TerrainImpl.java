@@ -48,11 +48,14 @@ public class TerrainImpl implements Terrain {
     protected String createdBy;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="type",nullable = false)
+    @Column(name = "type", nullable = false)
     protected TerrainType type;
 
     @Column(name = "terrain_no", nullable = false)
     protected Long no;
+
+    @Column(name = "is_archival", columnDefinition = "BOOLEAN", nullable = false)
+    protected boolean archival = false;
 
     @OneToMany(targetEntity = TerrainFileImpl.class)
     protected Set<TerrainFile> files;
@@ -117,6 +120,16 @@ public class TerrainImpl implements Terrain {
 
     public void setAssignments(Set<TerrainAssignment> assignments) {
         this.assignments = assignments;
+    }
+
+    @Override
+    public boolean isArchival() {
+        return archival;
+    }
+
+    @Override
+    public void setArchival(boolean archival) {
+        this.archival = archival;
     }
 
 }

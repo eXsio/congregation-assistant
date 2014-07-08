@@ -1,2 +1,84 @@
-home.welcome_msg: Witaj w systemie Frameset!
-core.frames.start: Start
+ca.preachers.button.create: ""
+ca.preachers.created: Utworzono nowego głosiciela
+ca.preachers.window.create: Tworzenie głosiciela
+ca.preachers.button.delete: ""
+ca.preachers.msg.deleted: Głosiciel został usunięty
+ca.preachers.confirmation.delete: Czy napewno chcesz usunąc tego głosiciela?
+ca.preachers.button.edit: ""
+ca.preachers.msg.edited: Dane głosiciela zostały zaktualizowane
+ca.preachers.window.edit: Edycja danych głosiciela
+ca.preachers.preachers: Głosiciele skonfigurowani dla Zboru
+ca.preachers.invalid_email: Nieprawidłowy adres e-mail
+preacher.first_name: Imię
+preacher.last_name: Nazwisko
+preacher.email: E-mail
+preacher.phone_no: Telefon
+preacher.user: Użytkownik
+pl.exsio.ca.model.entity.PreacherImpl.firstName: Imię
+pl.exsio.ca.model.entity.PreacherImpl.lastName: Nazwisko
+pl.exsio.ca.model.entity.PreacherImpl.email: E-mail
+pl.exsio.ca.model.entity.PreacherImpl.phoneNo: Telefon
+pl.exsio.ca.model.entity.PreacherImpl.user: Uzytkownik
+ca.preachers.basic_data: Dane podstawowe
+ca.preachers.priviledges: Przywileje
+ca.preachers.group_assignment: Przydział do grupy
+ca.priviledges.button.create: ""
+ca.priviledges.created: Dodano nowy przywilej
+ca.priviledges.window.create: Dodawanie przywileju
+ca.priviledges.button.delete: ""
+ca.priviledges.msg.deleted: Przywilej został usunięty
+ca.priviledges.confirmation.delete: Czy napewno chcesz usunąc ten przywilej?
+ca.priviledges.button.edit: ""
+ca.priviledges.msg.edited: Przywilej został zaktualizowany
+ca.priviledges.window.edit: Edycja przywileju
+ca.priviledges.not_null: Przywilej nie może być pusty
+pl.exsio.ca.model.entity.PreacherPriviledgeImpl.priviledge: Przywilej
+preacher.priviledge: Przywilej
+ca.priviledge.mixer: Obsługa nagłośnienia
+ca.priviledge.microphone: Noszenie mikrofonu
+ca.priviledge.lector: Lektor
+ca.priviledge.servant: Sługa pomocniczy
+ca.priviledge.elder: Starszy
+ca.priviledge.magazines_servant: Sługa czasopism
+ca.priviledge.terrains_servant: Sługa terenów
+ca.priviledge.literature_servant: Sługa literatury
+ca.priviledge.elders_coordinator: Koordynator grona starszych
+ca.priviledge.service_overseer: Nadzorca służby
+ca.priviledge.sound_servant: Sługa nagłośnienia
+ca.priviledge.accounts_servant: Sługa kont
+ca.priviledge.school_overseer: Nadzorca TSSK
+ca.groups.button.create: ""
+ca.groups.created: Dodano nową grupę
+ca.groups.window.create: Dodawanie grupy
+ca.groups.button.delete: ""
+ca.groups.msg.deleted: Grupa została usunięta
+ca.groups.confirmation.delete: Czy napewno chcesz usunąc tę grupę?
+ca.groups.button.edit: ""
+ca.groups.msg.edited: Grupa została zaktualizowana
+ca.groups.window.edit: Edycja grupy
+ca.groups.invalid_overseer: Grupa musi mieć nadzorcę
+ca.groups.invalid_no: Grupa musi mieć numer
+pl.exsio.ca.model.entity.PreacherImpl.no: Numer
+pl.exsio.ca.model.entity.PreacherImpl.overseer: Nazdorca
+pl.exsio.ca.model.entity.PreacherImpl.archival: Archiwalna?
+group.no: Numer grupy
+group.overseer: Nazdorca
+group.archival: Archiwalna?
+ca.groups.groups: Grupy słuzby w zborze
+ca.pr_assignments.button.create: ""
+ca.pr_assignments.created: Dodano nowe przypisanie do grupy
+ca.pr_assignments.window.create: Nowe przypisanie do grupy
+ca.pr_assignments.button.delete: ""
+ca.pr_assignments.msg.deleted: Przypisanie do grupy zostało usunięte
+ca.pr_assignments.confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
+ca.pr_assignments.button.edit: ""
+ca.pr_assignments.msg.edited: Przypisanie do grupy zostało zaktualizowane
+ca.pr_assignments.window.edit: Edycja przypisania do grupy
+ca.pr_assignments.invalid_group: Przypisanie musi mieć grupę
+ca.pr_assignments.invalid_no: Przypisanie musi mieć datę
+pl.exsio.ca.model.entity.PreacherAssignmentImpl.group: Grupa
+pl.exsio.ca.model.entity.PreacherAssignmentImpl.date: Data
+ca.preachers.group: Grupa
+preacher.group: Grupa
+preacher.assignment_date: Data przypisania
+preacher.assignment_active: Przypisanie aktywne?

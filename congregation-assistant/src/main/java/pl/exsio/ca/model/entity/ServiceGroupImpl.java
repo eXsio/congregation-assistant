@@ -47,8 +47,11 @@ public class ServiceGroupImpl implements ServiceGroup {
     @Column(name = "created_by", nullable = false, updatable = false)
     protected String createdBy;
 
-    @Column(name="group_no", unique = true, nullable = false)
+    @Column(name = "group_no", nullable = false)
     protected Long no;
+
+    @Column(name = "is_archival", columnDefinition = "BOOLEAN", nullable = false)
+    protected boolean archival = false;
 
     @ManyToOne(targetEntity = PreacherImpl.class)
     @JoinColumn(name = "overseer_id", nullable = false)
@@ -118,5 +121,27 @@ public class ServiceGroupImpl implements ServiceGroup {
     public void setTerrainAssignments(Set<TerrainAssignment> terrainAssignments) {
         this.terrainAssignments = terrainAssignments;
     }
+
+    @Override
+    public boolean isArchival() {
+        return archival;
+    }
+
+    @Override
+    public void setArchival(boolean archival) {
+        this.archival = archival;
+    }
+
+    @Override
+    public String toString() {
+       return this.getCaption();
+    }
+
+    @Override
+    public String getCaption() {
+         return this.no + " (" + this.overseer + ")";
+    }
+    
+    
 
 }

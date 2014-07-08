@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.model.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,7 +57,7 @@ public class PreacherImpl implements Preacher {
     protected String phoneNo;
 
     @ManyToOne(targetEntity = UserImpl.class)
-    @JoinColumn(name="user_id", nullable = true)
+    @JoinColumn(name = "user_id", nullable = true)
     protected User user;
 
     @OneToMany(targetEntity = PreacherPriviledgeImpl.class, mappedBy = "preacher", cascade = CascadeType.REMOVE)
@@ -71,6 +72,9 @@ public class PreacherImpl implements Preacher {
 
     @Column(name = "created_by", nullable = false, updatable = false)
     protected String createdBy;
+
+    @Column(name = "is_archival", columnDefinition = "BOOLEAN", nullable = false)
+    protected boolean archival = false;
 
     @PrePersist
     public void prePersist() {
@@ -171,11 +175,24 @@ public class PreacherImpl implements Preacher {
         Set<Priviledge> gp = new HashSet<>();
         for (PreacherPriviledge pr : this.priviledges) {
             gp.add(pr.getPriviledge());
-            for (Priviledge sub : pr.getPriviledge().getSubPriviledges()) {
-                gp.add(sub);
-            }
+            gp.addAll(Arrays.asList(pr.getPriviledge().getSubPriviledges()));
         }
         return gp;
+    }
+
+    @Override
+    public String toString() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    @Override
+    public boolean isArchival() {
+        return archival;
+    }
+
+    @Override
+    public void setArchival(boolean archival) {
+        this.archival = archival;
     }
 
 }
