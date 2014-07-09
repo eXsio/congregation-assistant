@@ -51,6 +51,10 @@ ca.priviledge.school_overseer: Nadzorca TSSK
 ca.priviledge.orderly: Porządkowy
 ca.priviledge.congregation_secretary: Sekretarz zboru
 ca.priviledge.service_group_overseer: Nadzorca grupy służby
+ca.priviledge.pioneer: Pionier
+ca.priviledge.pioneer_helper: Pionier pomocniczy
+ca.priviledge.pioneer_special: Pionier specjalny
+ca.priviledge.district_overseer: Nadzorca obwodu
 ca.groups.button.create: ""
 ca.groups.created: Dodano nową grupę
 ca.groups.window.create: Dodawanie grupy

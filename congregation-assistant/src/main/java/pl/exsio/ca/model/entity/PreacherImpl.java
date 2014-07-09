@@ -178,7 +178,6 @@ public class PreacherImpl implements Preacher {
         Set<Priviledge> gp = new HashSet<>();
         for (PreacherPriviledge pr : this.priviledges) {
             gp.add(pr.getPriviledge());
-            gp.addAll(Arrays.asList(pr.getPriviledge().getSubPriviledges()));
         }
         return gp;
     }
