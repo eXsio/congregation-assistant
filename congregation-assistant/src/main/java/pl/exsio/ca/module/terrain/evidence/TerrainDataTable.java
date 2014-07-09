@@ -118,7 +118,7 @@ public class TerrainDataTable extends AclSubjectDataTable<Terrain, TabbedForm> {
                 switch (colId.toString()) {
                     case "assignments":
                         SortedSet<TerrainAssignment> assignments = (SortedSet<TerrainAssignment>) property.getValue();
-                        if (!assignments.isEmpty()) {
+                        if (assignments!= null && !assignments.isEmpty()) {
                             return assignments.first().getGroup().getCaption();
                         } else {
                             return "";
