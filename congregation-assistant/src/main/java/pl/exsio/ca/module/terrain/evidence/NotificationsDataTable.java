@@ -11,6 +11,7 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
 import static com.vaadin.addon.jpacontainer.filter.Filters.joinFilter;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
@@ -26,10 +27,13 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
@@ -46,7 +50,7 @@ import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
  *
  * @author exsio
  */
-public class NotificationsDataTable extends DataTable<TerrainNotification, Form> {
+public class NotificationsDataTable extends DataTable<TerrainNotification, Form> implements DataTable.EntityCreationListener, DataTable.EntityUpdateListener, DataTable.EntityDeletionListener {
 
     public static final String TRANSLATION_PREFIX = "ca.notifications.";
 
@@ -101,6 +105,9 @@ public class NotificationsDataTable extends DataTable<TerrainNotification, Form>
                 setTableCaption("");
             }
         }, security);
+        this.addEntityCreatedListener(this);
+        this.addEntityDeletedListener(this);
+        this.addEntityUpdatedListener(this);
     }
 
     @Override
@@ -173,7 +180,7 @@ public class NotificationsDataTable extends DataTable<TerrainNotification, Form>
         date.setPropertyDataSource(item.getItemProperty("date"));
         date.setResolution(Resolution.DAY);
         date.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_date"), false));
-        date.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
+        date.setDateFormat("yyyy-MM-dd");
         return date;
     }
 
@@ -231,6 +238,46 @@ public class NotificationsDataTable extends DataTable<TerrainNotification, Form>
 
     public void setTerrainAssignmentEntityProvider(EntityProvider terrainAssignmentEntityProvider) {
         this.terrainAssignmentEntityProvider = terrainAssignmentEntityProvider;
+    }
+
+    @Override
+    public void beforeEntityCreation(EntityItem item, JPAContainer container) {
+    }
+
+    @Override
+    public void entityCreated(EntityItem item, JPAContainer container) {
+        this.updateLastNotificationDate();
+    }
+
+    @Override
+    public void beforeEntityUpdate(EntityItem item, JPAContainer container) {
+    }
+
+    @Override
+    public void entityUpdated(EntityItem item, JPAContainer container) {
+        this.updateLastNotificationDate();
+    }
+
+    @Override
+    public void beforeEntityDeletion(EntityItem item, JPAContainer container) {
+    }
+
+    @Override
+    public void entityDeleted(EntityItem item, JPAContainer container) {
+        this.updateLastNotificationDate();
+    }
+    
+    protected void updateLastNotificationDate() {
+        List<TerrainNotification> notifications = (List<TerrainNotification>) this.caRepositories.getTerrainNotificationRepository().findByTerrain(this.terrain);
+  
+        if(!notifications.isEmpty()) {
+            TerrainNotification notification = notifications.get(0);
+            Notification.show(new SimpleDateFormat("yyyy-MM-dd").format(notification.getDate()));
+            this.terrain.setLastNotificationDate(notification.getDate());
+            this.caRepositories.getTerrainRepository().save(this.terrain);
+        } else {
+            Notification.show("nope");
+        }
     }
 
 }

@@ -10,19 +10,29 @@ import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import static com.vaadin.addon.jpacontainer.filter.Filters.joinFilter;
+import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.VerticalLayout;
+import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -40,10 +50,6 @@ import pl.exsio.frameset.vaadin.ui.support.component.AclSubjectDataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.TabbedForm;
-import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
-import static com.vaadin.addon.jpacontainer.filter.Filters.joinFilter;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.ui.AbstractSelect;
 
 /**
  *
@@ -71,8 +77,8 @@ public class TerrainDataTable extends AclSubjectDataTable<Terrain, TabbedForm> {
                 setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
                 setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
                 setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
-                setColumnHeaders(new String[]{"terrain.type", "terrain.no", "terrain.name", "terrain.current_group", "terrain.archival", "id"});
-                setVisibleColumns(new String[]{"type", "no", "name", "assignments", "archival", "id"});
+                setColumnHeaders(new String[]{"terrain.type", "terrain.no", "terrain.name", "terrain.last_notification", "terrain.current_group", "terrain.archival", "id"});
+                setVisibleColumns(new String[]{"type", "no", "name", "lastNotificationDate", "assignments", "archival", "id"});
                 setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
                 setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
                 setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
@@ -86,6 +92,24 @@ public class TerrainDataTable extends AclSubjectDataTable<Terrain, TabbedForm> {
     }
     
     @Override
+    protected void doInit() {
+        super.doInit();
+        Converter dateConverter = new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+                return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
+            }
+        };
+        this.table.setConverter("lastNotificationDate", dateConverter);
+    }
+    
+    protected JPAContainer<Terrain> createJPAContainer() {
+        JPAContainer<Terrain> container = super.createJPAContainer();
+        container.sort(new Object[] { "lastNotificationDate" }, new boolean[] { true });
+        return container;
+    }
+
+    @Override
     protected Table createTable(JPAContainer<Terrain> container) {
         return new Table(this.config.getTableCaption(), container) {
 
@@ -94,7 +118,7 @@ public class TerrainDataTable extends AclSubjectDataTable<Terrain, TabbedForm> {
                 switch (colId.toString()) {
                     case "assignments":
                         SortedSet<TerrainAssignment> assignments = (SortedSet<TerrainAssignment>) property.getValue();
-                        if(!assignments.isEmpty()) {
+                        if (!assignments.isEmpty()) {
                             return assignments.first().getGroup().getCaption();
                         } else {
                             return "";
@@ -105,9 +129,10 @@ public class TerrainDataTable extends AclSubjectDataTable<Terrain, TabbedForm> {
             }
         };
     }
-    
+
+    @Override
     protected HorizontalLayout decorateControls(HorizontalLayout controls) {
-        controls  = super.decorateControls(controls);
+        controls = super.decorateControls(controls);
         final ComboBox types = ComponentFactory.createEnumComboBox(null, TerrainType.class);
         JPAContainer<ServiceGroup> groupsContainer = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.serviceGroupEntityProvider.getEntityManager());
         groupsContainer.setEntityProvider(this.serviceGroupEntityProvider);
@@ -115,25 +140,25 @@ public class TerrainDataTable extends AclSubjectDataTable<Terrain, TabbedForm> {
         groups.setConverter(new SingleSelectConverter<ServiceGroup>(groups));
         groups.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         groups.setItemCaptionPropertyId("caption");
-        Button filter = new Button("", FontAwesome.FILTER);
-        filter.addClickListener(new Button.ClickListener() {
+        Property.ValueChangeListener listener = new Property.ValueChangeListener() {
 
             @Override
-            public void buttonClick(Button.ClickEvent event) {
+            public void valueChange(Property.ValueChangeEvent event) {
                 JPAContainer<Terrain> terrains = (JPAContainer<Terrain>) table.getContainerDataSource();
                 terrains.removeAllContainerFilters();
-                if(types.getValue() != null) {
+                if (types.getValue() != null) {
                     terrains.addContainerFilter(eq("type", types.getValue()));
                 }
-                
-                if(groups.getValue() != null) {
-                    terrains.addContainerFilter(joinFilter("assignments", new Filter[] { eq("active", true), eq("group", groups.getValue()) }));
+
+                if (groups.getValue() != null) {
+                    terrains.addContainerFilter(joinFilter("assignments", new Filter[]{eq("active", true), eq("group", groups.getValue())}));
                 }
             }
-        });
+        };
+        types.addValueChangeListener(listener);
+        groups.addValueChangeListener(listener);
         controls.addComponent(types);
         controls.addComponent(groups);
-        controls.addComponent(filter);
         return controls;
     }
 

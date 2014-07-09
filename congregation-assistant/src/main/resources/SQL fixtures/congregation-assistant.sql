@@ -277,6 +277,7 @@ CREATE TABLE IF NOT EXISTS `ca_terrains` (
   `terrain_no` bigint(20) NOT NULL,
   `terrain_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `last_notification_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniqueTerrain` (`type`,`terrain_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;

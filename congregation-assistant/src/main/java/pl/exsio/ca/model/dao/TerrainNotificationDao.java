@@ -6,6 +6,7 @@
 
 package pl.exsio.ca.model.dao;
 
+import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.frameset.core.dao.GenericDao;
 
@@ -15,4 +16,5 @@ import pl.exsio.frameset.core.dao.GenericDao;
  */
 public interface TerrainNotificationDao<T extends TerrainNotification> extends GenericDao<T, Long> {
     
+    Iterable<TerrainNotification> findByTerrain(Terrain terrain);
 }

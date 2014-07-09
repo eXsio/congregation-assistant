@@ -76,6 +76,10 @@ public class TerrainImpl implements Terrain {
     @OrderBy("createdAt DESC")
     protected Set<TerrainNote> notes;
 
+    @Column(name = "last_notification_date", nullable = true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    protected Date lastNotificationDate;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = new Date();
@@ -162,6 +166,16 @@ public class TerrainImpl implements Terrain {
 
     public void setNotes(Set<TerrainNote> notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public Date getLastNotificationDate() {
+        return lastNotificationDate;
+    }
+
+    @Override
+    public void setLastNotificationDate(Date lastNotificationDate) {
+        this.lastNotificationDate = lastNotificationDate;
     }
 
 }

@@ -43,4 +43,8 @@ public interface Terrain extends Serializable {
     boolean isArchival();
     
     void setArchival(boolean archival);
+    
+    Date getLastNotificationDate();
+    
+    void setLastNotificationDate(Date lastNotificationDate);
 }

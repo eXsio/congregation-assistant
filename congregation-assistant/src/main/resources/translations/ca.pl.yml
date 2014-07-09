@@ -156,8 +156,9 @@ pl.exsio.ca.model.entity.TerrainNotificationImpl.date: Data opracowania
 pl.exsio.ca.model.entity.TerrainNotificationImpl.override_group: Delegacja do grupy
 pl.exsio.ca.model.entity.TerrainNotificationImpl.comment: Komentarz
 terrain.assignment: Przypisanie terenu do grupy
-terrain.notification_date: Data zgłoszenia
+terrain.notification_date: Data opracowania
 terrain.override_group: Delegacja do grupy
 terrain.notification_comment: Komentarz
 terrain.current_group: Obecna grupa
 ca.terrains.terrains: Tereny zboru
+terrain.last_notification: Ostatnie opracowanie
