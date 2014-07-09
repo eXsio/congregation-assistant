@@ -29,4 +29,9 @@ public enum TerrainType {
     public String getCaption() {
         return t(TRANSLATION_PREFIX + this.caption);
     }
+    
+    @Override
+    public String toString() {
+        return this.getCaption();
+    }
 }

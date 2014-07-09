@@ -57,6 +57,9 @@ public class TerrainImpl implements Terrain {
     @Column(name = "terrain_no", nullable = false)
     protected Long no;
 
+    @Column(name = "terrain_name", nullable = false)
+    protected String name;
+
     @Column(name = "is_archival", columnDefinition = "BOOLEAN", nullable = false)
     protected boolean archival = false;
 
@@ -144,6 +147,16 @@ public class TerrainImpl implements Terrain {
     @Override
     public Set<TerrainNote> getNotes() {
         return notes;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

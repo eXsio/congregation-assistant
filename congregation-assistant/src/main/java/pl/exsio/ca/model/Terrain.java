@@ -24,6 +24,10 @@ public interface Terrain extends Serializable {
     Long getNo();
 
     void setNo(Long no);
+    
+    String getName();
+    
+    void setName(String name);
 
     Set<TerrainFile> getFiles();
 

@@ -94,3 +94,68 @@ preacher.priviledge_start_date: Data rozpoczęcia
 preacher.priviledge_end_date: Data zakończenia
 pl.exsio.ca.model.entity.PreacherPriviledgeImpl.start_date: Data rozpoczęcia
 pl.exsio.ca.model.entity.PreacherPriviledgeImpl.end_date: Data zakończenia
+ca.terrains.button.create: ""
+ca.terrains.created: Dodano nowy teren
+ca.terrains.window.create: Nowy teren
+ca.terrains.button.delete: ""
+ca.terrains.msg.deleted: Teren został usunięty
+ca.terrains.confirmation.delete: Czy napewno chcesz usunąc ten teren?
+ca.terrains.button.edit: ""
+ca.terrains.msg.edited: Teren został zaktualizowany
+ca.terrains.window.edit: Edycja terenu
+ca.terrains.invalid_name: Teren musi mieć nazwę
+ca.terrains.invalid_no: Teren musi mieć numer
+ca.terrains.invalid_type: Teren musi mieć typ
+pl.exsio.ca.model.entity.TerrainImpl.name: Nazwa
+pl.exsio.ca.model.entity.TerrainImpl.no: Numer
+pl.exsio.ca.model.entity.TerrainImpl.archival: Archiwalny?
+pl.exsio.ca.model.entity.TerrainImpl.type: Typ
+ca.terrains.basic_data: Podstawowe dane
+ca.terrains.group: Przypisanie do grupy
+ca.terrains.notifications: Zgłoszenia opracowania
+terrain.name: Nazwa
+terrain.no: Numer
+terrain.archival: Archiwalny?
+terrain.type: Typ
+ca.terrain_type.city: miejski
+ca.terrain_type.village: wiejski
+ca.terrain_type.phone: telefoniczny
+ca.terrains.terrains: Ewidencja terenów zboru
+ca.tr_assignments.button.create: ""
+ca.tr_assignments.created: Dodano nowe przypisanie do grupy
+ca.tr_assignments.window.create: Nowe przypisanie do grupy
+ca.tr_assignments.button.delete: ""
+ca.tr_assignments.msg.deleted: Przypisanie do grupy zostało usunięte
+ca.tr_assignments.confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
+ca.tr_assignments.button.edit: ""
+ca.tr_assignments.msg.edited: Przypisanie do grupy zostało zaktualizowane
+ca.tr_assignments.window.edit: Edycja przypisania do grupy
+ca.tr_assignments.invalid_group: Przypisanie musi mieć grupę
+ca.tr_assignments.invalid_start_date: Przypisanie musi mieć datę początkową
+pl.exsio.ca.model.entity.TerrainAssignmentImpl.group: Grupa
+pl.exsio.ca.model.entity.TerrainAssignmentImpl.start_date: Data początku
+pl.exsio.ca.model.entity.TerrainAssignmentImpl.end_date: Data końca
+pl.exsio.ca.model.entity.TerrainAssignmentImpl.comment: Komentarz
+terrain.group: Grupa
+terrain.assignment_start_date: Data początku
+terrain.assignment_end_date: Data końca
+preacher.assignment_active: Aktywne?
+ca.notifications.button.create: ""
+ca.notifications.created: Dodano nowe zgłoszenie opracowania
+ca.notifications.window.create: Nowe zgłoszenie opracowania
+ca.notifications.button.delete: ""
+ca.notifications.msg.deleted: Zgłoszenie opracowania zostało usunięte
+ca.notifications.confirmation.delete: Czy napewno chcesz usunąc to zgłoszenie?
+ca.notifications.button.edit: ""
+ca.notifications.msg.edited: Zgłoszenie opracowania zostało zaktualizowane
+ca.notifications.window.edit: Edycja zgłoszenia opracowania
+ca.notifications.invalid_assignment: Zgłoszenie opracowania musi być powiązane przypisanie terenu do grupy
+ca.notifications.invalid_date: Zgłoszenie musi mieć prawidłową datę (zgodną z wybranym przypisaniem terenu do grupy)
+pl.exsio.ca.model.entity.TerrainNotificationImpl.assignment: Przypisanie terenu do grupy
+pl.exsio.ca.model.entity.TerrainNotificationImpl.date: Data opracowania
+pl.exsio.ca.model.entity.TerrainNotificationImpl.override_group: Delegacja do grupy
+pl.exsio.ca.model.entity.TerrainNotificationImpl.comment: Komentarz
+terrain.assignment: Przypisanie terenu do grupy
+terrain.notification_date: Data zgłoszenia
+terrain.override_group: Delegacja do grupy
+terrain.notification_comment: Komentarz

@@ -46,4 +46,6 @@ public interface TerrainAssignment extends Serializable {
     Date getCreatedAt();
 
     String getCreatedBy();
+    
+    String getCaption();
 }

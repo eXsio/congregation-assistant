@@ -275,6 +275,7 @@ CREATE TABLE IF NOT EXISTS `ca_terrains` (
   `created_at` date NOT NULL,
   `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `terrain_no` bigint(20) NOT NULL,
+  `terrain_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniqueTerrain` (`type`,`terrain_no`)
@@ -292,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `ca_terrain_assignments` (
   `comment` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` date NOT NULL,
   `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `end_date` date NOT NULL,
+  `end_date` date DEFAULT NULL,
   `start_date` date NOT NULL,
   `group_id` bigint(20) NOT NULL,
   `terrain_id` bigint(20) NOT NULL,

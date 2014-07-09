@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.model.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -52,7 +53,7 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     @Temporal(javax.persistence.TemporalType.DATE)
     protected Date startDate;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date", nullable = true)
     @Temporal(javax.persistence.TemporalType.DATE)
     protected Date endDate;
 
@@ -162,6 +163,22 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
 
     public void setNotifications(Set<TerrainNotification> notifications) {
         this.notifications = notifications;
+    }
+
+    @Override
+    public String getCaption() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String caption = this.group.getCaption() + " (" + sdf.format(this.startDate);
+        if (this.endDate instanceof Date) {
+            caption += " - " + sdf.format(this.endDate);
+        }
+        caption += ")";
+        return caption;
+    }
+
+    @Override
+    public String toString() {
+        return this.getCaption();
     }
 
 }
