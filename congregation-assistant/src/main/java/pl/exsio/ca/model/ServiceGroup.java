@@ -8,6 +8,7 @@ package pl.exsio.ca.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.SortedSet;
 
 /**
  *
@@ -25,9 +26,9 @@ public interface ServiceGroup extends Serializable {
 
     void setOverseer(Preacher overseer);
 
-    Set<PreacherAssignment> getPreacherAssignments();
+    SortedSet<PreacherAssignment> getPreacherAssignments();
 
-    Set<TerrainAssignment> getTerrainAssignments();
+    SortedSet<TerrainAssignment> getTerrainAssignments();
 
     Date getCreatedAt();
 

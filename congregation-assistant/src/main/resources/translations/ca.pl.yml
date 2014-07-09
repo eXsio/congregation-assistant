@@ -159,3 +159,5 @@ terrain.assignment: Przypisanie terenu do grupy
 terrain.notification_date: Data zgłoszenia
 terrain.override_group: Delegacja do grupy
 terrain.notification_comment: Komentarz
+terrain.current_group: Obecna grupa
+ca.terrains.terrains: Tereny zboru

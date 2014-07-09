@@ -8,6 +8,7 @@ package pl.exsio.ca.model.entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
+import java.util.SortedSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,8 +73,8 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     protected Terrain terrain;
 
     @OneToMany(targetEntity = TerrainNotificationImpl.class, mappedBy = "assignment", cascade = CascadeType.REMOVE)
-    @OrderBy("createdAt DESC")
-    protected Set<TerrainNotification> notifications;
+    @OrderBy("date DESC")
+    protected SortedSet<TerrainNotification> notifications;
 
     @PrePersist
     public void prePersist() {
@@ -157,11 +158,11 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     }
 
     @Override
-    public Set<TerrainNotification> getNotifications() {
+    public SortedSet<TerrainNotification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(Set<TerrainNotification> notifications) {
+    public void setNotifications(SortedSet<TerrainNotification> notifications) {
         this.notifications = notifications;
     }
 
@@ -179,6 +180,11 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     @Override
     public String toString() {
         return this.getCaption();
+    }
+
+    @Override
+    public int compareTo(TerrainAssignment o) {
+        return this.getStartDate().compareTo(o.getStartDate());
     }
 
 }

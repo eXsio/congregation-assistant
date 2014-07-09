@@ -90,8 +90,8 @@ public class NotificationsDataTable extends DataTable<TerrainNotification, Form>
                 setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
                 setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
                 setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
-                setColumnHeaders(new String[]{"terrain.assignment", "terrain.notification_date", "terrain.override_group", "terrain.notification_comment", "id"});
-                setVisibleColumns(new String[]{"assignment", "date", "overrideGroup", "comment", "id"});
+                setColumnHeaders(new String[]{"terrain.notification_date", "terrain.assignment",  "terrain.override_group", "terrain.notification_comment", "id"});
+                setVisibleColumns(new String[]{"date", "assignment",  "overrideGroup", "comment", "id"});
                 setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
                 setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
                 setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");

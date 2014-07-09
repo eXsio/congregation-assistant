@@ -6,7 +6,7 @@
 package pl.exsio.ca.model.entity;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.SortedSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,12 +59,12 @@ public class ServiceGroupImpl implements ServiceGroup {
     protected Preacher overseer;
 
     @OneToMany(targetEntity = PreacherAssignmentImpl.class, mappedBy = "group", cascade = CascadeType.REMOVE)
-    @OrderBy("createdAt DESC")
-    protected Set<PreacherAssignment> preacherAssignments;
+    @OrderBy("date DESC")
+    protected SortedSet<PreacherAssignment> preacherAssignments;
 
     @OneToMany(targetEntity = TerrainAssignmentImpl.class, mappedBy = "group", cascade = CascadeType.REMOVE)
-    @OrderBy("createdAt DESC")
-    protected Set<TerrainAssignment> terrainAssignments;
+    @OrderBy("startDate DESC")
+    protected SortedSet<TerrainAssignment> terrainAssignments;
 
     @PrePersist
     public void prePersist() {
@@ -108,20 +108,20 @@ public class ServiceGroupImpl implements ServiceGroup {
     }
 
     @Override
-    public Set<PreacherAssignment> getPreacherAssignments() {
+    public SortedSet<PreacherAssignment> getPreacherAssignments() {
         return preacherAssignments;
     }
 
-    public void setPreacherAssignments(Set<PreacherAssignment> preacherAssignments) {
+    public void setPreacherAssignments(SortedSet<PreacherAssignment> preacherAssignments) {
         this.preacherAssignments = preacherAssignments;
     }
 
     @Override
-    public Set<TerrainAssignment> getTerrainAssignments() {
+    public SortedSet<TerrainAssignment> getTerrainAssignments() {
         return terrainAssignments;
     }
 
-    public void setTerrainAssignments(Set<TerrainAssignment> terrainAssignments) {
+    public void setTerrainAssignments(SortedSet<TerrainAssignment> terrainAssignments) {
         this.terrainAssignments = terrainAssignments;
     }
 

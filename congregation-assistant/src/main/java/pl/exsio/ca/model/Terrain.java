@@ -8,6 +8,7 @@ package pl.exsio.ca.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.SortedSet;
 
 /**
  *
@@ -29,9 +30,9 @@ public interface Terrain extends Serializable {
     
     void setName(String name);
 
-    Set<TerrainFile> getFiles();
+    SortedSet<TerrainFile> getFiles();
 
-    Set<TerrainAssignment> getAssignments();
+    SortedSet<TerrainAssignment> getAssignments();
     
     Set<TerrainNote> getNotes();
 

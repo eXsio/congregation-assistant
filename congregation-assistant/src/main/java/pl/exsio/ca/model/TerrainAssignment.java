@@ -8,12 +8,13 @@ package pl.exsio.ca.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.SortedSet;
 
 /**
  *
  * @author exsio
  */
-public interface TerrainAssignment extends Serializable {
+public interface TerrainAssignment extends Serializable, Comparable<TerrainAssignment> {
 
     Long getId();
 
@@ -41,7 +42,7 @@ public interface TerrainAssignment extends Serializable {
 
     void setActive(boolean active);
 
-    Set<TerrainNotification> getNotifications();
+    SortedSet<TerrainNotification> getNotifications();
 
     Date getCreatedAt();
 

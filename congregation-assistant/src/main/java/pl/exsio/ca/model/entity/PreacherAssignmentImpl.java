@@ -119,4 +119,9 @@ public class PreacherAssignmentImpl implements PreacherAssignment {
         this.preacher = preacher;
     }
 
+    @Override
+    public int compareTo(PreacherAssignment o) {
+        return this.getDate().compareTo(o.getDate());
+    }
+
 }

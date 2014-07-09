@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -62,12 +63,11 @@ public class PreacherImpl implements Preacher {
     protected User user;
 
     @OneToMany(targetEntity = PreacherPriviledgeImpl.class, mappedBy = "preacher", cascade = CascadeType.REMOVE)
-    @OrderBy("createdAt DESC")
     protected Set<PreacherPriviledge> priviledges;
 
     @OneToMany(targetEntity = PreacherAssignmentImpl.class, mappedBy = "preacher", cascade = CascadeType.REMOVE)
-    @OrderBy("createdAt DESC")
-    protected Set<PreacherAssignment> assignments;
+    @OrderBy("date DESC")
+    protected SortedSet<PreacherAssignment> assignments;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -150,11 +150,11 @@ public class PreacherImpl implements Preacher {
     }
 
     @Override
-    public Set<PreacherAssignment> getAssignments() {
+    public SortedSet<PreacherAssignment> getAssignments() {
         return assignments;
     }
 
-    public void setAssignments(Set<PreacherAssignment> assignments) {
+    public void setAssignments(SortedSet<PreacherAssignment> assignments) {
         this.assignments = assignments;
     }
 

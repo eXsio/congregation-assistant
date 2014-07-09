@@ -7,18 +7,29 @@ package pl.exsio.ca.module.terrain.evidence;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.EntityProvider;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import com.vaadin.data.Property;
 import com.vaadin.data.validator.NullValidator;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import org.springframework.context.ApplicationEventPublisher;
+import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
+import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainType;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
@@ -29,6 +40,10 @@ import pl.exsio.frameset.vaadin.ui.support.component.AclSubjectDataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.TabbedForm;
+import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import static com.vaadin.addon.jpacontainer.filter.Filters.joinFilter;
+import com.vaadin.data.Container.Filter;
+import com.vaadin.ui.AbstractSelect;
 
 /**
  *
@@ -56,18 +71,70 @@ public class TerrainDataTable extends AclSubjectDataTable<Terrain, TabbedForm> {
                 setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
                 setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
                 setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
-                setColumnHeaders(new String[]{"terrain.type", "terrain.no", "terrain.name", "terrain.archival", "id"});
-                setVisibleColumns(new String[]{"type", "no", "name", "archival", "id"});
+                setColumnHeaders(new String[]{"terrain.type", "terrain.no", "terrain.name", "terrain.current_group", "terrain.archival", "id"});
+                setVisibleColumns(new String[]{"type", "no", "name", "assignments", "archival", "id"});
                 setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
                 setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
                 setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
                 setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
                 setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
                 setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption(TRANSLATION_PREFIX + "terrains");
+                setTableCaption("");
             }
         }, security);
         this.openEditionAfterCreation = true;
+    }
+    
+    @Override
+    protected Table createTable(JPAContainer<Terrain> container) {
+        return new Table(this.config.getTableCaption(), container) {
+
+            @Override
+            protected String formatPropertyValue(Object rowId, Object colId, Property property) {
+                switch (colId.toString()) {
+                    case "assignments":
+                        SortedSet<TerrainAssignment> assignments = (SortedSet<TerrainAssignment>) property.getValue();
+                        if(!assignments.isEmpty()) {
+                            return assignments.first().getGroup().getCaption();
+                        } else {
+                            return "";
+                        }
+                    default:
+                        return super.formatPropertyValue(rowId, colId, property);
+                }
+            }
+        };
+    }
+    
+    protected HorizontalLayout decorateControls(HorizontalLayout controls) {
+        controls  = super.decorateControls(controls);
+        final ComboBox types = ComponentFactory.createEnumComboBox(null, TerrainType.class);
+        JPAContainer<ServiceGroup> groupsContainer = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.serviceGroupEntityProvider.getEntityManager());
+        groupsContainer.setEntityProvider(this.serviceGroupEntityProvider);
+        final ComboBox groups = new ComboBox(null, groupsContainer);
+        groups.setConverter(new SingleSelectConverter<ServiceGroup>(groups));
+        groups.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        groups.setItemCaptionPropertyId("caption");
+        Button filter = new Button("", FontAwesome.FILTER);
+        filter.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                JPAContainer<Terrain> terrains = (JPAContainer<Terrain>) table.getContainerDataSource();
+                terrains.removeAllContainerFilters();
+                if(types.getValue() != null) {
+                    terrains.addContainerFilter(eq("type", types.getValue()));
+                }
+                
+                if(groups.getValue() != null) {
+                    terrains.addContainerFilter(joinFilter("assignments", new Filter[] { eq("active", true), eq("group", groups.getValue()) }));
+                }
+            }
+        });
+        controls.addComponent(types);
+        controls.addComponent(groups);
+        controls.addComponent(filter);
+        return controls;
     }
 
     @Override

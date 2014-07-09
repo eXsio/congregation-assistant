@@ -7,6 +7,7 @@ package pl.exsio.ca.model.entity;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.SortedSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,11 +66,11 @@ public class TerrainImpl implements Terrain {
 
     @OneToMany(targetEntity = TerrainFileImpl.class, mappedBy = "terrain", cascade = CascadeType.REMOVE)
     @OrderBy("createdAt DESC")
-    protected Set<TerrainFile> files;
+    protected SortedSet<TerrainFile> files;
 
     @OneToMany(targetEntity = TerrainAssignmentImpl.class, mappedBy = "terrain", cascade = CascadeType.REMOVE)
-    @OrderBy("createdAt DESC")
-    protected Set<TerrainAssignment> assignments;
+    @OrderBy("startDate DESC")
+    protected SortedSet<TerrainAssignment> assignments;
 
     @OneToMany(targetEntity = TerrainNoteImpl.class, mappedBy = "terrain", cascade = CascadeType.REMOVE)
     @OrderBy("createdAt DESC")
@@ -117,20 +118,20 @@ public class TerrainImpl implements Terrain {
     }
 
     @Override
-    public Set<TerrainFile> getFiles() {
+    public SortedSet<TerrainFile> getFiles() {
         return files;
     }
 
-    public void setFiles(Set<TerrainFile> files) {
+    public void setFiles(SortedSet<TerrainFile> files) {
         this.files = files;
     }
 
     @Override
-    public Set<TerrainAssignment> getAssignments() {
+    public SortedSet<TerrainAssignment> getAssignments() {
         return assignments;
     }
 
-    public void setAssignments(Set<TerrainAssignment> assignments) {
+    public void setAssignments(SortedSet<TerrainAssignment> assignments) {
         this.assignments = assignments;
     }
 
@@ -157,6 +158,10 @@ public class TerrainImpl implements Terrain {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setNotes(Set<TerrainNote> notes) {
+        this.notes = notes;
     }
 
 }

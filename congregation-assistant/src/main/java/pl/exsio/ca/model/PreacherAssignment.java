@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author exsio
  */
-public interface PreacherAssignment extends Serializable {
+public interface PreacherAssignment extends Serializable, Comparable<PreacherAssignment> {
     
     Long getId();
     

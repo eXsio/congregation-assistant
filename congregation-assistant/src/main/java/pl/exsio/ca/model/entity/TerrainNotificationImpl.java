@@ -124,4 +124,9 @@ public class TerrainNotificationImpl implements TerrainNotification {
         return this.overrideGroup instanceof ServiceGroup;
     }
 
+    @Override
+    public int compareTo(TerrainNotification o) {
+        return this.getDate().compareTo(o.getDate());
+    }
+
 }

@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author exsio
  */
-public interface TerrainNotification extends Serializable {
+public interface TerrainNotification extends Serializable, Comparable<TerrainNotification> {
     
     Long getId();
     

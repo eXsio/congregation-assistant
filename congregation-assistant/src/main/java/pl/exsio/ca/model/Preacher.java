@@ -8,6 +8,7 @@ package pl.exsio.ca.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.SortedSet;
 import pl.exsio.frameset.security.model.User;
 
 /**
@@ -40,7 +41,7 @@ public interface Preacher extends Serializable {
 
     boolean hasUser();
 
-    Set<PreacherAssignment> getAssignments();
+    SortedSet<PreacherAssignment> getAssignments();
 
     Set<PreacherPriviledge> getPriviledges();
 
