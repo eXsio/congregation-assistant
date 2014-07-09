@@ -12,29 +12,20 @@ import java.util.Date;
  *
  * @author exsio
  */
-public interface PreacherPriviledge extends Serializable {
+public interface TerrainNote extends Serializable {
 
     Long getId();
-    
-    Preacher getPreacher();
 
-    void setPreacher(Preacher preacher);
+    String getContent();
 
-    Priviledge getPriviledge();
-
-    void setPriviledge(Priviledge priviledge);
+    void setContent(String content);
 
     Date getCreatedAt();
 
     String getCreatedBy();
     
-    Date getStartDate();
+    Terrain getTerrain();
     
-    void setStartDate(Date startDate);
-    
-    Date getEndDate();
-    
-    void setEndDate(Date endDate);
-    
-    boolean isEnabled();
+    void setTerrain(Terrain terrain);
+
 }

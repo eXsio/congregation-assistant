@@ -11,6 +11,7 @@ import pl.exsio.ca.model.PreacherPriviledge;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
+import pl.exsio.ca.model.TerrainNote;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.entity.PreacherAssignmentImpl;
 import pl.exsio.ca.model.entity.PreacherImpl;
@@ -18,6 +19,7 @@ import pl.exsio.ca.model.entity.PreacherPriviledgeImpl;
 import pl.exsio.ca.model.entity.ServiceGroupImpl;
 import pl.exsio.ca.model.entity.TerrainAssignmentImpl;
 import pl.exsio.ca.model.entity.TerrainImpl;
+import pl.exsio.ca.model.entity.TerrainNoteImpl;
 import pl.exsio.ca.model.entity.TerrainNotificationImpl;
 
 public class CaEntityFactoryImpl implements CaEntityFactory {
@@ -90,6 +92,16 @@ public class CaEntityFactoryImpl implements CaEntityFactory {
     @Override
     public <T extends TerrainNotification> Class<T> getTerrainNotificationClass() {
         return (Class<T>) TerrainNotificationImpl.class;
+    }
+
+    @Override
+    public <T extends TerrainNote> T newTerrainNote() {
+        return (T) new TerrainNoteImpl();
+    }
+
+    @Override
+    public <T extends TerrainNote> Class<T> getTerrainNoteClass() {
+        return (Class<T>) TerrainNoteImpl.class;
     }
 
 }

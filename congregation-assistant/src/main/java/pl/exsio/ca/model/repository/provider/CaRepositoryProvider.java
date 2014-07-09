@@ -13,6 +13,7 @@ import pl.exsio.ca.model.dao.ServiceGroupDao;
 import pl.exsio.ca.model.dao.TerrainAssignmentDao;
 import pl.exsio.ca.model.dao.TerrainDao;
 import pl.exsio.ca.model.dao.TerrainFileDao;
+import pl.exsio.ca.model.dao.TerrainNoteDao;
 import pl.exsio.ca.model.dao.TerrainNotificationDao;
 
 /**
@@ -36,4 +37,6 @@ public interface CaRepositoryProvider {
     TerrainFileDao getTerrainFileRepository();
     
     TerrainNotificationDao getTerrainNotificationRepository();
+    
+    TerrainNoteDao getTerrainNoteRepository();
 }

@@ -39,7 +39,7 @@ public class PreacherPriviledgeImpl implements PreacherPriviledge {
     protected Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="priviledge", nullable = false)
+    @Column(name = "priviledge", nullable = false)
     protected Priviledge priviledge;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -48,6 +48,14 @@ public class PreacherPriviledgeImpl implements PreacherPriviledge {
 
     @Column(name = "created_by", nullable = false, updatable = false)
     protected String createdBy;
+
+    @Column(name = "start_date", nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    protected Date startDate;
+
+    @Column(name = "end_date", nullable = true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    protected Date endDate = null;
 
     @ManyToOne(targetEntity = PreacherImpl.class)
     @JoinColumn(name = "preacher_id", nullable = false)
@@ -92,6 +100,31 @@ public class PreacherPriviledgeImpl implements PreacherPriviledge {
     @Override
     public void setPreacher(Preacher preacher) {
         this.preacher = preacher;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    @Override
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.endDate == null;
     }
 
 }

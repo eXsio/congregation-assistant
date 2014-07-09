@@ -36,4 +36,16 @@ public interface TerrainFile extends Serializable {
     Date getCreatedAt();
     
     String getCreatedBy();
+    
+    String getMimeType();
+    
+    void setMimeType(String mimeType);
+    
+    int getSize();
+    
+    void setSize(int size);
+    
+    String getTitle();
+    
+    void setTitle(String title);
 }

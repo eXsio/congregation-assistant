@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Czas wygenerowania: 07 Lip 2014, 15:46
+-- Czas wygenerowania: 09 Lip 2014, 09:45
 -- Wersja serwera: 5.6.17-0ubuntu0.14.04.1
 -- Wersja PHP: 5.5.7
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `acl_entry` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `acl_entry_idx_1` (`acl_object_identity`,`ace_order`),
   KEY `sid` (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=71 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=113 ;
 
 --
 -- Zrzut danych tabeli `acl_entry`
@@ -110,11 +110,23 @@ INSERT INTO `acl_entry` (`id`, `acl_object_identity`, `ace_order`, `sid`, `mask`
 (63, 8, 4, 1, 4, 1, 0, 0),
 (64, 8, 5, 1, 2, 1, 0, 0),
 (65, 8, 6, 2, 1, 1, 0, 0),
-(66, 9, 0, 1, 1, 1, 0, 0),
-(67, 10, 0, 1, 1, 1, 0, 0),
-(68, 11, 0, 1, 1, 1, 0, 0),
 (69, 12, 0, 1, 1, 1, 0, 0),
-(70, 13, 0, 1, 1, 1, 0, 0);
+(70, 13, 0, 1, 1, 1, 0, 0),
+(80, 9, 0, 1, 1, 1, 0, 0),
+(81, 9, 1, 1, 4, 1, 0, 0),
+(82, 9, 2, 1, 16, 1, 0, 0),
+(83, 9, 3, 1, 2, 1, 0, 0),
+(84, 9, 4, 1, 8, 1, 0, 0),
+(94, 10, 0, 1, 1, 1, 0, 0),
+(95, 10, 1, 1, 16, 1, 0, 0),
+(96, 10, 2, 1, 2, 1, 0, 0),
+(97, 10, 3, 1, 4, 1, 0, 0),
+(98, 10, 4, 1, 8, 1, 0, 0),
+(108, 11, 0, 1, 1, 1, 0, 0),
+(109, 11, 1, 1, 8, 1, 0, 0),
+(110, 11, 2, 1, 16, 1, 0, 0),
+(111, 11, 3, 1, 4, 1, 0, 0),
+(112, 11, 4, 1, 2, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -185,17 +197,17 @@ INSERT INTO `acl_sid` (`id`, `principal`, `sid`) VALUES
 
 CREATE TABLE IF NOT EXISTS `ca_preachers` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `is_archival` tinyint(1) NOT NULL,
   `created_at` date NOT NULL,
-  `created_by` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `phone_no` varchar(255) DEFAULT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `phone_no` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
- `is_archival` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_kdu88d24t45cty544che467sb` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -207,14 +219,14 @@ CREATE TABLE IF NOT EXISTS `ca_preacher_assignments` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `is_active` tinyint(1) NOT NULL,
   `created_at` date NOT NULL,
-  `created_by` varchar(255) NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date` date NOT NULL,
   `group_id` bigint(20) NOT NULL,
   `preacher_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_obg27dmq08kovbjbfumr4v0fj` (`group_id`),
   KEY `FK_qs8gbwnh7kl82snok4lm28762` (`preacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -225,12 +237,14 @@ CREATE TABLE IF NOT EXISTS `ca_preacher_assignments` (
 CREATE TABLE IF NOT EXISTS `ca_preacher_priviledges` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `created_at` date NOT NULL,
-  `created_by` varchar(255) NOT NULL,
-  `priviledge` varchar(255) NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `end_date` date DEFAULT NULL,
+  `priviledge` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `start_date` date NOT NULL,
   `preacher_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_fbd8jrmboxx39p0uqxqurhw59` (`preacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -240,14 +254,14 @@ CREATE TABLE IF NOT EXISTS `ca_preacher_priviledges` (
 
 CREATE TABLE IF NOT EXISTS `ca_service_groups` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `is_archival` tinyint(1) NOT NULL,
   `created_at` date NOT NULL,
-  `created_by` varchar(255) NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `group_no` bigint(20) NOT NULL,
   `overseer_id` bigint(20) NOT NULL,
-  `is_archival` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_9dvo2pycwed4xho2o5q3txuqg` (`overseer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -257,40 +271,14 @@ CREATE TABLE IF NOT EXISTS `ca_service_groups` (
 
 CREATE TABLE IF NOT EXISTS `ca_terrains` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `created_at` date NOT NULL,
-  `created_by` varchar(255) NOT NULL,
-  `terrain_no` bigint(20) NOT NULL,
-  `type` varchar(255) NOT NULL,
   `is_archival` tinyint(1) NOT NULL,
+  `created_at` date NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `terrain_no` bigint(20) NOT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniqueTerrain` (`type`,`terrain_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `ca_terrains_ca_terrain_assignments`
---
-
-CREATE TABLE IF NOT EXISTS `ca_terrains_ca_terrain_assignments` (
-  `ca_terrains_id` bigint(20) NOT NULL,
-  `assignments_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`ca_terrains_id`,`assignments_id`),
-  UNIQUE KEY `UK_d6i98socnofoutkd0domd350` (`assignments_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `ca_terrains_ca_terrain_files`
---
-
-CREATE TABLE IF NOT EXISTS `ca_terrains_ca_terrain_files` (
-  `ca_terrains_id` bigint(20) NOT NULL,
-  `files_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`ca_terrains_id`,`files_id`),
-  UNIQUE KEY `UK_2janetmmehydaax2rjobrw92p` (`files_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -301,9 +289,9 @@ CREATE TABLE IF NOT EXISTS `ca_terrains_ca_terrain_files` (
 CREATE TABLE IF NOT EXISTS `ca_terrain_assignments` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `is_active` tinyint(1) NOT NULL,
-  `comment` varchar(255) DEFAULT NULL,
+  `comment` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` date NOT NULL,
-  `created_by` varchar(255) NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `end_date` date NOT NULL,
   `start_date` date NOT NULL,
   `group_id` bigint(20) NOT NULL,
@@ -311,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `ca_terrain_assignments` (
   PRIMARY KEY (`id`),
   KEY `FK_nrhtskx7upe2wshs1arcw6xtj` (`group_id`),
   KEY `FK_jsqdrijti3j7dhpo01icl6f7k` (`terrain_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -322,14 +310,33 @@ CREATE TABLE IF NOT EXISTS `ca_terrain_assignments` (
 CREATE TABLE IF NOT EXISTS `ca_terrain_files` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `created_at` date NOT NULL,
-  `created_by` varchar(255) NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `file_data` longblob NOT NULL,
-  `file_description` varchar(255) DEFAULT NULL,
-  `file_name` varchar(255) NOT NULL,
+  `file_description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mime_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `file_size` int(11) DEFAULT NULL,
+  `file_title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `terrain_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_qpo7v59ri3tqq0id8sct0nf92` (`terrain_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `ca_terrain_notes`
+--
+
+CREATE TABLE IF NOT EXISTS `ca_terrain_notes` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `note_content` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` date NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `terrain_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_ieu7qergm1suhvb6v6lyy476m` (`terrain_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -339,15 +346,16 @@ CREATE TABLE IF NOT EXISTS `ca_terrain_files` (
 
 CREATE TABLE IF NOT EXISTS `ca_terrain_notifications` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `comment` varchar(255) DEFAULT NULL,
+  `comment` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` date NOT NULL,
-  `created_by` varchar(255) NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date` date NOT NULL,
   `terrain_assignment_id` bigint(20) NOT NULL,
   `override_group_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_eml25xy4koa1rbb8068xrilqo` (`terrain_assignment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  KEY `FK_eml25xy4koa1rbb8068xrilqo` (`terrain_assignment_id`),
+  KEY `FK_77f251bm1cs1qlrfw49ov2om8` (`override_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -389,7 +397,7 @@ CREATE TABLE IF NOT EXISTS `persistent_logins` (
 --
 
 INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES
-('admin@frameset.com', '2A3hXcGOkfJyK6ZdSP08ug==', 'c90D73c1fuqrG4V2zI3Fkw==', '2014-06-06 05:42:35');
+('admin@frameset.com', 't06wxsMtoAwEtXEoI+uhWA==', 'Wf4p4nD5qxfuA4OothMWOA==', '2014-07-09 07:17:31');
 
 -- --------------------------------------------------------
 
@@ -464,18 +472,20 @@ CREATE TABLE IF NOT EXISTS `security_users` (
   `first_name` varchar(255) DEFAULT NULL,
   `is_enabled` tinyint(1) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `password` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `phone_no` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Zrzut danych tabeli `security_users`
 --
 
-INSERT INTO `security_users` (`id`, `first_name`, `is_enabled`, `last_name`, `password`, `username`) VALUES
-(1, 'Application', 1, 'Administrator', '$2a$10$q1jYQ2xdqywKqlxiINu0xujkYLLn7rRSUtbzavThYunDC.8bafKcq', 'admin@frameset.com'),
-(2, 'John', 1, 'Doe', '$2a$10$M8GnZv6AlK0OkgqC.dLXLOOzmlW6PjjS9VdMexFAiPNAIzDnMa3uS', 'user@frameset.com');
+INSERT INTO `security_users` (`id`, `first_name`, `is_enabled`, `last_name`, `password`, `username`, `phone_no`) VALUES
+(1, 'Application', 1, 'Administrator', '$2a$10$q1jYQ2xdqywKqlxiINu0xujkYLLn7rRSUtbzavThYunDC.8bafKcq', 'admin@frameset.com', NULL),
+(2, 'John', 1, 'Doe', '$2a$10$M8GnZv6AlK0OkgqC.dLXLOOzmlW6PjjS9VdMexFAiPNAIzDnMa3uS', 'user@frameset.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -531,21 +541,24 @@ CREATE TABLE IF NOT EXISTS `vaadin_frames` (
   `parent_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_hxb6jbp6flyvak2xd6kv59v9j` (`parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Zrzut danych tabeli `vaadin_frames`
 --
 
 INSERT INTO `vaadin_frames` (`id`, `icon`, `is_default`, `tree_left`, `tree_level`, `menu_label`, `module_id`, `tree_right`, `slug`, `title`, `parent_id`) VALUES
-(1, NULL, 0, 1, 0, '', '', 16, '', 'FramesTree', NULL),
+(1, NULL, 0, 1, 0, '', '', 22, '', 'FramesTree', NULL),
 (2, 'HOME', 1, 3, 2, 'core.frames.home', 'homeModule', 4, 'home', 'core.frames.home', 8),
 (3, 'COGS', 0, 6, 1, 'core.frames.settings', NULL, 15, 'settings', 'core.frames.settings', 1),
 (4, 'USER', 0, 7, 2, 'core.frames.settings.users', 'manageUsersModule', 8, 'users', 'core.frames.settings.users', 3),
 (5, 'USERS', 0, 9, 2, 'core.frames.settings.groups', 'manageGroupsModule', 10, 'groups', 'core.frames.settings.groups', 3),
 (6, 'LOCK', 0, 11, 2, 'core.frames.settings.roles', 'manageRolesModule', 12, 'roles', 'core.frames.settings.roles', 3),
 (7, 'SITEMAP', 0, 13, 2, 'core.frames.settings.frames', 'manageFramesModule', 14, 'frames', 'core.frames.settings.frames', 3),
-(8, 'HOME', 0, 2, 1, 'core.frames.start', NULL, 5, '', 'core.frames.start', 1);
+(8, 'HOME', 0, 2, 1, 'core.frames.start', NULL, 5, '', 'core.frames.start', 1),
+(9, 'BOOK', 0, 16, 1, 'Zbór', NULL, 21, 'congregation', 'Zbór', 1),
+(10, 'BRIEFCASE', 0, 17, 2, 'Głosiciele', 'caPreachersConfigModule', 18, 'preachers', 'Głosiciele', 9),
+(11, 'USERS', 0, 19, 2, 'Grupy Slużby', 'caGroupsConfigModule', 20, 'service-groups', 'Grupy Slużby', 9);
 
 --
 -- Ograniczenia dla zrzutów tabel
@@ -592,20 +605,6 @@ ALTER TABLE `ca_service_groups`
   ADD CONSTRAINT `FK_9dvo2pycwed4xho2o5q3txuqg` FOREIGN KEY (`overseer_id`) REFERENCES `ca_preachers` (`id`);
 
 --
--- Ograniczenia dla tabeli `ca_terrains_ca_terrain_assignments`
---
-ALTER TABLE `ca_terrains_ca_terrain_assignments`
-  ADD CONSTRAINT `FK_50ku9lmtsm3tsqo1lxyscuka6` FOREIGN KEY (`ca_terrains_id`) REFERENCES `ca_terrains` (`id`),
-  ADD CONSTRAINT `FK_d6i98socnofoutkd0domd350` FOREIGN KEY (`assignments_id`) REFERENCES `ca_terrain_assignments` (`id`);
-
---
--- Ograniczenia dla tabeli `ca_terrains_ca_terrain_files`
---
-ALTER TABLE `ca_terrains_ca_terrain_files`
-  ADD CONSTRAINT `FK_st1m2jatwc939m9hjpdjt97hh` FOREIGN KEY (`ca_terrains_id`) REFERENCES `ca_terrains` (`id`),
-  ADD CONSTRAINT `FK_2janetmmehydaax2rjobrw92p` FOREIGN KEY (`files_id`) REFERENCES `ca_terrain_files` (`id`);
-
---
 -- Ograniczenia dla tabeli `ca_terrain_assignments`
 --
 ALTER TABLE `ca_terrain_assignments`
@@ -619,11 +618,17 @@ ALTER TABLE `ca_terrain_files`
   ADD CONSTRAINT `FK_qpo7v59ri3tqq0id8sct0nf92` FOREIGN KEY (`terrain_id`) REFERENCES `ca_terrains` (`id`);
 
 --
+-- Ograniczenia dla tabeli `ca_terrain_notes`
+--
+ALTER TABLE `ca_terrain_notes`
+  ADD CONSTRAINT `FK_ieu7qergm1suhvb6v6lyy476m` FOREIGN KEY (`terrain_id`) REFERENCES `ca_terrains` (`id`);
+
+--
 -- Ograniczenia dla tabeli `ca_terrain_notifications`
 --
 ALTER TABLE `ca_terrain_notifications`
-  ADD CONSTRAINT `FK_eml25xy4koa1rbb8068xrilqo` FOREIGN KEY (`terrain_assignment_id`) REFERENCES `ca_terrain_assignments` (`id`),
-  ADD CONSTRAINT `FK_eml25xy4koa1rbb8068xrifds` FOREIGN KEY (`override_group_id`) REFERENCES `ca_service_groups` (`id`);
+  ADD CONSTRAINT `FK_77f251bm1cs1qlrfw49ov2om8` FOREIGN KEY (`override_group_id`) REFERENCES `ca_service_groups` (`id`),
+  ADD CONSTRAINT `FK_eml25xy4koa1rbb8068xrilqo` FOREIGN KEY (`terrain_assignment_id`) REFERENCES `ca_terrain_assignments` (`id`);
 
 --
 -- Ograniczenia dla tabeli `core_frames`
@@ -661,8 +666,3 @@ ALTER TABLE `vaadin_frames`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-ALTER TABLE `security_users` MODIFY `username` VARCHAR(255) NOT NULL, MODIFY `password` VARCHAR(255) NOT NULL;
-ALTER IGNORE TABLE `security_users` ADD UNIQUE (`username`);
-
-ALTER TABLE `security_users` ADD `phone_no` varchar(255) NULL;
-

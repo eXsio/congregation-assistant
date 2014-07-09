@@ -20,6 +20,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -61,9 +62,11 @@ public class PreacherImpl implements Preacher {
     protected User user;
 
     @OneToMany(targetEntity = PreacherPriviledgeImpl.class, mappedBy = "preacher", cascade = CascadeType.REMOVE)
+    @OrderBy("createdAt DESC")
     protected Set<PreacherPriviledge> priviledges;
 
     @OneToMany(targetEntity = PreacherAssignmentImpl.class, mappedBy = "preacher", cascade = CascadeType.REMOVE)
+    @OrderBy("createdAt DESC")
     protected Set<PreacherAssignment> assignments;
 
     @Column(name = "created_at", nullable = false, updatable = false)

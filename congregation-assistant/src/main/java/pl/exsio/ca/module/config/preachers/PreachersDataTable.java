@@ -74,7 +74,7 @@ public class PreachersDataTable extends DataTable<Preacher, TabbedForm> {
     protected Layout decorateForm(TabbedForm form, EntityItem<? extends Preacher> item, int mode) {
 
         form.init(this.getTabsConfig());
-        form.getLayout().setWidth("400px");
+        form.getLayout().setWidth("700px");
         VerticalLayout formLayout = new VerticalLayout();
 
         FramesetFieldFactory<? extends Preacher> ff = new FramesetFieldFactory<>(this.caEntities.getPreacherClass());

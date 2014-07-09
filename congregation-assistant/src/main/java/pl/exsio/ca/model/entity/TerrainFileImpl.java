@@ -46,8 +46,17 @@ public class TerrainFileImpl implements TerrainFile {
     @Column(name = "file_name", nullable = false)
     protected String name;
 
+    @Column(name = "file_title", nullable = false)
+    protected String title;
+
     @Column(name = "file_description")
     protected String description;
+
+    @Column(name = "mime_type")
+    protected String mimeType;
+
+    @Column(name = "file_size")
+    protected int size;
 
     @Lob
     @Column(name = "file_data", nullable = false)
@@ -116,6 +125,36 @@ public class TerrainFileImpl implements TerrainFile {
     @Override
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    @Override
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
+    }
+
+    @Override
+    public void setSize(int size) {
+        this.size = size;
     }
 
 }

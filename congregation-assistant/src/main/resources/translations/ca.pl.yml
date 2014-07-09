@@ -32,6 +32,7 @@ ca.priviledges.button.edit: ""
 ca.priviledges.msg.edited: Przywilej został zaktualizowany
 ca.priviledges.window.edit: Edycja przywileju
 ca.priviledges.not_null: Przywilej nie może być pusty
+ca.priviledges.invalid_start_date: Data rozpoczęcia przywileju nie może być pusta
 pl.exsio.ca.model.entity.PreacherPriviledgeImpl.priviledge: Przywilej
 preacher.priviledge: Przywilej
 ca.priviledge.mixer: Obsługa nagłośnienia
@@ -85,3 +86,7 @@ ca.preachers.group: Grupa
 preacher.group: Grupa
 preacher.assignment_date: Data przypisania
 preacher.assignment_active: Przypisanie aktywne?
+preacher.priviledge_start_date: Data rozpoczęcia
+preacher.priviledge_end_date: Data zakończenia
+pl.exsio.ca.model.entity.PreacherPriviledgeImpl.start_date: Data rozpoczęcia
+pl.exsio.ca.model.entity.PreacherPriviledgeImpl.end_date: Data zakończenia

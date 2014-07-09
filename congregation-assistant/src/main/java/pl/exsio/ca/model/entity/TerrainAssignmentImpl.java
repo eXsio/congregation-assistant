@@ -18,6 +18,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -70,6 +71,7 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     protected Terrain terrain;
 
     @OneToMany(targetEntity = TerrainNotificationImpl.class, mappedBy = "assignment", cascade = CascadeType.REMOVE)
+    @OrderBy("createdAt DESC")
     protected Set<TerrainNotification> notifications;
 
     @PrePersist

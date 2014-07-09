@@ -11,7 +11,8 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
-import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbstractSelect;
@@ -20,8 +21,8 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.util.Locale;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.exsio.ca.model.Preacher;
@@ -56,6 +57,12 @@ public class AssignmentsDataTable extends DataTable<PreacherAssignment, Form> im
             this.setEnabled(false);
         }
         this.setHeight("250px");
+        Converter dateConverter = new StringToDateConverter() {
+             protected DateFormat getFormat(Locale locale) {
+                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
+             }
+        };
+        this.table.setConverter("date", dateConverter);
     }
 
     @Override

@@ -7,6 +7,7 @@ package pl.exsio.ca.model.entity;
 
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,6 +26,7 @@ import javax.persistence.UniqueConstraint;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainFile;
+import pl.exsio.ca.model.TerrainNote;
 import pl.exsio.ca.model.TerrainType;
 import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
 
@@ -57,11 +60,17 @@ public class TerrainImpl implements Terrain {
     @Column(name = "is_archival", columnDefinition = "BOOLEAN", nullable = false)
     protected boolean archival = false;
 
-    @OneToMany(targetEntity = TerrainFileImpl.class)
+    @OneToMany(targetEntity = TerrainFileImpl.class, mappedBy = "terrain", cascade = CascadeType.REMOVE)
+    @OrderBy("createdAt DESC")
     protected Set<TerrainFile> files;
 
-    @OneToMany(targetEntity = TerrainAssignmentImpl.class)
+    @OneToMany(targetEntity = TerrainAssignmentImpl.class, mappedBy = "terrain", cascade = CascadeType.REMOVE)
+    @OrderBy("createdAt DESC")
     protected Set<TerrainAssignment> assignments;
+
+    @OneToMany(targetEntity = TerrainNoteImpl.class, mappedBy = "terrain", cascade = CascadeType.REMOVE)
+    @OrderBy("createdAt DESC")
+    protected Set<TerrainNote> notes;
 
     @PrePersist
     public void prePersist() {
@@ -130,6 +139,11 @@ public class TerrainImpl implements Terrain {
     @Override
     public void setArchival(boolean archival) {
         this.archival = archival;
+    }
+
+    @Override
+    public Set<TerrainNote> getNotes() {
+        return notes;
     }
 
 }

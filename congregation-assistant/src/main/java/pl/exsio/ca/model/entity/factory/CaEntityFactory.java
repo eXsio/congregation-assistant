@@ -12,6 +12,7 @@ import pl.exsio.ca.model.PreacherPriviledge;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
+import pl.exsio.ca.model.TerrainNote;
 import pl.exsio.ca.model.TerrainNotification;
 
 /**
@@ -34,6 +35,8 @@ public interface CaEntityFactory {
     
     <T extends TerrainNotification> T newTerrainNotification();
     
+    <T extends TerrainNote> T newTerrainNote();
+    
     <T extends Preacher> Class<T> getPreacherClass();
     
     <T extends PreacherAssignment> Class<T> getPreacherAssignmentClass();
@@ -47,4 +50,6 @@ public interface CaEntityFactory {
     <T extends TerrainAssignment> Class<T> getTerrainAssignmentClass();
     
     <T extends TerrainNotification> Class<T> getTerrainNotificationClass();
+    
+    <T extends TerrainNote> Class<T> getTerrainNoteClass();
 }

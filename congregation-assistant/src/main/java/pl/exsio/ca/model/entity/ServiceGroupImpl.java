@@ -18,6 +18,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -58,9 +59,11 @@ public class ServiceGroupImpl implements ServiceGroup {
     protected Preacher overseer;
 
     @OneToMany(targetEntity = PreacherAssignmentImpl.class, mappedBy = "group", cascade = CascadeType.REMOVE)
+    @OrderBy("createdAt DESC")
     protected Set<PreacherAssignment> preacherAssignments;
 
     @OneToMany(targetEntity = TerrainAssignmentImpl.class, mappedBy = "group", cascade = CascadeType.REMOVE)
+    @OrderBy("createdAt DESC")
     protected Set<TerrainAssignment> terrainAssignments;
 
     @PrePersist

@@ -28,6 +28,8 @@ public interface Terrain extends Serializable {
     Set<TerrainFile> getFiles();
 
     Set<TerrainAssignment> getAssignments();
+    
+    Set<TerrainNote> getNotes();
 
     Date getCreatedAt();
 

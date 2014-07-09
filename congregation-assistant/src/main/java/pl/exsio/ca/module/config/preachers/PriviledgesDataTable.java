@@ -8,18 +8,25 @@ package pl.exsio.ca.module.config.preachers;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.validator.NullValidator;
+import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
+import java.text.DateFormat;
+import java.util.Locale;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.PreacherPriviledge;
 import pl.exsio.ca.model.Priviledge;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
+import pl.exsio.frameset.util.CalendarUtil;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
 
@@ -42,6 +49,13 @@ public class PriviledgesDataTable extends DataTable<PreacherPriviledge, Form> im
             this.setEnabled(false);
         }
         this.setHeight("250px");
+        Converter dateConverter = new StringToDateConverter() {
+             protected DateFormat getFormat(Locale locale) {
+                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
+             }
+        };
+        this.table.setConverter("startDate", dateConverter);
+        this.table.setConverter("endDate", dateConverter);
     }
 
     @Override
@@ -63,8 +77,8 @@ public class PriviledgesDataTable extends DataTable<PreacherPriviledge, Form> im
                 setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
                 setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
                 setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
-                setColumnHeaders(new String[]{"preacher.priviledge", "id"});
-                setVisibleColumns(new String[]{"priviledge", "id"});
+                setColumnHeaders(new String[]{"preacher.priviledge", "preacher.priviledge_start_date", "preacher.priviledge_end_date", "id"});
+                setVisibleColumns(new String[]{"priviledge", "startDate", "endDate", "id"});
                 setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
                 setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
                 setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
@@ -86,6 +100,21 @@ public class PriviledgesDataTable extends DataTable<PreacherPriviledge, Form> im
         priviledge.setPropertyDataSource(item.getItemProperty("priviledge"));
         priviledge.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "not_null"), false));
         form.addField("priviledge", priviledge);
+        
+        DateField start = new DateField(t(this.caEntities.getPreacherPriviledgeClass().getCanonicalName() + ".start_date"));
+        start.setPropertyDataSource(item.getItemProperty("startDate"));
+        start.setResolution(Resolution.DAY);
+        start.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_start_date"), false));
+        start.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
+        form.addField("startDate", start);
+        
+        DateField end = new DateField(t(this.caEntities.getPreacherPriviledgeClass().getCanonicalName() + ".end_date"));
+        end.setPropertyDataSource(item.getItemProperty("endDate"));
+        end.setResolution(Resolution.DAY);
+        end.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
+        form.addField("endDate", end);
+
+        
         form.setBuffered(true);
         form.setEnabled(true);
 
