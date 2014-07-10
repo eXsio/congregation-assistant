@@ -58,4 +58,8 @@ public interface TerrainAssignmentRepository extends GenericJpaRepository<Terrai
     @Transactional(propagation = Propagation.REQUIRED)
     @Query("update TerrainAssignmentImpl set active = true where id = ?1")
     int setActive(Long id);
+    
+    @Override
+    @Query("from TerrainAssignmentImpl where terrain = ?1 and startDate <= ?2 and (endDate is null or endDate >= ?2) order by startDate desc")
+    Iterable<TerrainAssignment> findByTerrainAndDate(Terrain terrain, Date date);
 }

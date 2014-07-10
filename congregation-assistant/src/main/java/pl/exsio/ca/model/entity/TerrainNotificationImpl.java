@@ -6,6 +6,7 @@
 package pl.exsio.ca.model.entity;
 
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -127,6 +128,28 @@ public class TerrainNotificationImpl implements TerrainNotification {
     @Override
     public int compareTo(TerrainNotification o) {
         return this.getDate().compareTo(o.getDate());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TerrainNotificationImpl other = (TerrainNotificationImpl) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
 }

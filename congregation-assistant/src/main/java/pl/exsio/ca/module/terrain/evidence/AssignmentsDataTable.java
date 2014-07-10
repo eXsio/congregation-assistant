@@ -11,8 +11,10 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDateConverter;
+import com.vaadin.data.util.filter.UnsupportedFilterException;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbstractSelect;
@@ -20,6 +22,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
@@ -60,10 +63,10 @@ public class AssignmentsDataTable extends DataTable<TerrainAssignment, Form> imp
         }
         this.setHeight("250px");
         Converter dateConverter = new StringToDateConverter() {
-             @Override
-             protected DateFormat getFormat(Locale locale) {
-                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
-             }
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+                return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
+            }
         };
         this.table.setConverter("startDate", dateConverter);
         this.table.setConverter("endDate", dateConverter);
@@ -98,45 +101,80 @@ public class AssignmentsDataTable extends DataTable<TerrainAssignment, Form> imp
         this.addEntityUpdatedListener(this);
         this.addEntityDeletedListener(this);
     }
+    
+    @Override
+    protected Table createTable(JPAContainer<TerrainAssignment> container) {
+        return new Table(this.config.getTableCaption(), container) {
+
+            @Override
+            protected String formatPropertyValue(Object rowId, Object colId, Property property) {
+                switch (colId.toString()) {
+                    case "active":
+                        if(property.getValue() != null && ((Boolean) property.getValue())) {
+                            return t("core.yes");
+                        } else {
+                            return t("core.no");
+                        }
+                    default:
+                        return super.formatPropertyValue(rowId, colId, property);
+                }
+            }
+        };
+    }
 
     @Override
     protected Layout decorateForm(Form form, EntityItem<? extends TerrainAssignment> item, int mode) {
 
         VerticalLayout formLayout = new VerticalLayout();
-        JPAContainer<? extends ServiceGroup> groups = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.serviceGroupEntityProvider.getEntityManager());
-        groups.setEntityProvider(this.serviceGroupEntityProvider);
-        ComboBox group = new ComboBox(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".group"), groups);
-        group.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
-        group.setItemCaptionPropertyId("caption");
-        group.setPropertyDataSource(item.getItemProperty("group"));
-        group.setConverter(new SingleSelectConverter(group));
-        group.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_group"), false));
-        form.addField("group", group);
-        
-        DateField start = new DateField(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".start_date"));
-        start.setPropertyDataSource(item.getItemProperty("startDate"));
-        start.setResolution(Resolution.DAY);
-        start.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_start_date"), false));
-        start.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
-        form.addField("startDate", start);
-        
-        DateField end = new DateField(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".end_date"));
-        end.setPropertyDataSource(item.getItemProperty("endDate"));
-        end.setResolution(Resolution.DAY);
-        end.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
-        form.addField("endDate", end);
-        
-        TextArea comment = new TextArea(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".comment"));
-        comment.setPropertyDataSource(item.getItemProperty("comment"));
-        comment.setNullRepresentation("");
-        form.addField("comment", comment);
-        
+
+        form.addField("group", this.getGroupField(item));
+        form.addField("startDate", this.getStartDateField(item));
+        form.addField("endDate", this.getEndDateField(item));
+        form.addField("comment", this.getCommentField(item));
+
         form.setBuffered(true);
         form.setEnabled(true);
 
         formLayout.addComponent(form);
         formLayout.setMargin(true);
         return formLayout;
+    }
+
+    private TextArea getCommentField(EntityItem<? extends TerrainAssignment> item) {
+        TextArea comment = new TextArea(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".comment"));
+        comment.setPropertyDataSource(item.getItemProperty("comment"));
+        comment.setNullRepresentation("");
+        return comment;
+    }
+
+    private DateField getEndDateField(EntityItem<? extends TerrainAssignment> item) {
+        DateField end = new DateField(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".end_date"));
+        end.setPropertyDataSource(item.getItemProperty("endDate"));
+        end.setResolution(Resolution.DAY);
+        end.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
+        return end;
+    }
+
+    private DateField getStartDateField(EntityItem<? extends TerrainAssignment> item) {
+        DateField start = new DateField(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".start_date"));
+        start.setPropertyDataSource(item.getItemProperty("startDate"));
+        start.setResolution(Resolution.DAY);
+        start.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_start_date"), false));
+        start.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
+        return start;
+    }
+
+    private ComboBox getGroupField(EntityItem<? extends TerrainAssignment> item) throws UnsupportedFilterException {
+        JPAContainer<? extends ServiceGroup> groups = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.serviceGroupEntityProvider.getEntityManager());
+        groups.setEntityProvider(this.serviceGroupEntityProvider);
+        groups.addContainerFilter(eq("archival", false));
+        ComboBox group = new ComboBox(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".group"), groups);
+        group.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        group.setItemCaptionPropertyId("caption");
+        group.setPropertyDataSource(item.getItemProperty("group"));
+        group.setConverter(new SingleSelectConverter(group));
+        group.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_group"), false));
+        return group;
     }
 
     @Override

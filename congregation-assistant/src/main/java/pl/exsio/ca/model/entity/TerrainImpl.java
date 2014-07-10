@@ -6,6 +6,7 @@
 package pl.exsio.ca.model.entity;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 import javax.persistence.CascadeType;
@@ -176,6 +177,33 @@ public class TerrainImpl implements Terrain {
     @Override
     public void setLastNotificationDate(Date lastNotificationDate) {
         this.lastNotificationDate = lastNotificationDate;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TerrainImpl other = (TerrainImpl) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.no + ". " + this.name + " (" + this.type + ")";
     }
 
 }

@@ -7,6 +7,7 @@ package pl.exsio.ca.model.entity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 import javax.persistence.CascadeType;
@@ -185,6 +186,33 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     @Override
     public int compareTo(TerrainAssignment o) {
         return this.getStartDate().compareTo(o.getStartDate());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 43 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TerrainAssignmentImpl other = (TerrainAssignmentImpl) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isNotificationDateValid(Date date) {
+        return date.compareTo(this.startDate) >= 0 && (this.endDate == null || date.compareTo(this.endDate) <= 0);
     }
 
 }

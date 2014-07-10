@@ -6,10 +6,12 @@
 package pl.exsio.ca.module.config.groups;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.validator.IntegerValidator;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Property;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -52,6 +54,26 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
                 setTableCaption(TRANSLATION_PREFIX + "groups");
             }
         }, security);
+    }
+    
+    @Override
+    protected Table createTable(JPAContainer<ServiceGroup> container) {
+        return new Table(this.config.getTableCaption(), container) {
+
+            @Override
+            protected String formatPropertyValue(Object rowId, Object colId, Property property) {
+                switch (colId.toString()) {
+                    case "archival":
+                        if(property.getValue() != null && ((Boolean) property.getValue())) {
+                            return t("core.yes");
+                        } else {
+                            return t("core.no");
+                        }
+                    default:
+                        return super.formatPropertyValue(rowId, colId, property);
+                }
+            }
+        };
     }
 
     @Override

@@ -8,6 +8,7 @@ package pl.exsio.ca.model.entity;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 import javax.persistence.CascadeType;
@@ -196,5 +197,29 @@ public class PreacherImpl implements Preacher {
     public void setArchival(boolean archival) {
         this.archival = archival;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PreacherImpl other = (PreacherImpl) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

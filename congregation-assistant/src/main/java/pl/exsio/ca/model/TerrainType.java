@@ -30,6 +30,10 @@ public enum TerrainType {
         return t(TRANSLATION_PREFIX + this.caption);
     }
     
+    public String getStringRepresentation() {
+        return this.caption.toUpperCase();
+    }
+    
     @Override
     public String toString() {
         return this.getCaption();

@@ -11,7 +11,6 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
-import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
 import static com.vaadin.addon.jpacontainer.filter.Filters.joinFilter;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
@@ -31,7 +30,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,7 +41,6 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.util.CalendarUtil;
 import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
 
 /**
@@ -272,11 +269,11 @@ public class NotificationsDataTable extends DataTable<TerrainNotification, Form>
   
         if(!notifications.isEmpty()) {
             TerrainNotification notification = notifications.get(0);
-            Notification.show(new SimpleDateFormat("yyyy-MM-dd").format(notification.getDate()));
             this.terrain.setLastNotificationDate(notification.getDate());
             this.caRepositories.getTerrainRepository().save(this.terrain);
         } else {
-            Notification.show("nope");
+           this.terrain.setLastNotificationDate(null);
+           this.caRepositories.getTerrainRepository().save(this.terrain);
         }
     }
 

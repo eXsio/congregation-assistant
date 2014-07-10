@@ -162,3 +162,10 @@ terrain.notification_comment: Komentarz
 terrain.current_group: Obecna grupa
 ca.terrains.terrains: Tereny zboru
 terrain.last_notification: Ostatnie opracowanie
+ca.qnotify.title: Opracowanie
+ca.qnotify.processing: Przetwarzam teren
+ca.qnotify.wrong_dates: "Wprowadzenie opracowań zakończone niepowodzeniem dla następujących terenów:"
+ca.qnotify.success: Wprowadzenie opracowań zakończone powodzeniem
+ca.terrains.pick_type: Typ..
+ca.terrains.pick_group: Grupa..
+ca.terrains.pick_date: Ostatnie opracowanie..

@@ -11,6 +11,7 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.validator.NullValidator;
@@ -20,6 +21,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
 import java.util.Locale;
@@ -94,11 +96,51 @@ public class AssignmentsDataTable extends DataTable<PreacherAssignment, Form> im
         this.addEntityUpdatedListener(this);
         this.addEntityDeletedListener(this);
     }
+    
+    @Override
+    protected Table createTable(JPAContainer<PreacherAssignment> container) {
+        return new Table(this.config.getTableCaption(), container) {
+
+            @Override
+            protected String formatPropertyValue(Object rowId, Object colId, Property property) {
+                switch (colId.toString()) {
+                    case "active":
+                        if(property.getValue() != null && ((Boolean) property.getValue())) {
+                            return t("core.yes");
+                        } else {
+                            return t("core.no");
+                        }
+                    default:
+                        return super.formatPropertyValue(rowId, colId, property);
+                }
+            }
+        };
+    }
 
     @Override
     protected Layout decorateForm(Form form, EntityItem<? extends PreacherAssignment> item, int mode) {
 
         VerticalLayout formLayout = new VerticalLayout();
+        form.addField("group", getFroupField(item));
+        form.addField("date", getDateField(item));
+        form.setBuffered(true);
+        form.setEnabled(true);
+
+        formLayout.addComponent(form);
+        formLayout.setMargin(true);
+        return formLayout;
+    }
+
+    private DateField getDateField(EntityItem<? extends PreacherAssignment> item) {
+        DateField date = new DateField(t(this.caEntities.getPreacherAssignmentClass().getCanonicalName() + ".date"));
+        date.setPropertyDataSource(item.getItemProperty("date"));
+        date.setResolution(Resolution.DAY);
+        date.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_group"), false));
+        date.setDateFormat("yyyy-MM-dd");
+        return date;
+    }
+
+    private ComboBox getFroupField(EntityItem<? extends PreacherAssignment> item) {
         JPAContainer<? extends ServiceGroup> groups = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.serviceGroupEntityProvider.getEntityManager());
         groups.setEntityProvider(this.serviceGroupEntityProvider);
         ComboBox group = new ComboBox(t(this.caEntities.getPreacherAssignmentClass().getCanonicalName() + ".group"), groups);
@@ -107,18 +149,7 @@ public class AssignmentsDataTable extends DataTable<PreacherAssignment, Form> im
         group.setPropertyDataSource(item.getItemProperty("group"));
         group.setConverter(new SingleSelectConverter(group));
         group.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_group"), false));
-        form.addField("group", group);
-        DateField date = new DateField(t(this.caEntities.getPreacherAssignmentClass().getCanonicalName() + ".date"));
-        date.setPropertyDataSource(item.getItemProperty("date"));
-        date.setResolution(Resolution.DAY);
-        date.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_group"), false));
-        form.addField("date", date);
-        form.setBuffered(true);
-        form.setEnabled(true);
-
-        formLayout.addComponent(form);
-        formLayout.setMargin(true);
-        return formLayout;
+        return group;
     }
 
     @Override

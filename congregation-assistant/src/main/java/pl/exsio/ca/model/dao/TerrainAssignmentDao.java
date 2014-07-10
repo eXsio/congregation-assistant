@@ -34,4 +34,6 @@ public interface TerrainAssignmentDao<T extends TerrainAssignment> extends Gener
     TerrainAssignment findActive(Terrain terrain);
     
     int setActive(Long id);
+    
+    Iterable<TerrainAssignment> findByTerrainAndDate(Terrain terrain, Date date);
 }
