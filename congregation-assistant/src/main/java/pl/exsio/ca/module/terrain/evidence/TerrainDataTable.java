@@ -283,7 +283,7 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
                 String type = types.getValue() == null ? "" : ((TerrainType) types.getValue()).getStringRepresentation();
                 String group = groups.getValue() == null ? "" : groups.getValue().toString();
                 String d = date.getValue() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(date.getValue());
-                getUI().getPage().open("/ca/report/pdf/?report-name=terranCardsPdfReport&type=" + type + "&group=" + group + "&date=" + d, "_blank");
+                getUI().getPage().open("report/pdf/?report-name=terranCardsPdfReport&type=" + type + "&group=" + group + "&date=" + d, "_blank", false);
             }
         });
         return printCards;
