@@ -7,6 +7,7 @@
 package pl.exsio.ca.model.dao;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.frameset.core.dao.GenericDao;
@@ -36,4 +37,10 @@ public interface TerrainAssignmentDao<T extends TerrainAssignment> extends Gener
     int setActive(Long id);
     
     Iterable<TerrainAssignment> findByTerrainAndDate(Terrain terrain, Date date);
+    
+    Iterable<TerrainAssignment> findByTerrain(Terrain terrain);
+    
+    LinkedHashSet<TerrainAssignment> findForTerrainCard(Terrain terrain, Date date);
+    
+    LinkedHashSet<TerrainAssignment> findForTerrainCard(Terrain terrain);
 }

@@ -3,9 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pl.exsio.ca.model.repository.provider;
 
+import pl.exsio.ca.model.Preacher;
+import pl.exsio.ca.model.PreacherAssignment;
+import pl.exsio.ca.model.PreacherPriviledge;
+import pl.exsio.ca.model.ServiceGroup;
+import pl.exsio.ca.model.Terrain;
+import pl.exsio.ca.model.TerrainAssignment;
+import pl.exsio.ca.model.TerrainFile;
+import pl.exsio.ca.model.TerrainNote;
+import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.dao.PreacherAssignmentDao;
 import pl.exsio.ca.model.dao.PreacherDao;
 import pl.exsio.ca.model.dao.PreacherPriviledgeDao;
@@ -21,22 +29,22 @@ import pl.exsio.ca.model.dao.TerrainNotificationDao;
  * @author exsio
  */
 public interface CaRepositoryProvider {
-    
-    PreacherDao getPreacherRepository();
-    
-    PreacherAssignmentDao getPreacherAssignmentRepository();
-    
-    PreacherPriviledgeDao getPreacherPriviledgeRepository();
-    
-    ServiceGroupDao getServiceGroupRepository();
-    
-    TerrainDao getTerrainRepository();
-    
-    TerrainAssignmentDao getTerrainAssignmentRepository();
-    
-    TerrainFileDao getTerrainFileRepository();
-    
-    TerrainNotificationDao getTerrainNotificationRepository();
-    
-    TerrainNoteDao getTerrainNoteRepository();
+
+    PreacherDao<Preacher> getPreacherRepository();
+
+    PreacherAssignmentDao<PreacherAssignment> getPreacherAssignmentRepository();
+
+    PreacherPriviledgeDao<PreacherPriviledge> getPreacherPriviledgeRepository();
+
+    ServiceGroupDao<ServiceGroup> getServiceGroupRepository();
+
+    TerrainDao<Terrain> getTerrainRepository();
+
+    TerrainAssignmentDao<TerrainAssignment> getTerrainAssignmentRepository();
+
+    TerrainFileDao<TerrainFile> getTerrainFileRepository();
+
+    TerrainNotificationDao<TerrainNotification> getTerrainNotificationRepository();
+
+    TerrainNoteDao<TerrainNote> getTerrainNoteRepository();
 }
