@@ -12,7 +12,7 @@
     <import resource="overrides.xml" /> 
     <import resource="model.xml" /> 
     <import resource="modules/modules.xml" /> 
-    
+    <import resource="reports/reports.xml" /> 
     
     <!-- application UI -->
     <bean id="applicationUI" class="pl.exsio.ca.app.ui.ApplicationUI" scope="prototype">
