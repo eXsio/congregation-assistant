@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Frameset Vaadin demo</title>
+    <title>Asystent Zboru - logowanie</title>
     <link rel="stylesheet" type="text/css" href="../static/css/login.css"/>
 </head>
 <body>
@@ -8,7 +8,7 @@
 	<div class="top clearfix">
 	   <div class="logo">
 	   </div>
-	    <div class="title">Frameset demo</div>
+	    <div class="title">Witaj w programie "Asystent Zboru"</div>
 	</div>
 	<form action="../j_spring_security_check" method="post">
 	<div class="form">
