@@ -56,7 +56,7 @@ public class TerrainCardsView extends AbstractPdfView {
     }
 
     private Element buildTable(TerrainCardPage page) throws Exception {
-        Table table = new Table(page.getColumns().size() * 2);
+        Table table = new Table(this.viewModel.getTableColumnsNo() * 2);
         table.setBorderWidth(1);
         table.setPadding(1);
         table.setSpacing(1);

@@ -19,4 +19,6 @@ public interface TerrainCardViewModel {
     String EMPTY_CELL_VALUE = "x";
     
     LinkedList<TerrainCardPage> getPages(Map<String, Object> params);
+    
+    int getTableColumnsNo();
 }

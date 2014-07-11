@@ -63,12 +63,4 @@ public interface TerrainAssignmentRepository extends GenericJpaRepository<Terrai
     @Override
     @Query("from TerrainAssignmentImpl where terrain = ?1 and startDate <= ?2 and (endDate is null or endDate >= ?2) order by startDate desc")
     Iterable<TerrainAssignment> findByTerrainAndDate(Terrain terrain, Date date);
-    
-    @Override
-    @Query("from TerrainAssignmentImpl where terrain =?1 and startDate >= ?2 order by startDate asc")
-    LinkedHashSet<TerrainAssignment> findForTerrainCard(Terrain terrain, Date date);
-    
-    @Override
-    @Query("from TerrainAssignmentImpl where terrain =?1 order by startDate asc")
-    LinkedHashSet<TerrainAssignment> findForTerrainCard(Terrain terrain);
 }

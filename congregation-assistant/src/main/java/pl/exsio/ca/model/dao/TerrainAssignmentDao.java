@@ -39,8 +39,5 @@ public interface TerrainAssignmentDao<T extends TerrainAssignment> extends Gener
     Iterable<TerrainAssignment> findByTerrainAndDate(Terrain terrain, Date date);
     
     Iterable<TerrainAssignment> findByTerrain(Terrain terrain);
-    
-    LinkedHashSet<TerrainAssignment> findForTerrainCard(Terrain terrain, Date date);
-    
-    LinkedHashSet<TerrainAssignment> findForTerrainCard(Terrain terrain);
+
 }

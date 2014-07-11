@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.app.report.terraincard.viewmodel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,8 +21,8 @@ import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.TerrainType;
-import pl.exsio.ca.model.dao.TerrainAssignmentDao;
 import pl.exsio.ca.model.dao.TerrainDao;
+import pl.exsio.ca.model.dao.TerrainNotificationDao;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 
 /**
@@ -44,18 +45,23 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
     private final SimpleDateFormat sdf;
 
-    private final LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> cellsMap;
+    private LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> cellsMap;
 
     public TerrainCardViewModelImpl() {
-        this.cellsMap = new LinkedHashMap<>();
         this.sdf = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
     public LinkedList<TerrainCardPage> getPages(Map<String, Object> params) {
+        this.cellsMap = new LinkedHashMap<>();
         this.createCellsMap(params);
         LinkedList<TerrainCardPage> pages = this.createPages();
         return pages;
+    }
+
+    @Override
+    public int getTableColumnsNo() {
+        return TABLE_COLS;
     }
 
     private LinkedList<TerrainCardPage> createPages() {
@@ -96,6 +102,38 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         return pages;
     }
 
+    private void createCellsMap(Map<String, Object> params) {
+
+        Date date = this.getDateFromParams(params);
+        for (Terrain terrain : this.getTerrains(params)) {
+            TerrainNotificationDao notifiationsDao = this.caRepositories.getTerrainNotificationRepository();
+            LinkedHashSet<TerrainNotification> notificationsSet = date == null ? notifiationsDao.findForTerrainCard(terrain) : notifiationsDao.findForTerrainCard(terrain, date);
+            LinkedList<TerrainCardCell> terrainCells = new LinkedList<>();
+
+            ArrayList<TerrainNotification> notifications = new ArrayList<>(notificationsSet);
+            for (int i = 0; i < notifications.size(); i++) {
+                TerrainCardCell cell = new TerrainCardCell();
+                TerrainNotification notification = notifications.get(i);
+                cell.setGroup(notification.getAssignment().getGroup().getCaption());
+                cell.setFrom(sdf.format(notification.getDate()));
+                String toDateContent = this.getToDateContent(i, notifications, notification.getAssignment());
+                cell.setTo(toDateContent);
+                terrainCells.add(cell);
+
+                if (!toDateContent.equals(EMPTY_CELL_VALUE) && i == notifications.size() - 1) {
+                    TerrainCardCell lastCell = new TerrainCardCell();
+                    lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
+                    lastCell.setFrom(toDateContent);
+                    lastCell.setTo(EMPTY_CELL_VALUE);
+                    terrainCells.add(lastCell);
+                }
+            }
+
+            this.cellsMap.put(terrain, terrainCells);
+        }
+
+    }
+
     private int getPagesNo(LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> slice) {
         int pagesNo = 1;
         for (Terrain key : slice.keySet()) {
@@ -114,39 +152,6 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
             slice.put(key, this.cellsMap.get(key));
         }
         return slice;
-    }
-
-    private void createCellsMap(Map<String, Object> params) {
-
-        Date date = this.getDateFromParams(params);
-        for (Terrain terrain : this.getTerrains(params)) {
-            TerrainAssignmentDao assignments = this.caRepositories.getTerrainAssignmentRepository();
-            LinkedHashSet<TerrainAssignment> terrainAssignments = date == null ? assignments.findForTerrainCard(terrain) : assignments.findForTerrainCard(terrain, date);
-            LinkedList<TerrainCardCell> terrainCells = new LinkedList<>();
-
-            for (TerrainAssignment assignment : terrainAssignments) {
-                ArrayList<TerrainNotification> notifications = new ArrayList<>(assignment.getNotifications());
-                for (int i = 0; i < notifications.size(); i++) {
-                    TerrainCardCell cell = new TerrainCardCell();
-                    TerrainNotification notification = notifications.get(i);
-                    cell.setGroup(assignment.getGroup().getCaption());
-                    cell.setFrom(sdf.format(notification.getDate()));
-                    String toDateContent = this.getToDateContent(i, notifications, assignment);
-                    cell.setTo(toDateContent);
-                    terrainCells.add(cell);
-
-                    if (!toDateContent.equals(EMPTY_CELL_VALUE) && i == notifications.size() - 1) {
-                        TerrainCardCell lastCell = new TerrainCardCell();
-                        lastCell.setGroup(assignment.getGroup().getCaption());
-                        lastCell.setFrom(toDateContent);
-                        lastCell.setTo(EMPTY_CELL_VALUE);
-                        terrainCells.add(lastCell);
-                    }
-                }
-            }
-            this.cellsMap.put(terrain, terrainCells);
-        }
-
     }
 
     private void fillCells(TerrainCardColumn column) {
@@ -172,6 +177,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
     }
 
     private LinkedHashSet<Terrain> getTerrains(Map<String, Object> params) {
+
         TerrainDao terrains = this.caRepositories.getTerrainRepository();
         TerrainType type = getTypeFromParams(params);
         ServiceGroup group = getGroupFromParams(params);
@@ -210,7 +216,12 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
     }
 
     private Date getDateFromParams(Map<String, Object> params) {
-        Date date = (params.get(PARAM_DATE) == null || params.get(PARAM_DATE).equals("")) ? null : new Date(Date.parse(params.get(PARAM_DATE).toString()));
+        Date date = null;
+        try {
+            date = (params.get(PARAM_DATE) == null || params.get(PARAM_DATE).equals("")) ? null : this.sdf.parse(params.get(PARAM_DATE).toString());
+        } catch (ParseException ex) {
+            throw new RuntimeException("invalid date: " + params.get(PARAM_DATE).toString());
+        }
         return date;
     }
 
