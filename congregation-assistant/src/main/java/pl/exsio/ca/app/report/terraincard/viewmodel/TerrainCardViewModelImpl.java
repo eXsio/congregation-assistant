@@ -121,12 +121,18 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
                     cell.setFrom(sdf.format(notification.getAssignment().getStartDate()));
                     cell.setTo(sdf.format(notification.getDate()));
                 } else {
-                    cell.setFrom(sdf.format(notification.getDate()));
-                    cell.setTo(toDateContent);
+                    cell.setFrom(sdf.format(notifications.get(i - 1).getDate()));
+                    cell.setTo(sdf.format(notification.getDate()));
                 }
 
                 terrainCells.add(cell);
-                this.handleLastCell(toDateContent, i, notifications, notification, terrainCells);
+                if (i == notifications.size() - 1) {
+                    TerrainCardCell lastCell = new TerrainCardCell();
+                    lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
+                    lastCell.setFrom(sdf.format(notification.getDate()));
+                    lastCell.setTo(EMPTY_CELL_VALUE);
+                    terrainCells.add(lastCell);
+                }
             }
 
             this.cellsMap.put(terrain, terrainCells);
@@ -134,21 +140,6 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
     }
 
-    private void handleLastCell(String toDateContent, int i, ArrayList<TerrainNotification> notifications, TerrainNotification notification, LinkedList<TerrainCardCell> terrainCells) {
-        if (!toDateContent.equals(EMPTY_CELL_VALUE) && i == notifications.size() - 1) {
-            TerrainCardCell lastCell = new TerrainCardCell();
-            lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
-            lastCell.setFrom(toDateContent);
-            lastCell.setTo(EMPTY_CELL_VALUE);
-            terrainCells.add(lastCell);
-        } else if (i == 0 && i == notifications.size() - 1) {
-            TerrainCardCell lastCell = new TerrainCardCell();
-            lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
-            lastCell.setFrom(sdf.format(notification.getDate()));
-            lastCell.setTo(EMPTY_CELL_VALUE);
-            terrainCells.add(lastCell);
-        }
-    }
 
     private int getPagesNo(LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> slice) {
         int pagesNo = 1;
