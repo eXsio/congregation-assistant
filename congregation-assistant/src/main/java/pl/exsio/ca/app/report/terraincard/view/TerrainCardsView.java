@@ -5,10 +5,8 @@
  */
 package pl.exsio.ca.app.report.terraincard.view;
 
-import com.lowagie.text.BadElementException;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
@@ -16,7 +14,8 @@ import com.lowagie.text.Table;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Color;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +25,8 @@ import pl.exsio.ca.app.report.terraincard.model.TerrainCardCell;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardColumn;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardPage;
 import pl.exsio.ca.app.report.terraincard.viewmodel.TerrainCardViewModel;
+import pl.exsio.ca.model.ServiceGroup;
+import pl.exsio.ca.model.TerrainType;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 
 /**
@@ -46,6 +47,7 @@ public class TerrainCardsView extends AbstractPdfView {
         LinkedList<TerrainCardPage> pages = this.viewModel.getPages(map);
         int pagesCount = pages.size();
         for (int i = 0; i < pagesCount; i++) {
+            dcmnt.add(this.getHeader(map));
             dcmnt.add(this.buildTable(pages.get(i)));
             dcmnt.add(this.getFooter(pagesCount, i + 1));
             if (i < pages.size() - 1) {
@@ -81,6 +83,28 @@ public class TerrainCardsView extends AbstractPdfView {
         }
 
         return table;
+    }
+    
+    private Element getHeader(Map<String, Object> params) throws Exception {
+        StringBuilder sb = new StringBuilder(t("ca.report.terrain_cards.head")).append(" ");
+        TerrainType type = this.viewModel.getTypeFromParams(params);
+        if(type != null) {
+            sb.append(t("ca.report.terrain_cards.type")).append(": ").append(type.getCaption()).append(". ");
+        }
+        
+        ServiceGroup group = this.viewModel.getGroupFromParams(params);
+        if(group != null) {
+            sb.append(t("ca.report.terrain_cards.group")).append(": ").append(group.getCaption()).append(". ");
+        }
+        
+        Date date = this.viewModel.getDateFromParams(params);
+        if(date != null) {
+            sb.append(t("ca.report.terrain_cards.date")).append(": ").append(new SimpleDateFormat("yyyy-MM-dd").format(date)).append(".");
+        }
+        Paragraph p = new Paragraph(sb.toString(), this.getFont());
+        p.getFont().setStyle(Font.BOLD);
+        p.getFont().setSize(9);
+        return p;
     }
 
     private Element getFooter(int pagesCount, int currentPage) throws Exception {

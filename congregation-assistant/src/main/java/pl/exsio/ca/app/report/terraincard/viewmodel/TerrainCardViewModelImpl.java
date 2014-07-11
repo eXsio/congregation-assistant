@@ -205,17 +205,20 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         return result;
     }
 
-    private TerrainType getTypeFromParams(Map<String, Object> params) {
+    @Override
+    public TerrainType getTypeFromParams(Map<String, Object> params) {
         TerrainType type = (params.get(PARAM_TYPE) == null || params.get(PARAM_TYPE).equals("")) ? null : TerrainType.valueOf(params.get(PARAM_TYPE).toString());
         return type;
     }
 
-    private ServiceGroup getGroupFromParams(Map<String, Object> params) throws NumberFormatException {
+    @Override
+    public ServiceGroup getGroupFromParams(Map<String, Object> params) throws NumberFormatException {
         ServiceGroup group = (params.get(PARAM_GROUP) == null || (params.get(PARAM_GROUP).equals("")) ? null : this.caRepositories.getServiceGroupRepository().findOne(Long.valueOf(params.get(PARAM_GROUP).toString())));
         return group;
     }
 
-    private Date getDateFromParams(Map<String, Object> params) {
+    @Override
+    public Date getDateFromParams(Map<String, Object> params) {
         Date date = null;
         try {
             date = (params.get(PARAM_DATE) == null || params.get(PARAM_DATE).equals("")) ? null : this.sdf.parse(params.get(PARAM_DATE).toString());

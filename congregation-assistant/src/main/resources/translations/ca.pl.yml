@@ -171,3 +171,7 @@ ca.terrains.pick_group: Grupa..
 ca.terrains.pick_date: Ostatnie opracowanie..
 ca.report.terrain_card.from: Przydział
 ca.report.terrain_card.to: Opracowanie
+ca.report.terrain_cards.head: Raport opracowania terenów zboru.
+ca.report.terrain_cards.type: "Typ terenów"
+ca.report.terrain_cards.group: "Grupa służby"
+ca.report.terrain_cards.date: Data
