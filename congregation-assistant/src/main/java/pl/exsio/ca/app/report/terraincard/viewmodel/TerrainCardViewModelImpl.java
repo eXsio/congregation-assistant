@@ -80,11 +80,8 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
     private LinkedList<TerrainCardPage> createPagesFromTerrainsSlice(LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> slice) {
         LinkedList<TerrainCardPage> pages = new LinkedList<>();
         int pagesNo = this.getPagesNo(slice);
-        int currentPageNo = 1;
         for (int i = 0; i < pagesNo * TABLE_ROWS; i += TABLE_ROWS) {
             TerrainCardPage page = new TerrainCardPage();
-            page.setPageTitle("");
-            page.setPageNo(currentPageNo);
             for (Terrain terrain : slice.keySet()) {
                 int cellsCount = slice.get(terrain).size();
                 TerrainCardColumn column = new TerrainCardColumn(terrain.getNo() + ". (" + terrain.getName() + ")");
@@ -93,7 +90,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
                     LinkedList<TerrainCardCell> cells = new LinkedList<>(slice.get(terrain).subList(i, to));
                     column.getCells().addAll(cells);
                 }
-                this.fillCells(column);
+                this.createEmptyCells(column);
                 page.addColumn(column);
             }
             pages.add(page);
@@ -106,37 +103,45 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
         Date date = this.getDateFromParams(params);
         for (Terrain terrain : this.getTerrains(params)) {
-            TerrainNotificationDao notifiationsDao = this.caRepositories.getTerrainNotificationRepository();
-            LinkedHashSet<TerrainNotification> notificationsSet = date == null ? notifiationsDao.findForTerrainCard(terrain) : notifiationsDao.findForTerrainCard(terrain, date);
-            LinkedList<TerrainCardCell> terrainCells = new LinkedList<>();
-
-            ArrayList<TerrainNotification> notifications = new ArrayList<>(notificationsSet);
-            for (int i = 0; i < notifications.size(); i++) {
-                TerrainCardCell cell = new TerrainCardCell();
-                TerrainNotification notification = notifications.get(i);
-                cell.setGroup(notification.getAssignment().getGroup().getCaption());
-
-                if (i == 0) {
-                    cell.setFrom(sdf.format(notification.getAssignment().getStartDate()));
-                    cell.setTo(sdf.format(notification.getDate()));
-                } else {
-                    cell.setFrom(sdf.format(notifications.get(i - 1).getDate()));
-                    cell.setTo(sdf.format(notification.getDate()));
-                }
-
-                terrainCells.add(cell);
-                if (i == notifications.size() - 1) {
-                    TerrainCardCell lastCell = new TerrainCardCell();
-                    lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
-                    lastCell.setFrom(sdf.format(notification.getDate()));
-                    lastCell.setTo(EMPTY_CELL_VALUE);
-                    terrainCells.add(lastCell);
-                }
-            }
-
-            this.cellsMap.put(terrain, terrainCells);
+            this.createCellsForTerrain(date, terrain);
         }
 
+    }
+
+    private void createCellsForTerrain(Date date, Terrain terrain) {
+        TerrainNotificationDao notifiationsDao = this.caRepositories.getTerrainNotificationRepository();
+        LinkedHashSet<TerrainNotification> notificationsSet = date == null ? notifiationsDao.findForTerrainCard(terrain) : notifiationsDao.findForTerrainCard(terrain, date);
+        LinkedList<TerrainCardCell> terrainCells = new LinkedList<>();
+
+        ArrayList<TerrainNotification> notifications = new ArrayList<>(notificationsSet);
+        for (int i = 0; i < notifications.size(); i++) {
+            this.createCell(notifications, i, terrainCells);
+        }
+
+        this.cellsMap.put(terrain, terrainCells);
+    }
+
+    private void createCell(ArrayList<TerrainNotification> notifications, int i, LinkedList<TerrainCardCell> terrainCells) {
+        TerrainCardCell cell = new TerrainCardCell();
+        TerrainNotification notification = notifications.get(i);
+        cell.setGroup(notification.getAssignment().getGroup().getCaption());
+
+        if (i == 0) {
+            cell.setFrom(sdf.format(notification.getAssignment().getStartDate()));
+            cell.setTo(sdf.format(notification.getDate()));
+        } else {
+            cell.setFrom(sdf.format(notifications.get(i - 1).getDate()));
+            cell.setTo(sdf.format(notification.getDate()));
+        }
+
+        terrainCells.add(cell);
+        if (i == notifications.size() - 1) {
+            TerrainCardCell lastCell = new TerrainCardCell();
+            lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
+            lastCell.setFrom(sdf.format(notification.getDate()));
+            lastCell.setTo(EMPTY_CELL_VALUE);
+            terrainCells.add(lastCell);
+        }
     }
 
     private int getPagesNo(LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> slice) {
@@ -159,7 +164,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         return slice;
     }
 
-    private void fillCells(TerrainCardColumn column) {
+    private void createEmptyCells(TerrainCardColumn column) {
 
         while (column.getCells().size() < TABLE_ROWS) {
             TerrainCardCell emptyCell = new TerrainCardCell();
