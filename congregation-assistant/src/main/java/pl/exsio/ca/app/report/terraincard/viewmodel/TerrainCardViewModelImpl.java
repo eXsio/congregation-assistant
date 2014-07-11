@@ -115,7 +115,6 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
                 TerrainCardCell cell = new TerrainCardCell();
                 TerrainNotification notification = notifications.get(i);
                 cell.setGroup(notification.getAssignment().getGroup().getCaption());
-                String toDateContent = this.getToDateContent(i, notifications, notification.getAssignment());
 
                 if (i == 0) {
                     cell.setFrom(sdf.format(notification.getAssignment().getStartDate()));
@@ -139,7 +138,6 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         }
 
     }
-
 
     private int getPagesNo(LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> slice) {
         int pagesNo = 1;
@@ -170,17 +168,6 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
             emptyCell.setTo(EMPTY_CELL_VALUE);
             column.addCell(emptyCell);
         }
-    }
-
-    private String getToDateContent(int i, ArrayList<TerrainNotification> notifications, TerrainAssignment assignment) {
-        String toDate = null;
-        if (i == notifications.size() - 1) {
-            Date assignmentEndDate = assignment.getEndDate();
-            toDate = assignmentEndDate == null ? EMPTY_CELL_VALUE : sdf.format(assignmentEndDate);
-        } else {
-            toDate = sdf.format(notifications.get(i + 1).getDate());
-        }
-        return toDate;
     }
 
     private LinkedHashSet<Terrain> getTerrains(Map<String, Object> params) {
