@@ -102,9 +102,8 @@ public class QuickNotifyWindow extends InitializableWindow {
                 TerrainNotification notification = this.caEntities.newTerrainNotification();
                 notification.setAssignment(assignments.get(0));
                 notification.setDate(date);
-                terrain.setLastNotificationDate(date);
-                this.caRepositories.getTerrainRepository().save(terrain);
                 this.caRepositories.getTerrainNotificationRepository().save(notification);
+                this.updateLastNotificationDate(terrain);
             } else {
                 wrongDates.add(terrain);
             }
@@ -124,6 +123,19 @@ public class QuickNotifyWindow extends InitializableWindow {
 
     public void setCaRepositories(CaRepositoryProvider caRepositories) {
         this.caRepositories = caRepositories;
+    }
+
+    protected void updateLastNotificationDate(Terrain terrain) {
+        List<TerrainNotification> notifications = (List<TerrainNotification>) this.caRepositories.getTerrainNotificationRepository().findByTerrain(terrain);
+
+        if (!notifications.isEmpty()) {
+            TerrainNotification notification = notifications.get(0);
+            terrain.setLastNotificationDate(notification.getDate());
+            this.caRepositories.getTerrainRepository().save(terrain);
+        } else {
+            terrain.setLastNotificationDate(null);
+            this.caRepositories.getTerrainRepository().save(terrain);
+        }
     }
 
 }

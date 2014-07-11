@@ -169,3 +169,5 @@ ca.qnotify.success: Wprowadzenie opracowań zakończone powodzeniem
 ca.terrains.pick_type: Typ..
 ca.terrains.pick_group: Grupa..
 ca.terrains.pick_date: Ostatnie opracowanie..
+ca.report.terrain_card.from: Przydział
+ca.report.terrain_card.to: Opracowanie

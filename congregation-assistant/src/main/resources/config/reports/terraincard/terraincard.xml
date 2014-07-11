@@ -9,8 +9,8 @@
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-    <bean id="terranCardsPdfReport" class="pl.exsio.ca.app.report.terraincard.view.TerrainCardsView">
-        <property name="viewModel" ref="terranCardsPdfReportViewModel" />
+    <bean id="terranCardsPdfReportViewModel" class="pl.exsio.ca.app.report.terraincard.viewmodel.TerrainCardViewModelImpl">
+        <property name="caRepositories" ref="caRepositoryProvider" />
     </bean>
     
 </beans>

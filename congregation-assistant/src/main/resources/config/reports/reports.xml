@@ -9,6 +9,8 @@
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
+    <import resource="terraincard/terraincard.xml"/>
+    
    <bean class="org.springframework.web.servlet.view.XmlViewResolver">
        <property name="location">
           <value>classpath:config/reports/views/views.xml</value>
