@@ -123,7 +123,8 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
     private void createCell(ArrayList<TerrainNotification> notifications, int i, LinkedList<TerrainCardCell> terrainCells) {
         TerrainCardCell cell = new TerrainCardCell();
         TerrainNotification notification = notifications.get(i);
-        cell.setGroup(notification.getAssignment().getGroup().getCaption());
+        String group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup().getCaption() : notification.getAssignment().getGroup().getCaption();
+        cell.setGroup(group);
 
         if (i == 0) {
             cell.setFrom(sdf.format(notification.getAssignment().getStartDate()));

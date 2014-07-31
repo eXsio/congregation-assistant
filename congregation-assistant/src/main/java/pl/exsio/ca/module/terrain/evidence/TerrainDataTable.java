@@ -113,7 +113,9 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
             }
         };
         this.table.setConverter("lastNotificationDate", dateConverter);
-        this.addSelectTerrainColumn();
+        if(this.security.canWrite()) {
+            this.addSelectTerrainColumn();
+        }
     }
 
     @Override
