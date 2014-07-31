@@ -127,7 +127,6 @@ public class AssignmentsDataTable extends DataTable<PreacherAssignment, Form> im
         form.setEnabled(true);
 
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         return formLayout;
     }
 

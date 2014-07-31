@@ -136,7 +136,6 @@ public class AssignmentsDataTable extends DataTable<TerrainAssignment, Form> imp
         form.setEnabled(true);
 
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         return formLayout;
     }
 

@@ -125,7 +125,6 @@ public class NotificationsDataTable extends DataTable<TerrainNotification, Form>
         form.setEnabled(true);
 
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         return formLayout;
     }
 

@@ -194,7 +194,6 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
         form.addField("type", type);
         form.setEnabled(true);
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         if (mode == DataTable.MODE_EDITION) {
             this.addEditionTabs(form, item);
         }

@@ -85,7 +85,6 @@ public class PreachersDataTable extends DataTable<Preacher, TabbedForm> {
             this.addEditionTabs(form, item);
         }
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         return formLayout;
     }
 

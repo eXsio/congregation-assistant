@@ -160,7 +160,6 @@ public class FilesDataTable extends DataTable<TerrainFile, Form> implements Data
         form.setEnabled(true);
         
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         return formLayout;
     }
     

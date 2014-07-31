@@ -119,7 +119,6 @@ public class PriviledgesDataTable extends DataTable<PreacherPriviledge, Form> im
         form.setEnabled(true);
 
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         return formLayout;
     }
 

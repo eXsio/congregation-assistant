@@ -92,7 +92,6 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
         form.getField("no").addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_no"), false));
         form.setEnabled(true);
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         return formLayout;
     }
 

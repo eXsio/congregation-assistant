@@ -109,7 +109,6 @@ public class NotesDataTable extends DataTable<TerrainNote, Form> implements Data
         form.setEnabled(true);
 
         formLayout.addComponent(form);
-        formLayout.setMargin(true);
         return formLayout;
     }
 
