@@ -49,7 +49,8 @@ public class TerrainCardsView extends AbstractPdfView {
         for (int i = 0; i < pagesCount; i++) {
             dcmnt.add(this.getHeader(map));
             dcmnt.add(this.buildTable(pages.get(i)));
-            dcmnt.add(this.getFooter(pagesCount, i + 1));
+            dcmnt.add(this.getCreationDate(new Date()));
+            dcmnt.add(this.getPageCounter(pagesCount, i + 1));
             if (i < pages.size() - 1) {
                 dcmnt.newPage();
             }
@@ -107,8 +108,17 @@ public class TerrainCardsView extends AbstractPdfView {
         return p;
     }
 
-    private Element getFooter(int pagesCount, int currentPage) throws Exception {
+    private Element getPageCounter(int pagesCount, int currentPage) throws Exception {
         Paragraph p = new Paragraph(currentPage + " / " + pagesCount, this.getFont());
+        p.setAlignment(Element.ALIGN_RIGHT);
+        p.getFont().setSize(8);
+        return p;
+    }
+    
+    private Element getCreationDate(Date date) throws Exception {
+        Paragraph p = new Paragraph(t("ca.report.terrain_cards.creation_date") + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date), this.getFont());
+        p.setAlignment(Element.ALIGN_LEFT);
+        p.getFont().setSize(7);
         return p;
     }
 

@@ -18,7 +18,6 @@ import pl.exsio.ca.app.report.terraincard.model.TerrainCardColumn;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardPage;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
-import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.TerrainType;
 import pl.exsio.ca.model.dao.TerrainDao;
