@@ -175,3 +175,19 @@ ca.report.terrain_cards.head: Raport opracowania terenów zboru.
 ca.report.terrain_cards.type: "Typ terenów"
 ca.report.terrain_cards.group: "Grupa służby"
 ca.report.terrain_cards.date: Data
+ca.terrains.files: Pliki
+ca.tr_files.button.create: ""
+ca.tr_files.created: Dodano nowy plik
+ca.tr_files.window.create: Nowy plik
+ca.tr_files.button.delete: ""
+ca.tr_files.msg.deleted: Plik został usunięty
+ca.tr_files.confirmation.delete: Czy napewno chcesz usunąc ten plik?
+ca.tr_files.button.edit: ""
+ca.tr_files.msg.edited: Plik został zaktualizowany
+ca.tr_files.window.edit: Edycja pliku
+file.title: Tytuł
+file.name: Nazwa
+file.created_at: Utworzono  
+pl.exsio.ca.model.entity.TerrainFileImpl.title: Tytuł
+pl.exsio.ca.model.entity.TerrainFileImpl.decription: Opis
+pl.exsio.ca.model.entity.TerrainFileImpl.data: Wybierz plik

@@ -54,6 +54,7 @@ public class CaTerrainEvidenceModule extends VerticalModule {
         table.setServiceGroupEntityProvider(this.serviceGroupEntityProvider);
         table.setTerrainAssignmentEntityProvider(this.terrainAssignmentEntityProvider);
         table.setTerrainNotificationEntityProvider(this.terrainNotificationEntityProvider);
+        table.setTerrainFileEntityProvider(this.terrainFileEntityProvider);
         this.addComponent(table.init());
         this.setMargin(true);
     }

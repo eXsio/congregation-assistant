@@ -77,6 +77,8 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
 
     protected EntityProvider terrainNotificationEntityProvider;
 
+    protected EntityProvider terrainFileEntityProvider;
+
     protected ApplicationEventPublisher aep;
 
     protected transient final Set<Terrain> selectedTerrains;
@@ -207,6 +209,7 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
     private void addEditionTabs(TabbedForm form, EntityItem<? extends Terrain> item) {
         form.getTabs().addTab(this.getGroupTab(item), t(TRANSLATION_PREFIX + "group"));
         form.getTabs().addTab(this.getNotificationTab(item), t(TRANSLATION_PREFIX + "notifications"));
+        form.getTabs().addTab(this.getFilesTab(item), t(TRANSLATION_PREFIX + "files"));
     }
 
     private Component getGroupTab(EntityItem<? extends Terrain> item) {
@@ -229,6 +232,16 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
         table.setTerrainAssignmentEntityProvider(this.terrainAssignmentEntityProvider);
         table.setTerrain(item.getEntity());
         table.setApplicationEventPublisher(this.aep);
+        return table.init();
+    }
+
+    private Component getFilesTab(EntityItem<? extends Terrain> item) {
+        FilesDataTable table = new FilesDataTable(this.security);
+        table.setCaEntities(this.caEntities);
+        table.setCaRepositories(this.caRepositories);
+        table.setTerrain(item.getEntity());
+        table.setApplicationEventPublisher(this.aep);
+        table.setEntityProvider(this.terrainFileEntityProvider);
         return table.init();
     }
 
@@ -390,6 +403,10 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
 
     public void setTerrainNotificationEntityProvider(EntityProvider terrainNotificationEntityProvider) {
         this.terrainNotificationEntityProvider = terrainNotificationEntityProvider;
+    }
+
+    public void setTerrainFileEntityProvider(EntityProvider terrainFileEntityProvider) {
+        this.terrainFileEntityProvider = terrainFileEntityProvider;
     }
 
 }
