@@ -5,11 +5,11 @@
  */
 package pl.exsio.ca.module.config.preachers;
 
-import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.navigator.ViewChangeListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
+import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import pl.exsio.frameset.security.context.provider.SecurityContextProvider;
 import pl.exsio.frameset.security.entity.factory.SecurityEntityFactory;
@@ -21,22 +21,16 @@ import pl.exsio.frameset.vaadin.module.VerticalModule;
  */
 public class CaPreachersConfigModule extends VerticalModule {
 
-    private transient EntityProvider preacherEntityProvider;
-
-    private transient EntityProvider priviledgeEntityProvider;
-
     @Autowired
     private transient ApplicationEventPublisher aep;
 
     private transient CaEntityFactory caEntities;
 
-    protected SecurityEntityFactory securityEntities;
+    protected transient SecurityEntityFactory securityEntities;
 
-    protected EntityProvider serviceGroupEntityProvider;
+    protected transient CaRepositoryProvider caRepositories;
 
-    private transient EntityProvider preacherAssignmentEntityProvider;
-
-    protected CaRepositoryProvider caRepositories;
+    protected transient CaEntityProviderProvider caEntityProviders;
 
     public CaPreachersConfigModule() {
         this.setSizeFull();
@@ -48,22 +42,16 @@ public class CaPreachersConfigModule extends VerticalModule {
         PreachersDataTable table = this.createPreachersDataTable();
         table.setCaEntities(this.caEntities);
         table.setSecurityEntities(this.securityEntities);
-        table.setEntityProvider(this.preacherEntityProvider);
-        table.setPriviledgeEntityProvider(this.priviledgeEntityProvider);
+        table.setEntityProvider(this.caEntityProviders.getPreacherEntityProvider());
         table.setApplicationEventPublisher(this.aep);
         table.setCaRepositories(this.caRepositories);
-        table.setServiceGroupEntityProvider(this.serviceGroupEntityProvider);
-        table.setPreacherAssignmentEntityProvider(this.preacherAssignmentEntityProvider);
+        table.setCaEntityProviders(this.caEntityProviders);
         this.addComponent(table.init());
         this.setMargin(true);
     }
 
     protected PreachersDataTable createPreachersDataTable() {
         return new PreachersDataTable(SecurityContextProvider.getFor(this.frame));
-    }
-
-    public void setPreacherEntityProvider(EntityProvider entityProvider) {
-        this.preacherEntityProvider = entityProvider;
     }
 
     public void setCaEntities(CaEntityFactory caEntities) {
@@ -74,20 +62,12 @@ public class CaPreachersConfigModule extends VerticalModule {
         this.securityEntities = securityEntities;
     }
 
-    public void setPriviledgeEntityProvider(EntityProvider priviledgeEntotyProvider) {
-        this.priviledgeEntityProvider = priviledgeEntotyProvider;
-    }
-
-    public void setServiceGroupEntityProvider(EntityProvider serviceGroupEntityProvider) {
-        this.serviceGroupEntityProvider = serviceGroupEntityProvider;
-    }
-
     public void setCaRepositories(CaRepositoryProvider caRepositories) {
         this.caRepositories = caRepositories;
     }
 
-    public void setPreacherAssignmentEntityProvider(EntityProvider preacherAssignmentEntityProvider) {
-        this.preacherAssignmentEntityProvider = preacherAssignmentEntityProvider;
+    public void setCaEntityProviders(CaEntityProviderProvider caEntityProviders) {
+        this.caEntityProviders = caEntityProviders;
     }
 
 }

@@ -16,10 +16,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainNote;
+import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
 
 /**
  *
@@ -51,6 +53,12 @@ public class TerrainNoteImpl implements TerrainNote {
     @Override
     public Long getId() {
         return id;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = new Date();
+        this.createdBy = UserDetailsProvider.getUserDetails().getUsername();
     }
 
     @Override

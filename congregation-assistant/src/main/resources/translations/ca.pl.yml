@@ -191,3 +191,17 @@ file.created_at: Utworzono
 pl.exsio.ca.model.entity.TerrainFileImpl.title: Tytuł
 pl.exsio.ca.model.entity.TerrainFileImpl.decription: Opis
 pl.exsio.ca.model.entity.TerrainFileImpl.data: Wybierz plik
+ca.tr_notes.button.create: ""
+ca.tr_notes.created: Dodano nową notatkę
+ca.tr_notes.window.create: Nowa notatka
+ca.tr_notes.button.delete: ""
+ca.tr_notes.msg.deleted: Notatka została usunięta
+ca.tr_notes.confirmation.delete: Czy napewno chcesz usunąc tę notatkę?
+ca.tr_notes.button.edit: ""
+ca.tr_notes.msg.edited: Notatka została zaktualizowana
+ca.tr_notes.window.edit: Edycja notatki
+pl.exsio.ca.model.entity.TerrainNoteImpl.content: Treść
+note.content: Treść
+note.created_at: Utworzono
+note.created_by: Autor
+ca.terrains.notes: Notatki

@@ -13,10 +13,7 @@
     <bean id="caPreachersConfigModule" class="pl.exsio.ca.module.config.preachers.CaPreachersConfigModule" scope="ui">
         <property name="caEntities" ref="caEntityFactory" />
         <property name="securityEntities" ref="securityEntityFactory" />
-        <property name="preacherEntityProvider" ref="preacherEntityProvider" />
-        <property name="priviledgeEntityProvider" ref="preacherPriviledgeEntityProvider" />
-        <property name="preacherAssignmentEntityProvider" ref="preacherAssignmentEntityProvider" />
-        <property name="serviceGroupEntityProvider" ref="serviceGroupEntityProvider" />
+        <property name="caEntityProviders" ref="caEntityProviderProvider" />
         <property name="caRepositories" ref="caRepositoryProvider" />
     </bean>
     

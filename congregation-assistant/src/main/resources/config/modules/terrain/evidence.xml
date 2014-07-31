@@ -13,12 +13,7 @@
     <bean id="caTerrainEvidenceModule" class="pl.exsio.ca.module.terrain.evidence.CaTerrainEvidenceModule" scope="ui">
         <property name="caEntities" ref="caEntityFactory" />
         <property name="caRepositories" ref="caRepositoryProvider" />
-        <property name="terrainAssignmentEntityProvider" ref="terrainAssignmentEntityProvider" />
-        <property name="terrainEntityProvider" ref="terrainEntityProvider" />
-        <property name="terrainFileEntityProvider" ref="terrainFileEntityProvider" />
-        <property name="terrainNoteEntityProvider" ref="terrainNoteEntityProvider" />
-        <property name="terrainNotificationEntityProvider" ref="terrainNotificationEntityProvider" />
-        <property name="serviceGroupEntityProvider" ref="serviceGroupEntityProvider" />
+        <property name="caEntityProviders" ref="caEntityProviderProvider" />
     </bean>
 
 </beans>

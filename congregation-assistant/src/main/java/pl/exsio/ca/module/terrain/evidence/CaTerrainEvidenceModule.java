@@ -5,11 +5,11 @@
  */
 package pl.exsio.ca.module.terrain.evidence;
 
-import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.navigator.ViewChangeListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
+import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import pl.exsio.frameset.security.context.provider.SecurityContextProvider;
 import pl.exsio.frameset.vaadin.module.VerticalModule;
@@ -20,17 +20,7 @@ import pl.exsio.frameset.vaadin.module.VerticalModule;
  */
 public class CaTerrainEvidenceModule extends VerticalModule {
 
-    private transient EntityProvider terrainEntityProvider;
-
-    private transient EntityProvider terrainAssignmentEntityProvider;
-
-    private transient EntityProvider terrainFileEntityProvider;
-
-    private transient EntityProvider terrainNoteEntityProvider;
-
-    private transient EntityProvider terrainNotificationEntityProvider;
-
-    private transient EntityProvider serviceGroupEntityProvider;
+    private transient CaEntityProviderProvider caEntityProviders;
 
     @Autowired
     private transient ApplicationEventPublisher aep;
@@ -48,13 +38,10 @@ public class CaTerrainEvidenceModule extends VerticalModule {
         this.removeAllComponents();
         TerrainDataTable table = this.createTerrainDataTable();
         table.setCaEntities(this.caEntities);
-        table.setEntityProvider(this.terrainEntityProvider);
+        table.setEntityProvider(this.caEntityProviders.getTerrainEntityProvider());
         table.setApplicationEventPublisher(this.aep);
         table.setCaRepositories(this.caRepositories);
-        table.setServiceGroupEntityProvider(this.serviceGroupEntityProvider);
-        table.setTerrainAssignmentEntityProvider(this.terrainAssignmentEntityProvider);
-        table.setTerrainNotificationEntityProvider(this.terrainNotificationEntityProvider);
-        table.setTerrainFileEntityProvider(this.terrainFileEntityProvider);
+        table.setCaEntityProviders(this.caEntityProviders);
         this.addComponent(table.init());
         this.setMargin(true);
     }
@@ -67,32 +54,12 @@ public class CaTerrainEvidenceModule extends VerticalModule {
         this.caEntities = caEntities;
     }
 
-    public void setTerrainEntityProvider(EntityProvider terrainEntityProvider) {
-        this.terrainEntityProvider = terrainEntityProvider;
-    }
-
-    public void setTerrainAssignmentEntityProvider(EntityProvider terrainAssignmentEntityProvider) {
-        this.terrainAssignmentEntityProvider = terrainAssignmentEntityProvider;
-    }
-
-    public void setTerrainFileEntityProvider(EntityProvider terrainFileEntityProvider) {
-        this.terrainFileEntityProvider = terrainFileEntityProvider;
-    }
-
-    public void setTerrainNoteEntityProvider(EntityProvider terrainNoteEntityProvider) {
-        this.terrainNoteEntityProvider = terrainNoteEntityProvider;
-    }
-
-    public void setTerrainNotificationEntityProvider(EntityProvider terrainNotificationEntityProvider) {
-        this.terrainNotificationEntityProvider = terrainNotificationEntityProvider;
-    }
-
     public void setCaRepositories(CaRepositoryProvider caRepositories) {
         this.caRepositories = caRepositories;
     }
 
-    public void setServiceGroupEntityProvider(EntityProvider serviceGroupEntityProvider) {
-        this.serviceGroupEntityProvider = serviceGroupEntityProvider;
+    public void setCaEntityProviders(CaEntityProviderProvider entityProviders) {
+        this.caEntityProviders = entityProviders;
     }
 
 }

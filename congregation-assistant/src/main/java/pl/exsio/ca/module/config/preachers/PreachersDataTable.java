@@ -20,6 +20,7 @@ import java.util.Set;
 import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
+import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
@@ -40,15 +41,11 @@ public class PreachersDataTable extends DataTable<Preacher, TabbedForm> {
 
     protected SecurityEntityFactory securityEntities;
 
-    protected EntityProvider priviledgeEntityProvider;
-
     protected ApplicationEventPublisher aep;
-
-    protected EntityProvider serviceGroupEntityProvider;
 
     protected CaRepositoryProvider caRepositories;
 
-    protected EntityProvider preacherAssignmentEntityProvider;
+    protected CaEntityProviderProvider caEntityProviders;
 
     public PreachersDataTable(SecurityContext security) {
         super(TabbedForm.class, new TableConfig() {
@@ -100,7 +97,7 @@ public class PreachersDataTable extends DataTable<Preacher, TabbedForm> {
     private Component getPriviledgesTab(EntityItem<? extends Preacher> item) {
         PriviledgesDataTable table = new PriviledgesDataTable(this.security);
         table.setCaEntities(this.caEntities);
-        table.setEntityProvider(this.priviledgeEntityProvider);
+        table.setEntityProvider(this.caEntityProviders.getPreacherPriviledgeEntityProvider());
         table.setPreacher(item.getEntity());
         table.setApplicationEventPublisher(this.aep);
         return table.init();
@@ -110,10 +107,10 @@ public class PreachersDataTable extends DataTable<Preacher, TabbedForm> {
         AssignmentsDataTable table = new AssignmentsDataTable(this.security);
         table.setCaEntities(this.caEntities);
         table.setCaRepositories(this.caRepositories);
-        table.setServiceGroupEntityProvider(this.serviceGroupEntityProvider);
+        table.setServiceGroupEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
         table.setPreacher(item.getEntity());
         table.setApplicationEventPublisher(this.aep);
-        table.setEntityProvider(this.preacherAssignmentEntityProvider);
+        table.setEntityProvider(this.caEntityProviders.getPreacherAssignmentEntityProvider());
         return table.init();
     }
 
@@ -146,26 +143,18 @@ public class PreachersDataTable extends DataTable<Preacher, TabbedForm> {
         this.securityEntities = securityEntities;
     }
 
-    public void setPriviledgeEntityProvider(EntityProvider priviledgeEntityProvider) {
-        this.priviledgeEntityProvider = priviledgeEntityProvider;
-    }
-
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher aep) {
         this.aep = aep;
         super.setApplicationEventPublisher(aep);
     }
 
-    public void setServiceGroupEntityProvider(EntityProvider serviceGroupEntityProvider) {
-        this.serviceGroupEntityProvider = serviceGroupEntityProvider;
-    }
-
     public void setCaRepositories(CaRepositoryProvider caRepositories) {
         this.caRepositories = caRepositories;
     }
 
-    public void setPreacherAssignmentEntityProvider(EntityProvider preacherAssignmentEntityProvider) {
-        this.preacherAssignmentEntityProvider = preacherAssignmentEntityProvider;
+    public void setCaEntityProviders(CaEntityProviderProvider caEntityProviders) {
+        this.caEntityProviders = caEntityProviders;
     }
 
 }

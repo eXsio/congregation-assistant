@@ -34,6 +34,16 @@
         <property name="terrainNoteRepository" ref="terrainNoteRepository" />
     </bean>
     
-    
+    <bean id="caEntityProviderProvider" class="pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProviderImpl" >
+        <property name="preacherAssignmentEntityProvider" ref="preacherAssignmentEntityProvider" />
+        <property name="preacherEntityProvider" ref="preacherEntityProvider" />
+        <property name="preacherPriviledgeEntityProvider" ref="preacherPriviledgeEntityProvider" />
+        <property name="serviceGroupEntityProvider" ref="serviceGroupEntityProvider" />
+        <property name="terrainAssignmentEntityProvider" ref="terrainAssignmentEntityProvider" />
+        <property name="terrainEntityProvider" ref="terrainEntityProvider" />
+        <property name="terrainFileEntityProvider" ref="terrainFileEntityProvider" />
+        <property name="terrainNoteEntityProvider" ref="terrainNoteEntityProvider" />
+        <property name="terrainNotificationEntityProvider" ref="terrainNotificationEntityProvider" />
+    </bean>
   
 </beans>

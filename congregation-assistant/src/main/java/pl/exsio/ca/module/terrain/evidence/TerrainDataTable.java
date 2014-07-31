@@ -51,6 +51,7 @@ import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainType;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
+import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
@@ -69,15 +70,9 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
 
     protected CaEntityFactory caEntities;
 
-    protected EntityProvider serviceGroupEntityProvider;
-
     protected CaRepositoryProvider caRepositories;
 
-    protected EntityProvider terrainAssignmentEntityProvider;
-
-    protected EntityProvider terrainNotificationEntityProvider;
-
-    protected EntityProvider terrainFileEntityProvider;
+    protected CaEntityProviderProvider caEntityProviders;
 
     protected ApplicationEventPublisher aep;
 
@@ -210,16 +205,17 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
         form.getTabs().addTab(this.getGroupTab(item), t(TRANSLATION_PREFIX + "group"));
         form.getTabs().addTab(this.getNotificationTab(item), t(TRANSLATION_PREFIX + "notifications"));
         form.getTabs().addTab(this.getFilesTab(item), t(TRANSLATION_PREFIX + "files"));
+        form.getTabs().addTab(this.getNotesTab(item), t(TRANSLATION_PREFIX + "notes"));
     }
 
     private Component getGroupTab(EntityItem<? extends Terrain> item) {
         AssignmentsDataTable table = new AssignmentsDataTable(this.security);
         table.setCaEntities(this.caEntities);
         table.setCaRepositories(this.caRepositories);
-        table.setServiceGroupEntityProvider(this.serviceGroupEntityProvider);
+        table.setServiceGroupEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
         table.setTerrain(item.getEntity());
         table.setApplicationEventPublisher(this.aep);
-        table.setEntityProvider(this.terrainAssignmentEntityProvider);
+        table.setEntityProvider(this.caEntityProviders.getTerrainAssignmentEntityProvider());
         return table.init();
     }
 
@@ -227,9 +223,9 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
         NotificationsDataTable table = new NotificationsDataTable(this.security);
         table.setCaEntities(this.caEntities);
         table.setCaRepositories(this.caRepositories);
-        table.setServiceGroupEntityProvider(this.serviceGroupEntityProvider);
-        table.setEntityProvider(this.terrainNotificationEntityProvider);
-        table.setTerrainAssignmentEntityProvider(this.terrainAssignmentEntityProvider);
+        table.setServiceGroupEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
+        table.setEntityProvider(this.caEntityProviders.getTerrainNotificationEntityProvider());
+        table.setTerrainAssignmentEntityProvider(this.caEntityProviders.getTerrainAssignmentEntityProvider());
         table.setTerrain(item.getEntity());
         table.setApplicationEventPublisher(this.aep);
         return table.init();
@@ -241,7 +237,17 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
         table.setCaRepositories(this.caRepositories);
         table.setTerrain(item.getEntity());
         table.setApplicationEventPublisher(this.aep);
-        table.setEntityProvider(this.terrainFileEntityProvider);
+        table.setEntityProvider(this.caEntityProviders.getTerrainFileEntityProvider());
+        return table.init();
+    }
+
+    private Component getNotesTab(EntityItem<? extends Terrain> item) {
+        NotesDataTable table = new NotesDataTable(this.security);
+        table.setCaEntities(this.caEntities);
+        table.setCaRepositories(this.caRepositories);
+        table.setTerrain(item.getEntity());
+        table.setApplicationEventPublisher(this.aep);
+        table.setEntityProvider(this.caEntityProviders.getTerrainNoteEntityProvider());
         return table.init();
     }
 
@@ -319,8 +325,8 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
     }
 
     private ComboBox getGroupsCombo() throws UnsupportedFilterException {
-        JPAContainer<ServiceGroup> groupsContainer = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.serviceGroupEntityProvider.getEntityManager());
-        groupsContainer.setEntityProvider(this.serviceGroupEntityProvider);
+        JPAContainer<ServiceGroup> groupsContainer = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.caEntityProviders.getServiceGroupEntityProvider().getEntityManager());
+        groupsContainer.setEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
         groupsContainer.addContainerFilter(eq("archival", false));
         final ComboBox groups = new ComboBox(t(TRANSLATION_PREFIX + "pick_group"), groupsContainer);
         groups.setConverter(new SingleSelectConverter<ServiceGroup>(groups));
@@ -389,24 +395,12 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
         super.setApplicationEventPublisher(aep);
     }
 
-    public void setServiceGroupEntityProvider(EntityProvider serviceGroupEntityProvider) {
-        this.serviceGroupEntityProvider = serviceGroupEntityProvider;
-    }
-
     public void setCaRepositories(CaRepositoryProvider caRepositories) {
         this.caRepositories = caRepositories;
     }
 
-    public void setTerrainAssignmentEntityProvider(EntityProvider terrainAssignmentEntityProvider) {
-        this.terrainAssignmentEntityProvider = terrainAssignmentEntityProvider;
-    }
-
-    public void setTerrainNotificationEntityProvider(EntityProvider terrainNotificationEntityProvider) {
-        this.terrainNotificationEntityProvider = terrainNotificationEntityProvider;
-    }
-
-    public void setTerrainFileEntityProvider(EntityProvider terrainFileEntityProvider) {
-        this.terrainFileEntityProvider = terrainFileEntityProvider;
+    public void setCaEntityProviders(CaEntityProviderProvider entityProviders) {
+        this.caEntityProviders = entityProviders;
     }
 
 }
