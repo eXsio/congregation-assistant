@@ -70,7 +70,7 @@ public class TerrainImpl implements Terrain {
     @OrderBy("createdAt DESC")
     protected SortedSet<TerrainFile> files;
 
-    @OneToMany(targetEntity = TerrainAssignmentImpl.class, mappedBy = "terrain", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = TerrainAssignmentImpl.class, mappedBy = "terrain", cascade = CascadeType.REMOVE)
     @OrderBy("startDate DESC")
     protected SortedSet<TerrainAssignment> assignments;
 
