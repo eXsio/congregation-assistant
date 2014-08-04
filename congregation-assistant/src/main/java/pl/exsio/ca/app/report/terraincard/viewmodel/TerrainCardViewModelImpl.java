@@ -18,6 +18,7 @@ import pl.exsio.ca.app.report.terraincard.model.TerrainCardColumn;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardPage;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
+import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.TerrainType;
 import pl.exsio.ca.model.dao.TerrainDao;
@@ -123,25 +124,44 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
     private void createCell(ArrayList<TerrainNotification> notifications, int i, LinkedList<TerrainCardCell> terrainCells) {
         TerrainCardCell cell = new TerrainCardCell();
         TerrainNotification notification = notifications.get(i);
+        TerrainAssignment assignment = notification.getAssignment();
+
         String group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup().getCaption() : notification.getAssignment().getGroup().getCaption();
         cell.setGroup(group);
 
-        if (i == 0) {
-            cell.setFrom(sdf.format(notification.getAssignment().getStartDate()));
-            cell.setTo(sdf.format(notification.getDate()));
-        } else {
-            cell.setFrom(sdf.format(notifications.get(i - 1).getDate()));
-            cell.setTo(sdf.format(notification.getDate()));
-        }
+        cell.setFrom(this.getFrom(i, notification, assignment, notifications));
+        cell.setTo(sdf.format(notification.getDate()));
 
         terrainCells.add(cell);
         if (i == notifications.size() - 1) {
-            TerrainCardCell lastCell = new TerrainCardCell();
-            lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
-            lastCell.setFrom(sdf.format(notification.getDate()));
-            lastCell.setTo(EMPTY_CELL_VALUE);
+            TerrainCardCell lastCell = this.createLastCell(assignment, notification);
             terrainCells.add(lastCell);
         }
+    }
+
+    private String getFrom(int i, TerrainNotification notification, TerrainAssignment assignment, ArrayList<TerrainNotification> notifications) {
+        String from = null;
+        if (i == 0 || notification.equals(new ArrayList<>(assignment.getNotifications()).get(0))) {
+            from = sdf.format(assignment.getStartDate());
+        } else {
+            from = sdf.format(notifications.get(i - 1).getDate());
+        }
+        return from;
+    }
+
+    private TerrainCardCell createLastCell(TerrainAssignment assignment, TerrainNotification notification) {
+        TerrainCardCell lastCell = new TerrainCardCell();
+        Terrain terrain = assignment.getTerrain();
+        TerrainAssignment lastAssignment = terrain.getAssignments().last();
+        if (lastAssignment.equals(assignment)) {
+            lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
+            lastCell.setFrom(sdf.format(notification.getDate()));
+        } else {
+            lastCell.setGroup(lastAssignment.getGroup().getCaption());
+            lastCell.setFrom(sdf.format(lastAssignment.getStartDate()));
+        }
+        lastCell.setTo(EMPTY_CELL_VALUE);
+        return lastCell;
     }
 
     private int getPagesNo(LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> slice) {
