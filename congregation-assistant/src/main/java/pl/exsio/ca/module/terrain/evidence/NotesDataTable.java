@@ -111,6 +111,11 @@ public class NotesDataTable extends DataTable<TerrainNote, Form> implements Data
         formLayout.addComponent(form);
         return formLayout;
     }
+    
+    @Override
+    protected boolean canOpenItem(EntityItem<? extends TerrainNote> item) {
+        return true;
+    }
 
     private TextArea getContentField(EntityItem<? extends TerrainNote> item) {
         TextArea desc = new TextArea(t(this.caEntities.getTerrainNoteClass().getCanonicalName() + ".content"));

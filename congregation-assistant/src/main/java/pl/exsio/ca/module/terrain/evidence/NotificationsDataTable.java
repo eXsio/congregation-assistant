@@ -127,6 +127,11 @@ public class NotificationsDataTable extends DataTable<TerrainNotification, Form>
         formLayout.addComponent(form);
         return formLayout;
     }
+    
+    @Override
+    protected boolean canOpenItem(EntityItem<? extends TerrainNotification> item) {
+        return true;
+    }
 
     private void handleAssignmentSelectionChange(final ComboBox assignment, final DateField date) {
         assignment.addValueChangeListener(new Property.ValueChangeListener() {

@@ -163,6 +163,11 @@ public class FilesDataTable extends DataTable<TerrainFile, Form> implements Data
         return formLayout;
     }
     
+    @Override
+    protected boolean canOpenItem(EntityItem<? extends TerrainFile> item) {
+        return true;
+    }
+    
     private UploadField getFileField(EntityItem<? extends TerrainFile> item) {
         this.uploadField = new UploadField() {
             @Override

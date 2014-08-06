@@ -201,6 +201,11 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
         }
         return formLayout;
     }
+    
+    @Override
+    protected boolean canOpenItem(EntityItem<? extends Terrain> item) {
+        return true;
+    }
 
     private void addEditionTabs(TabbedForm form, EntityItem<? extends Terrain> item) {
         form.getTabs().addTab(this.getGroupTab(item), t(TRANSLATION_PREFIX + "group"));

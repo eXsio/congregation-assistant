@@ -138,6 +138,11 @@ public class AssignmentsDataTable extends DataTable<TerrainAssignment, Form> imp
         formLayout.addComponent(form);
         return formLayout;
     }
+    
+    @Override
+    protected boolean canOpenItem(EntityItem<? extends TerrainAssignment> item) {
+        return true;
+    }
 
     private TextArea getCommentField(EntityItem<? extends TerrainAssignment> item) {
         TextArea comment = new TextArea(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".comment"));
