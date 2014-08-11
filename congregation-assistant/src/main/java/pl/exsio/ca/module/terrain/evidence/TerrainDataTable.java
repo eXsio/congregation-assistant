@@ -135,7 +135,12 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
                     case "assignments":
                         SortedSet<TerrainAssignment> assignments = (SortedSet<TerrainAssignment>) property.getValue();
                         if (assignments != null && !assignments.isEmpty()) {
-                            return assignments.last().getGroup().getCaption();
+                            TerrainAssignment lastAssignment = assignments.last();
+                            if(!lastAssignment.isExpired() ) {
+                                return lastAssignment.getGroup().getCaption();
+                            } else {
+                                return "";
+                            }
                         } else {
                             return "";
                         }

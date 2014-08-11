@@ -51,4 +51,6 @@ public interface TerrainAssignment extends Serializable, Comparable<TerrainAssig
     String getCaption();
     
     boolean isNotificationDateValid(Date date);
+    
+    boolean isExpired();
 }

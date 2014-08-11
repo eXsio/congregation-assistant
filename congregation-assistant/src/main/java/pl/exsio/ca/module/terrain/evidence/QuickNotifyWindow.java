@@ -114,6 +114,7 @@ public class QuickNotifyWindow extends InitializableWindow {
             Notification.show(t(TRANSLATION_PREFIX + "success"));
         }
         this.terrainsContainer.refresh();
+        this.terrainsToNotify.clear();
         this.close();
     }
 

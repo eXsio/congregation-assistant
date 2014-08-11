@@ -215,4 +215,9 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
         return date.compareTo(this.startDate) >= 0 && (this.endDate == null || date.compareTo(this.endDate) <= 0);
     }
 
+    @Override
+    public boolean isExpired() {
+        return this.endDate instanceof Date && this.endDate.before(new Date());
+    }
+
 }

@@ -153,12 +153,23 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         TerrainCardCell lastCell = new TerrainCardCell();
         Terrain terrain = assignment.getTerrain();
         TerrainAssignment lastAssignment = terrain.getAssignments().last();
+
+        TerrainAssignment lastCellAssignment = null;
+        String lastCellFrom = null;
         if (lastAssignment.equals(assignment)) {
-            lastCell.setGroup(notification.getAssignment().getGroup().getCaption());
-            lastCell.setFrom(sdf.format(notification.getDate()));
+            lastCellAssignment = assignment;
+            lastCellFrom = sdf.format(notification.getDate());
         } else {
-            lastCell.setGroup(lastAssignment.getGroup().getCaption());
-            lastCell.setFrom(sdf.format(lastAssignment.getStartDate()));
+            lastCellAssignment = lastAssignment;
+            lastCellFrom = sdf.format(lastAssignment.getStartDate());
+        }
+
+        if (!lastCellAssignment.isExpired()) {
+            lastCell.setFrom(lastCellFrom);
+            lastCell.setGroup(lastCellAssignment.getGroup().getCaption());
+        } else {
+            lastCell.setFrom(EMPTY_CELL_VALUE);
+            lastCell.setGroup(EMPTY_CELL_VALUE);
         }
         lastCell.setTo(EMPTY_CELL_VALUE);
         return lastCell;
