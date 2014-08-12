@@ -115,10 +115,15 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         LinkedList<TerrainCardCell> terrainCells = new LinkedList<>();
 
         ArrayList<TerrainNotification> notifications = new ArrayList<>(notificationsSet);
-        for (int i = 0; i < notifications.size(); i++) {
-            this.createCell(notifications, i, terrainCells);
+        if (terrain.getAssignments().size() > 0) {
+            if (notifications.size() > 0) {
+                for (int i = 0; i < notifications.size(); i++) {
+                    this.createCell(notifications, i, terrainCells);
+                }
+            } else {
+                terrainCells.add(this.createVoidCell(terrain));
+            }
         }
-
         this.cellsMap.put(terrain, terrainCells);
     }
 
@@ -130,7 +135,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         Date from = this.getFrom(i, notification, assignment, notifications);
         ServiceGroup group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup() : notification.getAssignment().getGroup();
         Preacher overseer = this.caRepositories.getServiceGroupRepository().getOverseerByDate(group, notification.getDate()).get(0);
-       
+
         cell.setGroup(group.getCaption(overseer));
         cell.setFrom(sdf.format(from));
         cell.setTo(sdf.format(notification.getDate()));
@@ -176,6 +181,15 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         }
         lastCell.setTo(EMPTY_CELL_VALUE);
         return lastCell;
+    }
+
+    private TerrainCardCell createVoidCell(Terrain terrain) {
+        TerrainCardCell voidCell = new TerrainCardCell();
+        TerrainAssignment lastAssignment = terrain.getAssignments().last();
+        voidCell.setGroup(lastAssignment.getGroup().getCaption());
+        voidCell.setFrom(sdf.format(lastAssignment.getStartDate()));
+        voidCell.setTo(EMPTY_CELL_VALUE);
+        return voidCell;
     }
 
     private int getPagesNo(LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> slice) {
