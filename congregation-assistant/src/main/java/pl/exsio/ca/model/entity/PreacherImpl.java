@@ -184,11 +184,6 @@ public class PreacherImpl implements Preacher {
     }
 
     @Override
-    public String toString() {
-        return this.firstName + " " + this.lastName;
-    }
-
-    @Override
     public boolean isArchival() {
         return archival;
     }
@@ -219,7 +214,15 @@ public class PreacherImpl implements Preacher {
         }
         return true;
     }
+
+    @Override
+    public String getCaption() {
+        return this.firstName+ " "+this.lastName;
+    }
     
-    
+    @Override
+    public String toString() {
+        return this.getCaption();
+    }
 
 }

@@ -13,6 +13,8 @@
     <bean id="caGroupsConfigModule" class="pl.exsio.ca.module.config.groups.CaGroupsConfigModule" scope="ui">
         <property name="caEntities" ref="caEntityFactory" />
         <property name="serviceGroupEntityProvider" ref="serviceGroupEntityProvider" />
+        <property name="caEntityProviders" ref="caEntityProviderProvider" />
+        <property name="caRepositories" ref="caRepositoryProvider" />
     </bean>
     
     

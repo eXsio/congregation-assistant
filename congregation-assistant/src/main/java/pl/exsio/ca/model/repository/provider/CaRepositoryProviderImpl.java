@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.model.repository.provider;
 
+import pl.exsio.ca.model.dao.OverseerAssignmentDao;
 import pl.exsio.ca.model.dao.PreacherAssignmentDao;
 import pl.exsio.ca.model.dao.PreacherDao;
 import pl.exsio.ca.model.dao.PreacherPriviledgeDao;
@@ -24,6 +25,8 @@ public class CaRepositoryProviderImpl implements CaRepositoryProvider {
     protected PreacherDao preacherRepository;
 
     protected PreacherAssignmentDao preacherAssignmentRepository;
+
+    protected OverseerAssignmentDao overseerAssignmentRepository;
 
     protected PreacherPriviledgeDao preacherPriviledgeRepository;
 
@@ -118,6 +121,15 @@ public class CaRepositoryProviderImpl implements CaRepositoryProvider {
 
     public void setTerrainNoteRepository(TerrainNoteDao terrainNoteRepository) {
         this.terrainNoteRepository = terrainNoteRepository;
+    }
+
+    @Override
+    public OverseerAssignmentDao getOverseerAssignmentRepository() {
+        return overseerAssignmentRepository;
+    }
+
+    public void setOverseerAssignmentRepository(OverseerAssignmentDao overseerAssignmentRepository) {
+        this.overseerAssignmentRepository = overseerAssignmentRepository;
     }
 
 }

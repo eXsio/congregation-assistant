@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.model.repository.provider;
 
+import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.PreacherAssignment;
 import pl.exsio.ca.model.PreacherPriviledge;
@@ -14,6 +15,7 @@ import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainFile;
 import pl.exsio.ca.model.TerrainNote;
 import pl.exsio.ca.model.TerrainNotification;
+import pl.exsio.ca.model.dao.OverseerAssignmentDao;
 import pl.exsio.ca.model.dao.PreacherAssignmentDao;
 import pl.exsio.ca.model.dao.PreacherDao;
 import pl.exsio.ca.model.dao.PreacherPriviledgeDao;
@@ -33,6 +35,8 @@ public interface CaRepositoryProvider {
     PreacherDao<Preacher> getPreacherRepository();
 
     PreacherAssignmentDao<PreacherAssignment> getPreacherAssignmentRepository();
+    
+    OverseerAssignmentDao<OverseerAssignment> getOverseerAssignmentRepository();
 
     PreacherPriviledgeDao<PreacherPriviledge> getPreacherPriviledgeRepository();
 

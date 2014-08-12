@@ -15,6 +15,8 @@ public class CaEntityProviderProviderImpl implements CaEntityProviderProvider {
 
     private EntityProvider preacherAssignmentEntityProvider;
 
+    private EntityProvider overseerAssignmentEntityProvider;
+
     private EntityProvider preacherEntityProvider;
 
     private EntityProvider preacherPriviledgeEntityProvider;
@@ -110,6 +112,15 @@ public class CaEntityProviderProviderImpl implements CaEntityProviderProvider {
 
     public void setTerrainNotificationEntityProvider(EntityProvider terrainNotificationEntityProvider) {
         this.terrainNotificationEntityProvider = terrainNotificationEntityProvider;
+    }
+
+    @Override
+    public EntityProvider getOverseerAssignmentEntityProvider() {
+        return overseerAssignmentEntityProvider;
+    }
+
+    public void setOverseerAssignmentEntityProvider(EntityProvider overseerAssignmentEntityProvider) {
+        this.overseerAssignmentEntityProvider = overseerAssignmentEntityProvider;
     }
 
 }

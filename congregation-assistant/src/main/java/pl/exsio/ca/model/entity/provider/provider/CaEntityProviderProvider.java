@@ -16,6 +16,8 @@ public interface CaEntityProviderProvider {
     
     EntityProvider getPreacherAssignmentEntityProvider();
     
+    EntityProvider getOverseerAssignmentEntityProvider();
+    
     EntityProvider getPreacherEntityProvider();
     
     EntityProvider getPreacherPriviledgeEntityProvider();

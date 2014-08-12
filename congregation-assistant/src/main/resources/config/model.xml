@@ -11,6 +11,7 @@
 
     <bean id="preacherEntityProvider" class="pl.exsio.ca.model.entity.provider.PreacherEntityProvider" />
     <bean id="preacherAssignmentEntityProvider" class="pl.exsio.ca.model.entity.provider.PreacherAssignmentEntityProvider" />
+    <bean id="overseerAssignmentEntityProvider" class="pl.exsio.ca.model.entity.provider.OverseerAssignmentEntityProvider" />
     <bean id="preacherPriviledgeEntityProvider" class="pl.exsio.ca.model.entity.provider.PreacherPriviledgeEntityProvider" />
     <bean id="serviceGroupEntityProvider" class="pl.exsio.ca.model.entity.provider.ServiceGroupEntityProvider" />
     <bean id="terrainAssignmentEntityProvider" class="pl.exsio.ca.model.entity.provider.TerrainAssignmentEntityProvider" />
@@ -24,6 +25,7 @@
     
     <bean id="caRepositoryProvider" class="pl.exsio.ca.model.repository.provider.CaRepositoryProviderImpl" >
         <property name="preacherAssignmentRepository" ref="preacherAssignmentRepository" />
+        <property name="overseerAssignmentRepository" ref="overseerAssignmentRepository" />
         <property name="preacherPriviledgeRepository" ref="preacherPriviledgeRepository" />
         <property name="preacherRepository" ref="preacherRepository" />
         <property name="serviceGroupRepository" ref="serviceGroupRepository" />
@@ -36,6 +38,7 @@
     
     <bean id="caEntityProviderProvider" class="pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProviderImpl" >
         <property name="preacherAssignmentEntityProvider" ref="preacherAssignmentEntityProvider" />
+        <property name="overseerAssignmentEntityProvider" ref="overseerAssignmentEntityProvider" />
         <property name="preacherEntityProvider" ref="preacherEntityProvider" />
         <property name="preacherPriviledgeEntityProvider" ref="preacherPriviledgeEntityProvider" />
         <property name="serviceGroupEntityProvider" ref="serviceGroupEntityProvider" />

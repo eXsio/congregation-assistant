@@ -16,6 +16,7 @@ import java.util.Map;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardCell;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardColumn;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardPage;
+import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
@@ -126,10 +127,12 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         TerrainNotification notification = notifications.get(i);
         TerrainAssignment assignment = notification.getAssignment();
 
-        String group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup().getCaption() : notification.getAssignment().getGroup().getCaption();
-        cell.setGroup(group);
-
-        cell.setFrom(this.getFrom(i, notification, assignment, notifications));
+        Date from = this.getFrom(i, notification, assignment, notifications);
+        ServiceGroup group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup() : notification.getAssignment().getGroup();
+        Preacher overseer = this.caRepositories.getServiceGroupRepository().getOverseerByDate(group, notification.getDate()).get(0);
+       
+        cell.setGroup(group.getCaption(overseer));
+        cell.setFrom(sdf.format(from));
         cell.setTo(sdf.format(notification.getDate()));
 
         terrainCells.add(cell);
@@ -139,12 +142,12 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         }
     }
 
-    private String getFrom(int i, TerrainNotification notification, TerrainAssignment assignment, ArrayList<TerrainNotification> notifications) {
-        String from = null;
+    private Date getFrom(int i, TerrainNotification notification, TerrainAssignment assignment, ArrayList<TerrainNotification> notifications) {
+        Date from = null;
         if (i == 0 || notification.equals(new ArrayList<>(assignment.getNotifications()).get(0))) {
-            from = sdf.format(assignment.getStartDate());
+            from = assignment.getStartDate();
         } else {
-            from = sdf.format(notifications.get(i - 1).getDate());
+            from = notifications.get(i - 1).getDate();
         }
         return from;
     }
@@ -155,17 +158,17 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         TerrainAssignment lastAssignment = terrain.getAssignments().last();
 
         TerrainAssignment lastCellAssignment = null;
-        String lastCellFrom = null;
+        Date lastCellFrom = null;
         if (lastAssignment.equals(assignment)) {
             lastCellAssignment = assignment;
-            lastCellFrom = sdf.format(notification.getDate());
+            lastCellFrom = notification.getDate();
         } else {
             lastCellAssignment = lastAssignment;
-            lastCellFrom = sdf.format(lastAssignment.getStartDate());
+            lastCellFrom = lastAssignment.getStartDate();
         }
 
         if (!lastCellAssignment.isExpired()) {
-            lastCell.setFrom(lastCellFrom);
+            lastCell.setFrom(sdf.format(lastCellFrom));
             lastCell.setGroup(lastCellAssignment.getGroup().getCaption());
         } else {
             lastCell.setFrom(EMPTY_CELL_VALUE);

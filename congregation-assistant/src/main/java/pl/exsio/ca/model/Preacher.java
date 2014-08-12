@@ -54,4 +54,6 @@ public interface Preacher extends Serializable {
     boolean isArchival();
     
     void setArchival(boolean archival);
+    
+    String getCaption();
 }

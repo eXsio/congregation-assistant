@@ -6,6 +6,7 @@
 
 package pl.exsio.ca.model.entity.factory;
 
+import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.PreacherAssignment;
 import pl.exsio.ca.model.PreacherPriviledge;
@@ -26,6 +27,8 @@ public interface CaEntityFactory {
     
     <T extends PreacherAssignment> T newPreacherAssignment();
     
+    <T extends OverseerAssignment> T newOverseerAssignment();
+    
     <T extends PreacherPriviledge> T newPreacherPriviledge();
     
     <T extends ServiceGroup> T newServiceGroup();
@@ -43,6 +46,8 @@ public interface CaEntityFactory {
     <T extends Preacher> Class<T> getPreacherClass();
     
     <T extends PreacherAssignment> Class<T> getPreacherAssignmentClass();
+    
+    <T extends OverseerAssignment> Class<T> getOverseerAssignmentClass();
     
     <T extends PreacherPriviledge> Class<T> getPreacherPriviledgeClass();
     

@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.model.entity.factory;
 
+import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.PreacherAssignment;
 import pl.exsio.ca.model.PreacherPriviledge;
@@ -14,6 +15,7 @@ import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainFile;
 import pl.exsio.ca.model.TerrainNote;
 import pl.exsio.ca.model.TerrainNotification;
+import pl.exsio.ca.model.entity.OverseerAssignmentImpl;
 import pl.exsio.ca.model.entity.PreacherAssignmentImpl;
 import pl.exsio.ca.model.entity.PreacherImpl;
 import pl.exsio.ca.model.entity.PreacherPriviledgeImpl;
@@ -114,6 +116,16 @@ public class CaEntityFactoryImpl implements CaEntityFactory {
     @Override
     public <T extends TerrainFile> Class<T> getTerrainFileClass() {
         return (Class<T>) TerrainFileImpl.class;
+    }
+
+    @Override
+    public <T extends OverseerAssignment> T newOverseerAssignment() {
+        return (T) new OverseerAssignmentImpl();
+    }
+
+    @Override
+    public <T extends OverseerAssignment> Class<T> getOverseerAssignmentClass() {
+        return (Class<T>) OverseerAssignmentImpl.class;
     }
 
 }

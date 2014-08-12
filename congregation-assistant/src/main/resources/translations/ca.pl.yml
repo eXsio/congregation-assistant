@@ -66,6 +66,8 @@ ca.groups.msg.edited: Grupa została zaktualizowana
 ca.groups.window.edit: Edycja grupy
 ca.groups.invalid_overseer: Grupa musi mieć nadzorcę
 ca.groups.invalid_no: Grupa musi mieć numer
+ca.groups.basic_data: Podstawowe dane
+ca.groups.overseer: Nazdorca
 pl.exsio.ca.model.entity.PreacherImpl.no: Numer
 pl.exsio.ca.model.entity.PreacherImpl.overseer: Nazdorca
 pl.exsio.ca.model.entity.PreacherImpl.archival: Archiwalna?
@@ -206,3 +208,23 @@ note.created_at: Utworzono
 note.created_by: Autor
 ca.terrains.notes: Notatki
 ca.report.terrain_cards.creation_date: "Data utworzenia raportu: "
+ca.ov_assignments.button.create: ""
+ca.ov_assignments.created: Dodano nowe przypisanie nadzorcy do grupy
+ca.ov_assignments.window.create: Nowe przypisanie nadzorcy
+ca.ov_assignments.button.delete: ""
+ca.ov_assignments.msg.deleted: Przypisanie nadzorcy do grupy zostało usunięte
+ca.ov_assignments.confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
+ca.ov_assignments.button.edit: ""
+ca.ov_assignments.msg.edited: Przypisanie nadzorcy do grupy zostało zaktualizowane
+ca.ov_assignments.window.edit: Edycja przypisania nadzorcy do grupy
+ca.ov_assignments.invalid_preacher: Przypisanie nadzorcy musi mieć głosiciela
+ca.ov_assignments.invalid_date: Przypisanie nadzorcy musi mieć datę początku
+pl.exsio.ca.model.entity.OverseerAssignmentImpl.preacher: Głosiciel
+pl.exsio.ca.model.entity.OverseerAssignmentImpl.start_date: Data początku
+pl.exsio.ca.model.entity.OverseerAssignmentImpl.end_date: Data końca
+overseer.preacher: Głosiciel
+overseer.assignment_start_date: Data początku
+overseer.assignment_end_date: Data końca
+overseer.assignment_active: Aktywne
+ca.groups.groups: Grupy Służby
+pl.exsio.ca.model.entity.OverseerAssignmentImpl.date: Data przydziału

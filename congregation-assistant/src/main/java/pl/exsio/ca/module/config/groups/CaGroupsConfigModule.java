@@ -10,6 +10,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
+import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import pl.exsio.frameset.security.context.provider.SecurityContextProvider;
 import pl.exsio.frameset.vaadin.module.VerticalModule;
@@ -27,6 +28,9 @@ public class CaGroupsConfigModule extends VerticalModule {
 
     private transient CaEntityFactory caEntities;
 
+    protected transient CaRepositoryProvider caRepositories;
+
+    protected transient CaEntityProviderProvider caEntityProviders;
 
     public CaGroupsConfigModule() {
         this.setSizeFull();
@@ -39,6 +43,8 @@ public class CaGroupsConfigModule extends VerticalModule {
         table.setCaEntities(this.caEntities);
         table.setEntityProvider(this.serviceGroupEntityProvider);
         table.setApplicationEventPublisher(this.aep);
+        table.setCaRepositories(this.caRepositories);
+        table.setCaEntityProviders(this.caEntityProviders);
         this.addComponent(table.init());
         this.setMargin(true);
     }
@@ -53,6 +59,14 @@ public class CaGroupsConfigModule extends VerticalModule {
 
     public void setCaEntities(CaEntityFactory caEntities) {
         this.caEntities = caEntities;
+    }
+    
+    public void setCaRepositories(CaRepositoryProvider caRepositories) {
+        this.caRepositories = caRepositories;
+    }
+
+    public void setCaEntityProviders(CaEntityProviderProvider caEntityProviders) {
+        this.caEntityProviders = caEntityProviders;
     }
 
 }

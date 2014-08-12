@@ -24,7 +24,7 @@ public interface ServiceGroup extends Serializable {
 
     Preacher getOverseer();
 
-    void setOverseer(Preacher overseer);
+    SortedSet<OverseerAssignment> getOverseerAssignments();
 
     SortedSet<PreacherAssignment> getPreacherAssignments();
 
@@ -39,4 +39,6 @@ public interface ServiceGroup extends Serializable {
     void setArchival(boolean archival);
     
     String getCaption();
+    
+    String getCaption(Preacher preacher);
 }

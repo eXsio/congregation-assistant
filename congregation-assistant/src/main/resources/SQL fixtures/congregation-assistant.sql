@@ -258,9 +258,7 @@ CREATE TABLE IF NOT EXISTS `ca_service_groups` (
   `created_at` date NOT NULL,
   `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `group_no` bigint(20) NOT NULL,
-  `overseer_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_9dvo2pycwed4xho2o5q3txuqg` (`overseer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -601,12 +599,6 @@ ALTER TABLE `ca_preacher_priviledges`
   ADD CONSTRAINT `FK_fbd8jrmboxx39p0uqxqurhw59` FOREIGN KEY (`preacher_id`) REFERENCES `ca_preachers` (`id`);
 
 --
--- Ograniczenia dla tabeli `ca_service_groups`
---
-ALTER TABLE `ca_service_groups`
-  ADD CONSTRAINT `FK_9dvo2pycwed4xho2o5q3txuqg` FOREIGN KEY (`overseer_id`) REFERENCES `ca_preachers` (`id`);
-
---
 -- Ograniczenia dla tabeli `ca_terrain_assignments`
 --
 ALTER TABLE `ca_terrain_assignments`
@@ -668,3 +660,29 @@ ALTER TABLE `vaadin_frames`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `ca_preacher_assignments`
+--
+
+CREATE TABLE IF NOT EXISTS `ca_overseer_assignments` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `is_active` tinyint(1) NOT NULL,
+  `created_at` date NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `date` date NOT NULL,
+  `group_id` bigint(20) NOT NULL,
+  `preacher_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_obg27dmq08kovbjbfumr4v111` (`group_id`),
+  KEY `FK_qs8gbwnh7kl82snok4lm28222` (`preacher_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Ograniczenia dla tabeli `ca_preacher_assignments`
+--
+ALTER TABLE `ca_overseer_assignments`
+  ADD CONSTRAINT `FK_qs8gbwnh7kl82snok4lm28222` FOREIGN KEY (`preacher_id`) REFERENCES `ca_preachers` (`id`),
+  ADD CONSTRAINT `FK_obg27dmq08kovbjbfumr4v111` FOREIGN KEY (`group_id`) REFERENCES `ca_service_groups` (`id`);

@@ -11,6 +11,7 @@ import java.util.SortedSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +24,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
+import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.PreacherAssignment;
 import pl.exsio.ca.model.ServiceGroup;
@@ -55,17 +58,23 @@ public class ServiceGroupImpl implements ServiceGroup {
     @Column(name = "is_archival", columnDefinition = "BOOLEAN", nullable = false)
     protected boolean archival = false;
 
-    @ManyToOne(targetEntity = PreacherImpl.class)
-    @JoinColumn(name = "overseer_id", nullable = false)
-    protected Preacher overseer;
-
     @OneToMany(targetEntity = PreacherAssignmentImpl.class, mappedBy = "group", cascade = CascadeType.REMOVE)
     @OrderBy("date DESC")
     protected SortedSet<PreacherAssignment> preacherAssignments;
 
+    @OneToMany(targetEntity = OverseerAssignmentImpl.class, mappedBy = "group", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OrderBy("date DESC")
+    protected SortedSet<OverseerAssignment> overseerAssignments;
+
     @OneToMany(targetEntity = TerrainAssignmentImpl.class, mappedBy = "group", cascade = CascadeType.REMOVE)
     @OrderBy("startDate DESC")
     protected SortedSet<TerrainAssignment> terrainAssignments;
+    
+    @Transient
+    private transient Preacher overseer;
+    
+    @Transient
+    private transient boolean overseerChecked = false;
 
     @PrePersist
     public void prePersist() {
@@ -99,16 +108,6 @@ public class ServiceGroupImpl implements ServiceGroup {
     }
 
     @Override
-    public Preacher getOverseer() {
-        return overseer;
-    }
-
-    @Override
-    public void setOverseer(Preacher overseer) {
-        this.overseer = overseer;
-    }
-
-    @Override
     public SortedSet<PreacherAssignment> getPreacherAssignments() {
         return preacherAssignments;
     }
@@ -127,6 +126,15 @@ public class ServiceGroupImpl implements ServiceGroup {
     }
 
     @Override
+    public SortedSet<OverseerAssignment> getOverseerAssignments() {
+        return this.overseerAssignments;
+    }
+
+    public void setOverseerAssignments(SortedSet<OverseerAssignment> overseerAssignments) {
+        this.overseerAssignments = overseerAssignments;
+    }
+
+    @Override
     public boolean isArchival() {
         return archival;
     }
@@ -138,12 +146,17 @@ public class ServiceGroupImpl implements ServiceGroup {
 
     @Override
     public String toString() {
-       return this.getCaption();
+        return this.getCaption();
     }
 
     @Override
     public String getCaption() {
-         return this.no + " (" + this.overseer + ")";
+        Preacher overseer = this.getOverseer();
+        if (overseer instanceof Preacher) {
+            return this.getCaption(overseer);
+        } else {
+            return Long.toString(this.no);
+        }
     }
 
     @Override
@@ -167,7 +180,21 @@ public class ServiceGroupImpl implements ServiceGroup {
         }
         return true;
     }
-    
-    
+
+    @Override
+    public Preacher getOverseer() {
+        if(!this.overseerChecked) {
+            if (this.overseerAssignments != null && this.overseerAssignments.size() > 0) {
+                this.overseer = this.overseerAssignments.last().getPreacher();
+            } 
+            this.overseerChecked = true;
+        }
+        return this.overseer;
+    }
+
+    @Override
+    public String getCaption(Preacher preacher) {
+        return this.no + " (" + preacher + ")";
+    }
 
 }

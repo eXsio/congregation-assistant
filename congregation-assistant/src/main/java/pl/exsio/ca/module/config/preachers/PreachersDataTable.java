@@ -6,7 +6,6 @@
 package pl.exsio.ca.module.config.preachers;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -61,7 +60,7 @@ public class PreachersDataTable extends DataTable<Preacher, TabbedForm> {
                 setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
                 setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
                 setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption(TRANSLATION_PREFIX + "preachers");
+                setTableCaption("");
             }
         }, security);
         this.openEditionAfterCreation = true;
