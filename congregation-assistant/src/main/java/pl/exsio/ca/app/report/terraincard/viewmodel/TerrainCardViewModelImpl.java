@@ -134,7 +134,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
         Date from = this.getFrom(i, notification, assignment, notifications);
         ServiceGroup group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup() : notification.getAssignment().getGroup();
-        Preacher overseer = this.caRepositories.getServiceGroupRepository().getOverseerByDate(group, notification.getDate()).get(0);
+        Preacher overseer = this.getOverseer(group, notification.getDate());
 
         cell.setGroup(group.getCaption(overseer));
         cell.setFrom(sdf.format(from));
@@ -144,6 +144,15 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         if (i == notifications.size() - 1) {
             TerrainCardCell lastCell = this.createLastCell(assignment, notification);
             terrainCells.add(lastCell);
+        }
+    }
+    
+    private Preacher getOverseer(ServiceGroup group, Date date) {
+        ArrayList<Preacher> candidates = this.caRepositories.getServiceGroupRepository().getOverseerByDate(group, date);
+        if(candidates.size() > 0) {
+            return candidates.get(0);
+        } else {
+            throw new RuntimeException("There is no configured ovserseer for group "+group+" and date "+sdf.format(date));
         }
     }
 
