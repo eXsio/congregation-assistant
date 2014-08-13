@@ -20,8 +20,6 @@ public interface ServiceGroup extends Serializable {
 
     Long getNo();
 
-    void setNo(Long no);
-
     Preacher getOverseer();
 
     SortedSet<OverseerAssignment> getOverseerAssignments();
@@ -40,5 +38,5 @@ public interface ServiceGroup extends Serializable {
     
     String getCaption();
     
-    String getCaption(Preacher preacher);
+    String getCaption(OverseerAssignment assignment);
 }

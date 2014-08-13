@@ -5,7 +5,6 @@
  */
 package pl.exsio.ca.module.config.groups;
 
-import pl.exsio.ca.module.config.preachers.*;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -15,6 +14,7 @@ import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDateConverter;
+import com.vaadin.data.util.converter.StringToLongConverter;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbstractSelect;
@@ -23,6 +23,7 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
 import java.util.Locale;
@@ -83,8 +84,8 @@ public class AssignmentsDataTable extends DataTable<OverseerAssignment, Form> im
                 setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
                 setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
                 setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
-                setColumnHeaders(new String[]{"overseer.preacher", "overseer.assignment_start_date", "overseer.assignment_active", "id"});
-                setVisibleColumns(new String[]{"preacher", "date", "active", "id"});
+                setColumnHeaders(new String[]{"overseer.preacher", "overseer.group_no", "overseer.assignment_start_date", "overseer.assignment_active", "id"});
+                setVisibleColumns(new String[]{"preacher", "groupNo", "date", "active", "id"});
                 setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
                 setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
                 setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
@@ -124,6 +125,7 @@ public class AssignmentsDataTable extends DataTable<OverseerAssignment, Form> im
 
         VerticalLayout formLayout = new VerticalLayout();
         form.addField("preacher", getPreacherField(item));
+        form.addField("groupNo", getGroupNoField(item));
         form.addField("date", getDateField(item));
         form.setBuffered(true);
         form.setEnabled(true);
@@ -139,6 +141,14 @@ public class AssignmentsDataTable extends DataTable<OverseerAssignment, Form> im
         date.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_date"), false));
         date.setDateFormat("yyyy-MM-dd");
         return date;
+    }
+    
+    private TextField getGroupNoField(EntityItem<? extends OverseerAssignment> item) {
+        TextField groupNo = new TextField(t(this.caEntities.getOverseerAssignmentClass().getCanonicalName() + ".groupNo"));
+        groupNo.setPropertyDataSource(item.getItemProperty("groupNo"));
+        groupNo.setConverter(new StringToLongConverter());
+        groupNo.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_group_no"), false));
+        return groupNo;
     }
 
     private ComboBox getPreacherField(EntityItem<? extends OverseerAssignment> item) {

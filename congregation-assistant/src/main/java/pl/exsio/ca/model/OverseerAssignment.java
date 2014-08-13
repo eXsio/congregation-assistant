@@ -23,6 +23,10 @@ public interface OverseerAssignment extends Serializable, Comparable<OverseerAss
     ServiceGroup getGroup();
 
     void setGroup(ServiceGroup group);
+    
+    Long getGroupNo();
+    
+    void setGroupNo(Long no);
 
     Date getDate();
 

@@ -127,7 +127,7 @@ public class TerrainCardsView extends AbstractPdfView {
         if (groupName.equals(TerrainCardViewModel.EMPTY_CELL_VALUE)) {
             p.getFont().setColor(Color.WHITE);
         }
-        p.getFont().setSize(8);
+        p.getFont().setSize(7);
         Cell cell = new Cell(p);
         if (odd) {
             cell.setBackgroundColor(new Color(240, 240, 240));

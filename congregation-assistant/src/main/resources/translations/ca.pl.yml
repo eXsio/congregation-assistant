@@ -222,9 +222,12 @@ ca.ov_assignments.invalid_date: Przypisanie nadzorcy musi mieć datę początku
 pl.exsio.ca.model.entity.OverseerAssignmentImpl.preacher: Głosiciel
 pl.exsio.ca.model.entity.OverseerAssignmentImpl.start_date: Data początku
 pl.exsio.ca.model.entity.OverseerAssignmentImpl.end_date: Data końca
+pl.exsio.ca.model.entity.OverseerAssignmentImpl.groupNo: Nr grupy
 overseer.preacher: Głosiciel
 overseer.assignment_start_date: Data początku
 overseer.assignment_end_date: Data końca
 overseer.assignment_active: Aktywne
+overseer.group_no: Nr grupy
 ca.groups.groups: Grupy Służby
 pl.exsio.ca.model.entity.OverseerAssignmentImpl.date: Data przydziału
+ca.service_group: "Gr. nr "

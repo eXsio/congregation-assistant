@@ -16,6 +16,7 @@ import java.util.Map;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardCell;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardColumn;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardPage;
+import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
@@ -40,7 +41,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
     private static final int TABLE_COLS = 5;
 
-    private static final int TABLE_ROWS = 19;
+    private static final int TABLE_ROWS = 21;
 
     private CaRepositoryProvider caRepositories;
 
@@ -134,9 +135,9 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
         Date from = this.getFrom(i, notification, assignment, notifications);
         ServiceGroup group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup() : notification.getAssignment().getGroup();
-        Preacher overseer = this.getOverseer(group, notification.getDate());
+        OverseerAssignment latestAssignment = this.getOverseerAssignment(group, notification.getDate());
 
-        cell.setGroup(group.getCaption(overseer));
+        cell.setGroup(group.getCaption(latestAssignment));
         cell.setFrom(sdf.format(from));
         cell.setTo(sdf.format(notification.getDate()));
 
@@ -147,8 +148,8 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         }
     }
     
-    private Preacher getOverseer(ServiceGroup group, Date date) {
-        ArrayList<Preacher> candidates = this.caRepositories.getServiceGroupRepository().getOverseerByDate(group, date);
+    private OverseerAssignment getOverseerAssignment(ServiceGroup group, Date date) {
+        ArrayList<OverseerAssignment> candidates = this.caRepositories.getServiceGroupRepository().getOverseerAssignmentByDate(group, date);
         if(candidates.size() > 0) {
             return candidates.get(0);
         } else {

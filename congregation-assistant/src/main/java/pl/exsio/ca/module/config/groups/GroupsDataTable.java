@@ -108,9 +108,8 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
         FramesetFieldFactory<? extends Preacher> ff = new FramesetFieldFactory<>(this.caEntities.getPreacherClass());
         ff.setSingleSelectType(this.caEntities.getPreacherClass(), ComboBox.class);
         form.setFormFieldFactory(ff);
-        form.setItemDataSource(item, Arrays.asList(new String[]{"no", "archival"}));
+        form.setItemDataSource(item, Arrays.asList(new String[]{"archival"}));
         form.setBuffered(true);
-        form.getField("no").addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_no"), false));
         form.setEnabled(true);
         formLayout.addComponent(form);
         if (mode == DataTable.MODE_EDITION) {
@@ -139,8 +138,6 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
             {
                 put(TRANSLATION_PREFIX + "basic_data", new LinkedHashSet() {
                     {
-                        add("no");
-                        add("overseer");
                         add("archival");
                     }
                 });

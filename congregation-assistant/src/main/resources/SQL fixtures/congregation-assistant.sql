@@ -257,7 +257,6 @@ CREATE TABLE IF NOT EXISTS `ca_service_groups` (
   `is_archival` tinyint(1) NOT NULL,
   `created_at` date NOT NULL,
   `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `group_no` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
@@ -675,6 +674,7 @@ CREATE TABLE IF NOT EXISTS `ca_overseer_assignments` (
   `date` date NOT NULL,
   `group_id` bigint(20) NOT NULL,
   `preacher_id` bigint(20) NOT NULL,
+  `group_no` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_obg27dmq08kovbjbfumr4v111` (`group_id`),
   KEY `FK_qs8gbwnh7kl82snok4lm28222` (`preacher_id`)

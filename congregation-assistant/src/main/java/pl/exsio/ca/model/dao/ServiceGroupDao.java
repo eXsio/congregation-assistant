@@ -8,7 +8,7 @@ package pl.exsio.ca.model.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
-import pl.exsio.ca.model.Preacher;
+import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.frameset.core.dao.GenericDao;
 
@@ -18,5 +18,5 @@ import pl.exsio.frameset.core.dao.GenericDao;
  */
 public interface ServiceGroupDao<T extends ServiceGroup> extends GenericDao<T, Long> {
     
-    ArrayList<Preacher> getOverseerByDate(ServiceGroup group, Date date);
+    ArrayList<OverseerAssignment> getOverseerAssignmentByDate(ServiceGroup group, Date date);
 }

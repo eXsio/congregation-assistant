@@ -51,6 +51,9 @@ public class OverseerAssignmentImpl implements OverseerAssignment {
     @Column(name = "is_active", columnDefinition = "BOOLEAN", nullable = false)
     protected boolean active;
 
+    @Column(name = "group_no", nullable = false)
+    protected long groupNo;
+
     @ManyToOne(targetEntity = ServiceGroupImpl.class)
     @JoinColumn(name = "group_id", nullable = false)
     protected ServiceGroup group;
@@ -145,6 +148,16 @@ public class OverseerAssignmentImpl implements OverseerAssignment {
     @Override
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public Long getGroupNo() {
+        return groupNo;
+    }
+
+    @Override
+    public void setGroupNo(Long groupNo) {
+        this.groupNo = groupNo;
     }
 
 }

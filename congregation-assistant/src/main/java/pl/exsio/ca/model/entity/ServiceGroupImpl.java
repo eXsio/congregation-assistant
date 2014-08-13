@@ -30,6 +30,7 @@ import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.PreacherAssignment;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.TerrainAssignment;
+import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
 
 /**
@@ -52,9 +53,6 @@ public class ServiceGroupImpl implements ServiceGroup {
     @Column(name = "created_by", nullable = false, updatable = false)
     protected String createdBy;
 
-    @Column(name = "group_no", nullable = false)
-    protected Long no;
-
     @Column(name = "is_archival", columnDefinition = "BOOLEAN", nullable = false)
     protected boolean archival = false;
 
@@ -69,12 +67,12 @@ public class ServiceGroupImpl implements ServiceGroup {
     @OneToMany(targetEntity = TerrainAssignmentImpl.class, mappedBy = "group", cascade = CascadeType.REMOVE)
     @OrderBy("startDate DESC")
     protected SortedSet<TerrainAssignment> terrainAssignments;
-    
+
     @Transient
-    private transient Preacher overseer;
-    
+    private transient OverseerAssignment latestAssignment;
+
     @Transient
-    private transient boolean overseerChecked = false;
+    private transient boolean latestAssignmentChecked = false;
 
     @PrePersist
     public void prePersist() {
@@ -99,12 +97,12 @@ public class ServiceGroupImpl implements ServiceGroup {
 
     @Override
     public Long getNo() {
-        return no;
-    }
-
-    @Override
-    public void setNo(Long no) {
-        this.no = no;
+        this.checkLatestAssignment();
+        if (this.latestAssignment != null) {
+            return this.latestAssignment.getGroupNo();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -151,11 +149,11 @@ public class ServiceGroupImpl implements ServiceGroup {
 
     @Override
     public String getCaption() {
-        Preacher overseer = this.getOverseer();
-        if (overseer instanceof Preacher) {
-            return this.getCaption(overseer);
+        this.checkLatestAssignment();
+        if (this.latestAssignment instanceof OverseerAssignment) {
+            return this.getCaption(this.latestAssignment);
         } else {
-            return Long.toString(this.no);
+            return "ID: "+this.getId();
         }
     }
 
@@ -183,18 +181,26 @@ public class ServiceGroupImpl implements ServiceGroup {
 
     @Override
     public Preacher getOverseer() {
-        if(!this.overseerChecked) {
-            if (this.overseerAssignments != null && this.overseerAssignments.size() > 0) {
-                this.overseer = this.overseerAssignments.last().getPreacher();
-            } 
-            this.overseerChecked = true;
+        this.checkLatestAssignment();
+        if (this.latestAssignment != null) {
+            return this.latestAssignment.getPreacher();
+        } else {
+            return null;
         }
-        return this.overseer;
+    }
+
+    private void checkLatestAssignment() {
+        if (!this.latestAssignmentChecked) {
+            if (this.overseerAssignments != null && this.overseerAssignments.size() > 0) {
+                this.latestAssignment = this.overseerAssignments.last();
+            }
+            this.latestAssignmentChecked = true;
+        }
     }
 
     @Override
-    public String getCaption(Preacher preacher) {
-        return this.no + " (" + preacher + ")";
+    public String getCaption(OverseerAssignment assignment) {
+        return t("ca.service_group") + assignment.getGroupNo() + " (" + assignment.getPreacher() + ")";
     }
 
 }
