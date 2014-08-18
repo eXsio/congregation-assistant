@@ -36,13 +36,14 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 
 /**
  *
  * @author exsio
  */
-public class AssignmentsDataTable extends DataTable<OverseerAssignment, Form> implements DataTable.EntityCreationListener<OverseerAssignment>, DataTable.EntityUpdateListener<OverseerAssignment>, DataTable.EntityDeletionListener<OverseerAssignment> {
+public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form> {
 
     public static final String TRANSLATION_PREFIX = "ca.ov_assignments.";
 
@@ -71,8 +72,8 @@ public class AssignmentsDataTable extends DataTable<OverseerAssignment, Form> im
     }
 
     @Override
-    protected JPAContainer<OverseerAssignment> createJPAContainer() {
-        JPAContainer<OverseerAssignment> container = super.createJPAContainer();
+    protected JPAContainer<OverseerAssignment> createContainer() {
+        JPAContainer<OverseerAssignment> container = super.createContainer();
         container.addContainerFilter(eq("group", this.group));
         container.sort(new Object[]{"date"}, new boolean[]{false});
         return container;

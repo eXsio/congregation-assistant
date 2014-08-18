@@ -26,13 +26,15 @@ import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.security.entity.factory.SecurityEntityFactory;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.TabbedForm;
 
 /**
  *
  * @author exsio
  */
-public class PreachersDataTable extends DataTable<Preacher, TabbedForm> {
+public class PreachersDataTable extends JPADataTable<Preacher, TabbedForm> {
 
     public static final String TRANSLATION_PREFIX = "ca.preachers.";
 

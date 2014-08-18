@@ -39,12 +39,14 @@ import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 
 /**
  *
  * @author exsio
  */
-public class FilesDataTable extends DataTable<TerrainFile, Form> implements DataTable.EntityCreationListener<TerrainFile> {
+public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     
     public static final String TRANSLATION_PREFIX = "ca.tr_files.";
     
@@ -80,8 +82,8 @@ public class FilesDataTable extends DataTable<TerrainFile, Form> implements Data
     }
     
     @Override
-    protected JPAContainer<TerrainFile> createJPAContainer() {
-        JPAContainer<TerrainFile> container = super.createJPAContainer();
+    protected JPAContainer<TerrainFile> createContainer() {
+        JPAContainer<TerrainFile> container = super.createContainer();
         container.addContainerFilter(eq("terrain", this.terrain));
         container.sort(new Object[]{"createdAt"}, new boolean[]{false});
         return container;

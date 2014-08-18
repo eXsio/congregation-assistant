@@ -24,13 +24,14 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 
 /**
  *
  * @author exsio
  */
-public class NotesDataTable extends DataTable<TerrainNote, Form> implements DataTable.EntityCreationListener<TerrainNote> {
+public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
 
     public static final String TRANSLATION_PREFIX = "ca.tr_notes.";
 
@@ -57,8 +58,8 @@ public class NotesDataTable extends DataTable<TerrainNote, Form> implements Data
     }
 
     @Override
-    protected JPAContainer<TerrainNote> createJPAContainer() {
-        JPAContainer<TerrainNote> container = super.createJPAContainer();
+    protected JPAContainer<TerrainNote> createContainer() {
+        JPAContainer<TerrainNote> container = super.createContainer();
         container.addContainerFilter(eq("terrain", this.terrain));
         container.sort(new Object[]{"createdAt"}, new boolean[]{false});
         return container;
@@ -111,7 +112,7 @@ public class NotesDataTable extends DataTable<TerrainNote, Form> implements Data
         formLayout.addComponent(form);
         return formLayout;
     }
-    
+
     @Override
     protected boolean canOpenItem(EntityItem<? extends TerrainNote> item) {
         return true;

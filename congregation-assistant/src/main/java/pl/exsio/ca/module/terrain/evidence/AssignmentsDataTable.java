@@ -37,13 +37,14 @@ import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 
 /**
  *
  * @author exsio
  */
-public class AssignmentsDataTable extends DataTable<TerrainAssignment, Form> implements DataTable.EntityCreationListener<TerrainAssignment>, DataTable.EntityUpdateListener<TerrainAssignment>, DataTable.EntityDeletionListener<TerrainAssignment> {
+public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> {
 
     public static final String TRANSLATION_PREFIX = "ca.tr_assignments.";
 
@@ -73,8 +74,8 @@ public class AssignmentsDataTable extends DataTable<TerrainAssignment, Form> imp
     }
 
     @Override
-    protected JPAContainer<TerrainAssignment> createJPAContainer() {
-        JPAContainer<TerrainAssignment> container = super.createJPAContainer();
+    protected JPAContainer<TerrainAssignment> createContainer() {
+        JPAContainer<TerrainAssignment> container = super.createContainer();
         container.addContainerFilter(eq("terrain", this.terrain));
         container.sort(new Object[]{"startDate"}, new boolean[]{false});
         return container;

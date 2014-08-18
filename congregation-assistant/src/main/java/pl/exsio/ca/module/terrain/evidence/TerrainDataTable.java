@@ -6,7 +6,6 @@
 package pl.exsio.ca.module.terrain.evidence;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
@@ -58,13 +57,15 @@ import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.TabbedForm;
 
 /**
  *
  * @author exsio
  */
-public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
+public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
 
     public static final String TRANSLATION_PREFIX = "ca.terrains.";
 
@@ -119,8 +120,8 @@ public class TerrainDataTable extends DataTable<Terrain, TabbedForm> {
     }
 
     @Override
-    protected JPAContainer<Terrain> createJPAContainer() {
-        JPAContainer<Terrain> container = super.createJPAContainer();
+    protected JPAContainer<Terrain> createContainer() {
+        JPAContainer<Terrain> container = super.createContainer();
         container.sort(new Object[]{"lastNotificationDate"}, new boolean[]{true});
         return container;
     }

@@ -26,7 +26,6 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
@@ -41,13 +40,14 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 
 /**
  *
  * @author exsio
  */
-public class NotificationsDataTable extends DataTable<TerrainNotification, Form> implements DataTable.EntityCreationListener, DataTable.EntityUpdateListener, DataTable.EntityDeletionListener {
+public class NotificationsDataTable extends JPADataTable<TerrainNotification, Form> {
 
     public static final String TRANSLATION_PREFIX = "ca.notifications.";
 
@@ -78,8 +78,8 @@ public class NotificationsDataTable extends DataTable<TerrainNotification, Form>
     }
 
     @Override
-    protected JPAContainer<TerrainNotification> createJPAContainer() {
-        JPAContainer<TerrainNotification> container = super.createJPAContainer();
+    protected JPAContainer<TerrainNotification> createContainer() {
+        JPAContainer<TerrainNotification> container = super.createContainer();
         container.addContainerFilter(joinFilter("assignment", new Filter[]{eq("terrain", this.terrain)}));
         container.sort(new Object[]{"date"}, new boolean[]{false});
         return container;

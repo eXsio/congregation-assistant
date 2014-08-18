@@ -28,13 +28,14 @@ import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 
 /**
  *
  * @author exsio
  */
-public class PriviledgesDataTable extends DataTable<PreacherPriviledge, Form> implements DataTable.EntityCreationListener<PreacherPriviledge> {
+public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form> {
 
     public static final String TRANSLATION_PREFIX = "ca.priviledges.";
 
@@ -59,8 +60,8 @@ public class PriviledgesDataTable extends DataTable<PreacherPriviledge, Form> im
     }
 
     @Override
-    protected JPAContainer<PreacherPriviledge> createJPAContainer() {
-        JPAContainer<PreacherPriviledge> container = super.createJPAContainer();
+    protected JPAContainer<PreacherPriviledge> createContainer() {
+        JPAContainer<PreacherPriviledge> container = super.createContainer();
         container.addContainerFilter(eq("preacher", this.preacher));
         return container;
     }

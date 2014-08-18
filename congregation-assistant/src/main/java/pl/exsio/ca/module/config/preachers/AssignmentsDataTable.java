@@ -34,13 +34,14 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 
 /**
  *
  * @author exsio
  */
-public class AssignmentsDataTable extends DataTable<PreacherAssignment, Form> implements DataTable.EntityCreationListener<PreacherAssignment>, DataTable.EntityUpdateListener<PreacherAssignment>, DataTable.EntityDeletionListener<PreacherAssignment> {
+public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form> {
 
     public static final String TRANSLATION_PREFIX = "ca.pr_assignments.";
 
@@ -68,8 +69,8 @@ public class AssignmentsDataTable extends DataTable<PreacherAssignment, Form> im
     }
 
     @Override
-    protected JPAContainer<PreacherAssignment> createJPAContainer() {
-        JPAContainer<PreacherAssignment> container = super.createJPAContainer();
+    protected JPAContainer<PreacherAssignment> createContainer() {
+        JPAContainer<PreacherAssignment> container = super.createContainer();
         container.addContainerFilter(eq("preacher", this.preacher));
         container.sort(new Object[]{"date"}, new boolean[]{false});
         return container;
