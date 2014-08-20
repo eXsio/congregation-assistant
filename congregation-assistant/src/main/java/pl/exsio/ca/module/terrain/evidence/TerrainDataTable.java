@@ -167,8 +167,10 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         Button printCards = this.getPrintCardsButton(types, groups, date);
 
         this.handleFilterActions(types, groups, date);
-
-        controls.addComponent(quickNotification);
+        if(this.security.canWrite()) {
+            controls.addComponent(quickNotification);
+            controls.setComponentAlignment(quickNotification, Alignment.MIDDLE_CENTER);
+        }
         controls.addComponent(printCards);
         controls.addComponent(types);
         controls.addComponent(groups);
@@ -176,7 +178,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         controls.setComponentAlignment(addButton, Alignment.MIDDLE_CENTER);
         controls.setComponentAlignment(editButton, Alignment.MIDDLE_CENTER);
         controls.setComponentAlignment(deleteButton, Alignment.MIDDLE_CENTER);
-        controls.setComponentAlignment(quickNotification, Alignment.MIDDLE_CENTER);
+        
         controls.setComponentAlignment(printCards, Alignment.MIDDLE_CENTER);
 
         return controls;
@@ -383,6 +385,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
                     QuickNotifyWindow window = new QuickNotifyWindow(selectedTerrains, (JPAContainer<Terrain>) table.getContainerDataSource());
                     window.setCaEntities(caEntities);
                     window.setCaRepositories(caRepositories);
+                    window.setCaEntityProviders(caEntityProviders);
                     getUI().addWindow(window.init());
                 } else {
                     Notification.show(TRANSLATION_PREFIX + "select_terrain", Notification.Type.ERROR_MESSAGE);

@@ -6,9 +6,20 @@
 package pl.exsio.ca.module.terrain.evidence;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import static com.vaadin.addon.jpacontainer.filter.Filters.and;
+import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
+import static com.vaadin.addon.jpacontainer.filter.Filters.gteq;
+import static com.vaadin.addon.jpacontainer.filter.Filters.lteq;
+import com.vaadin.data.Container;
+import com.vaadin.data.Property;
+import com.vaadin.data.util.filter.UnsupportedFilterException;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -21,6 +32,7 @@ import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
+import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.vaadin.component.InitializableWindow;
@@ -39,6 +51,8 @@ public class QuickNotifyWindow extends InitializableWindow {
 
     protected CaRepositoryProvider caRepositories;
 
+    protected CaEntityProviderProvider caEntityProviders;
+
     protected final JPAContainer<Terrain> terrainsContainer;
 
     public QuickNotifyWindow(Set<Terrain> terrainsToNotify, JPAContainer<Terrain> terrainsContainer) {
@@ -49,30 +63,17 @@ public class QuickNotifyWindow extends InitializableWindow {
 
     @Override
     protected void doInit() {
-        this.setHeight("200px");
-        this.setWidth("250px");
-        final DateField date = new DateField("");
-        date.setDateFormat("yyyy-MM-dd");
-        date.setResolution(Resolution.DAY);
+        this.setHeight("240px");
+        this.setWidth("280px");
 
-        Button save = new Button("", FontAwesome.FLOPPY_O);
-        Button cancel = new Button("", FontAwesome.TIMES);
+        final DateField date = this.getDateField();
+        final ComboBox event = this.getEventField();
 
-        save.addClickListener(new Button.ClickListener() {
+        this.filterEvents(event, date.getValue());
+        this.handleDateSelection(date, event);
 
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                save(date.getValue());
-            }
-        });
-
-        cancel.addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                close();
-            }
-        });
+        Button save = getSaveButton(date, event);
+        Button cancel = getCancelButton();
 
         VerticalLayout layout = new VerticalLayout();
         layout.setSizeFull();
@@ -84,6 +85,7 @@ public class QuickNotifyWindow extends InitializableWindow {
 
         layout.setSpacing(true);
         layout.addComponent(date);
+        layout.addComponent(event);
         layout.setMargin(true);
         layout.addComponent(controls);
         this.setModal(true);
@@ -93,7 +95,69 @@ public class QuickNotifyWindow extends InitializableWindow {
 
     }
 
-    protected void save(Date date) {
+    private Button getCancelButton() {
+        Button cancel = new Button("", FontAwesome.TIMES);
+        cancel.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                close();
+            }
+        });
+        return cancel;
+    }
+
+    private Button getSaveButton(final DateField date, final ComboBox event) {
+        Button save = new Button("", FontAwesome.FLOPPY_O);
+        save.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent e) {
+                save(date.getValue(), (pl.exsio.ca.model.Event) event.getConvertedValue());
+            }
+        });
+        return save;
+    }
+
+    private void handleDateSelection(DateField date, final ComboBox event) {
+        date.addValueChangeListener(new Property.ValueChangeListener() {
+
+            @Override
+            public void valueChange(Property.ValueChangeEvent e) {
+                filterEvents(event, (Date) e.getProperty().getValue());
+            }
+        });
+    }
+
+    private DateField getDateField() {
+        final DateField date = new DateField("");
+        date.setDateFormat("yyyy-MM-dd");
+        date.setResolution(Resolution.DAY);
+        return date;
+    }
+
+    private ComboBox getEventField() {
+        JPAContainer<? extends pl.exsio.ca.model.Event> events = JPAContainerFactory.make(this.caEntities.getEventClass(), this.caEntityProviders.getEventEntityProvider().getEntityManager());
+        events.setEntityProvider(this.caEntityProviders.getEventEntityProvider());
+        events.sort(new Object[]{"startDate"}, new boolean[]{false});
+        ComboBox event = new ComboBox("", events);
+        event.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        event.setItemCaptionPropertyId("name");
+        event.setConverter(new SingleSelectConverter(event));
+        return event;
+    }
+
+    private void filterEvents(ComboBox event, Date date) throws UnsupportedFilterException {
+        JPAContainer<pl.exsio.ca.model.Event> container = (JPAContainer<pl.exsio.ca.model.Event>) event.getContainerDataSource();
+        container.removeAllContainerFilters();
+        if (date != null) {
+            container.addContainerFilter(and(new Container.Filter[]{lteq("startDate", date), gteq("endDate", date)}));
+        } else {
+            container.addContainerFilter(eq("id", -1));
+        }
+    }
+
+    protected void save(Date date, pl.exsio.ca.model.Event event) {
         Set<Terrain> wrongDates = new HashSet();
         for (Terrain terrain : this.terrainsToNotify) {
 
@@ -102,6 +166,7 @@ public class QuickNotifyWindow extends InitializableWindow {
                 TerrainNotification notification = this.caEntities.newTerrainNotification();
                 notification.setAssignment(assignments.get(0));
                 notification.setDate(date);
+                notification.setEvent(event);
                 this.caRepositories.getTerrainNotificationRepository().save(notification);
                 this.updateLastNotificationDate(terrain);
             } else {
@@ -124,6 +189,10 @@ public class QuickNotifyWindow extends InitializableWindow {
 
     public void setCaRepositories(CaRepositoryProvider caRepositories) {
         this.caRepositories = caRepositories;
+    }
+
+    public void setCaEntityProviders(CaEntityProviderProvider caEntityProviders) {
+        this.caEntityProviders = caEntityProviders;
     }
 
     protected void updateLastNotificationDate(Terrain terrain) {

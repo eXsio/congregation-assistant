@@ -10,6 +10,7 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.validator.NullValidator;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
@@ -85,7 +86,9 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
         Validator notNull = new NullValidator(t("ca.events.not_null"), false);
         form.getField("name").addValidator(notNull);
         form.getField("startDate").addValidator(notNull);
+        ((DateField)form.getField("startDate")).setDateFormat("yyyy-MM-dd");
         form.getField("endDate").addValidator(notNull);
+        ((DateField)form.getField("endDate")).setDateFormat("yyyy-MM-dd");
         return formLayout;
     }
 
