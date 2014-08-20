@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.model.repository.provider;
 
+import pl.exsio.ca.model.dao.EventDao;
 import pl.exsio.ca.model.dao.OverseerAssignmentDao;
 import pl.exsio.ca.model.dao.PreacherAssignmentDao;
 import pl.exsio.ca.model.dao.PreacherDao;
@@ -41,6 +42,8 @@ public class CaRepositoryProviderImpl implements CaRepositoryProvider {
     protected TerrainNotificationDao terrainNotificationRepository;
 
     protected TerrainNoteDao terrainNoteRepository;
+
+    protected EventDao eventRepository;
 
     @Override
     public PreacherDao getPreacherRepository() {
@@ -130,6 +133,15 @@ public class CaRepositoryProviderImpl implements CaRepositoryProvider {
 
     public void setOverseerAssignmentRepository(OverseerAssignmentDao overseerAssignmentRepository) {
         this.overseerAssignmentRepository = overseerAssignmentRepository;
+    }
+
+    @Override
+    public EventDao getEventRepository() {
+        return eventRepository;
+    }
+
+    public void setEventRepository(EventDao eventRepository) {
+        this.eventRepository = eventRepository;
     }
 
 }

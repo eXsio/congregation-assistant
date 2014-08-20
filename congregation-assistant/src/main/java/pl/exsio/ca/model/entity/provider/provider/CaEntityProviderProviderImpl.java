@@ -33,6 +33,8 @@ public class CaEntityProviderProviderImpl implements CaEntityProviderProvider {
 
     private EntityProvider terrainNotificationEntityProvider;
 
+    private EntityProvider eventEntityProvider;
+
     @Override
     public EntityProvider getPreacherAssignmentEntityProvider() {
         return preacherAssignmentEntityProvider;
@@ -121,6 +123,15 @@ public class CaEntityProviderProviderImpl implements CaEntityProviderProvider {
 
     public void setOverseerAssignmentEntityProvider(EntityProvider overseerAssignmentEntityProvider) {
         this.overseerAssignmentEntityProvider = overseerAssignmentEntityProvider;
+    }
+
+    @Override
+    public EntityProvider getEventEntityProvider() {
+        return eventEntityProvider;
+    }
+
+    public void setEventEntityProvider(EntityProvider eventEntityProvider) {
+        this.eventEntityProvider = eventEntityProvider;
     }
 
 }

@@ -235,9 +235,8 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         NotificationsDataTable table = new NotificationsDataTable(this.security);
         table.setCaEntities(this.caEntities);
         table.setCaRepositories(this.caRepositories);
-        table.setServiceGroupEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
+        table.setCaEntityProviders(this.caEntityProviders);
         table.setEntityProvider(this.caEntityProviders.getTerrainNotificationEntityProvider());
-        table.setTerrainAssignmentEntityProvider(this.caEntityProviders.getTerrainAssignmentEntityProvider());
         table.setTerrain(item.getEntity());
         table.setApplicationEventPublisher(this.aep);
         return table.init();

@@ -156,10 +156,12 @@ ca.notifications.invalid_date: Zgłoszenie musi mieć prawidłową datę (zgodn�
 pl.exsio.ca.model.entity.TerrainNotificationImpl.assignment: Przypisanie terenu do grupy
 pl.exsio.ca.model.entity.TerrainNotificationImpl.date: Data opracowania
 pl.exsio.ca.model.entity.TerrainNotificationImpl.override_group: Delegacja do grupy
+pl.exsio.ca.model.entity.TerrainNotificationImpl.event: Powiązane wydarzenie
 pl.exsio.ca.model.entity.TerrainNotificationImpl.comment: Komentarz
 terrain.assignment: Przypisanie terenu do grupy
 terrain.notification_date: Data opracowania
 terrain.override_group: Delegacja do grupy
+terrain.event: Powiązane wydarzenie
 terrain.notification_comment: Komentarz
 terrain.current_group: Obecna grupa
 ca.terrains.terrains: Tereny zboru
@@ -231,3 +233,19 @@ overseer.group_no: Nr grupy
 ca.groups.groups: Grupy Służby
 pl.exsio.ca.model.entity.OverseerAssignmentImpl.date: Data przydziału
 ca.service_group: "Gr. nr "
+pl.exsio.ca.model.entity.EventImpl.name: Nazwa
+pl.exsio.ca.model.entity.EventImpl.startDate: Data ropoczęcia
+pl.exsio.ca.model.entity.EventImpl.endDate: Data zakończenia
+event.name: Nazwa
+event.start_date: Data rozpoczęcia
+event.end_date: Data zakończenia
+ca.events.button.create: ""
+ca.events.created: Dodano nowe wydarzenia
+ca.events.window.create: Dodawanie wydarzenia
+ca.events.button.delete: ""
+ca.events.msg.deleted: Wydarzenie zostało usunięte
+ca.events.confirmation.delete: Czy napewno chcesz usunąc to wydarzenie?
+ca.events.button.edit: ""
+ca.events.msg.edited: Wydarzenie została zaktualizowana
+ca.events.window.edit: Edycja wydarzenia
+ca.events.not_null: Ta wartość nie może być pusta

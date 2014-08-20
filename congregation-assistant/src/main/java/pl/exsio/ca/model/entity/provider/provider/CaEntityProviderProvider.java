@@ -33,4 +33,6 @@ public interface CaEntityProviderProvider {
     EntityProvider getTerrainNoteEntityProvider();
     
     EntityProvider getTerrainNotificationEntityProvider();
+    
+    EntityProvider getEventEntityProvider();
 }

@@ -6,6 +6,7 @@
 
 package pl.exsio.ca.model.entity.factory;
 
+import pl.exsio.ca.model.Event;
 import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.PreacherAssignment;
@@ -43,6 +44,8 @@ public interface CaEntityFactory {
     
     <T extends TerrainNote> T newTerrainNote();
     
+    <T extends Event> T newEvent();
+    
     <T extends Preacher> Class<T> getPreacherClass();
     
     <T extends PreacherAssignment> Class<T> getPreacherAssignmentClass();
@@ -62,4 +65,6 @@ public interface CaEntityFactory {
     <T extends TerrainNote> Class<T> getTerrainNoteClass();
     
     <T extends TerrainFile> Class<T> getTerrainFileClass();
+    
+    <T extends Event> Class<T> getEventClass();
 }

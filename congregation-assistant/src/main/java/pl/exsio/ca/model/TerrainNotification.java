@@ -38,4 +38,8 @@ public interface TerrainNotification extends Serializable, Comparable<TerrainNot
     void setOverrideGroup(ServiceGroup group);
     
     ServiceGroup getOverrideGroup();
+    
+    void setEvent(Event event);
+    
+    Event getEvent();
 }

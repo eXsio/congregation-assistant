@@ -19,6 +19,7 @@
     <bean id="terrainFileEntityProvider" class="pl.exsio.ca.model.entity.provider.TerrainFileEntityProvider" />
     <bean id="terrainNotificationEntityProvider" class="pl.exsio.ca.model.entity.provider.TerrainNotificationEntityProvider" />
     <bean id="terrainNoteEntityProvider" class="pl.exsio.ca.model.entity.provider.TerrainNoteEntityProvider" />
+    <bean id="eventEntityProvider" class="pl.exsio.ca.model.entity.provider.EventEntityProvider" />
     
     <bean id="caEntityFactory" class="pl.exsio.ca.model.entity.factory.CaEntityFactoryImpl" >
     </bean>
@@ -34,6 +35,7 @@
         <property name="terrainNotificationRepository" ref="terrainNotificationRepository" />
         <property name="terrainRepository" ref="terrainRepository" />
         <property name="terrainNoteRepository" ref="terrainNoteRepository" />
+        <property name="eventRepository" ref="eventRepository" />
     </bean>
     
     <bean id="caEntityProviderProvider" class="pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProviderImpl" >
@@ -47,6 +49,7 @@
         <property name="terrainFileEntityProvider" ref="terrainFileEntityProvider" />
         <property name="terrainNoteEntityProvider" ref="terrainNoteEntityProvider" />
         <property name="terrainNotificationEntityProvider" ref="terrainNotificationEntityProvider" />
+        <property name="eventEntityProvider" ref="eventEntityProvider" />
     </bean>
   
 </beans>

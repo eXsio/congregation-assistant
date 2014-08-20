@@ -351,9 +351,11 @@ CREATE TABLE IF NOT EXISTS `ca_terrain_notifications` (
   `date` date NOT NULL,
   `terrain_assignment_id` bigint(20) NOT NULL,
   `override_group_id` bigint(20) DEFAULT NULL,
+  `event_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_eml25xy4koa1rbb8068xrilqo` (`terrain_assignment_id`),
-  KEY `FK_77f251bm1cs1qlrfw49ov2om8` (`override_group_id`)
+  KEY `FK_77f251bm1cs1qlrfw49ov2om8` (`override_group_id`),
+  KEY `FK_77f251bm1cs1qlrfw49ov2333` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -621,6 +623,7 @@ ALTER TABLE `ca_terrain_notes`
 --
 ALTER TABLE `ca_terrain_notifications`
   ADD CONSTRAINT `FK_77f251bm1cs1qlrfw49ov2om8` FOREIGN KEY (`override_group_id`) REFERENCES `ca_service_groups` (`id`),
+  ADD CONSTRAINT `FK_77f251bm1cs1qlrfw49ov2333` FOREIGN KEY (`event_id`) REFERENCES `ca_events` (`id`),
   ADD CONSTRAINT `FK_eml25xy4koa1rbb8068xrilqo` FOREIGN KEY (`terrain_assignment_id`) REFERENCES `ca_terrain_assignments` (`id`);
 
 --
@@ -686,3 +689,13 @@ CREATE TABLE IF NOT EXISTS `ca_overseer_assignments` (
 ALTER TABLE `ca_overseer_assignments`
   ADD CONSTRAINT `FK_qs8gbwnh7kl82snok4lm28222` FOREIGN KEY (`preacher_id`) REFERENCES `ca_preachers` (`id`),
   ADD CONSTRAINT `FK_obg27dmq08kovbjbfumr4v111` FOREIGN KEY (`group_id`) REFERENCES `ca_service_groups` (`id`);
+
+CREATE TABLE IF NOT EXISTS `ca_events` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` date NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `event_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;

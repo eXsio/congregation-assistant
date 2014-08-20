@@ -14,15 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import pl.exsio.ca.model.Event;
-import pl.exsio.ca.model.ServiceGroup;
-import pl.exsio.ca.model.TerrainAssignment;
-import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
 
 /**
@@ -30,9 +25,9 @@ import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
  * @author exsio
  */
 @Entity
-@Table(name = "ca_terrain_notifications")
+@Table(name = "ca_events")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class TerrainNotificationImpl implements TerrainNotification {
+public class EventImpl implements Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,24 +40,16 @@ public class TerrainNotificationImpl implements TerrainNotification {
     @Column(name = "created_by", nullable = false, updatable = false)
     protected String createdBy;
 
-    @Column(name = "date", nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
-    protected Date date;
+    @Column(name = "start_date", nullable = false)
+    protected Date startDate;
 
-    @Column(name = "comment")
-    protected String comment;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = "end_date", nullable = false)
+    protected Date endDate;
 
-    @ManyToOne(targetEntity = TerrainAssignmentImpl.class)
-    @JoinColumn(name = "terrain_assignment_id", nullable = false)
-    protected TerrainAssignment assignment;
-
-    @ManyToOne(targetEntity = ServiceGroupImpl.class)
-    @JoinColumn(name = "override_group_id", nullable = true)
-    protected ServiceGroup overrideGroup;
-
-    @ManyToOne(targetEntity = EventImpl.class)
-    @JoinColumn(name = "event_id", nullable = true)
-    protected Event event;
+    @Column(name = "event_name", nullable = false)
+    protected String name;
 
     @PrePersist
     public void prePersist() {
@@ -86,69 +73,39 @@ public class TerrainNotificationImpl implements TerrainNotification {
     }
 
     @Override
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
     @Override
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     @Override
-    public String getComment() {
-        return comment;
+    public Date getEndDate() {
+        return endDate;
     }
 
     @Override
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     @Override
-    public TerrainAssignment getAssignment() {
-        return assignment;
+    public String getName() {
+        return name;
     }
 
     @Override
-    public void setAssignment(TerrainAssignment assignment) {
-        this.assignment = assignment;
-    }
-
-    @Override
-    public ServiceGroup getOverrideGroup() {
-        return overrideGroup;
-    }
-
-    @Override
-    public void setOverrideGroup(ServiceGroup overrideGroup) {
-        this.overrideGroup = overrideGroup;
-    }
-
-    @Override
-    public boolean isOverriden() {
-        return this.overrideGroup instanceof ServiceGroup;
-    }
-
-    @Override
-    public Event getEvent() {
-        return event;
-    }
-
-    @Override
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    @Override
-    public int compareTo(TerrainNotification o) {
-        return this.getDate().compareTo(o.getDate());
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -160,11 +117,16 @@ public class TerrainNotificationImpl implements TerrainNotification {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TerrainNotificationImpl other = (TerrainNotificationImpl) obj;
+        final EventImpl other = (EventImpl) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 
 }

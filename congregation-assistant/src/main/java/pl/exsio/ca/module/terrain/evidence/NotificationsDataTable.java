@@ -6,14 +6,17 @@
 package pl.exsio.ca.module.terrain.evidence;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
+import static com.vaadin.addon.jpacontainer.filter.Filters.and;
+import static com.vaadin.addon.jpacontainer.filter.Filters.lteq;
+import static com.vaadin.addon.jpacontainer.filter.Filters.gteq;
 import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
 import static com.vaadin.addon.jpacontainer.filter.Filters.joinFilter;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.util.filter.UnsupportedFilterException;
@@ -37,6 +40,7 @@ import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
+import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
@@ -57,9 +61,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
 
     protected Terrain terrain;
 
-    protected EntityProvider serviceGroupEntityProvider;
-
-    protected EntityProvider terrainAssignmentEntityProvider;
+    protected CaEntityProviderProvider caEntityProviders;
 
     @Override
     protected void doInit() {
@@ -91,8 +93,8 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
                 setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
                 setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
                 setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
-                setColumnHeaders(new String[]{"terrain.notification_date", "terrain.assignment",  "terrain.override_group", "terrain.notification_comment", "id"});
-                setVisibleColumns(new String[]{"date", "assignment",  "overrideGroup", "comment", "id"});
+                setColumnHeaders(new String[]{"terrain.notification_date", "terrain.assignment", "terrain.override_group", "terrain.event", "terrain.notification_comment", "id"});
+                setVisibleColumns(new String[]{"date", "assignment", "overrideGroup", "event", "comment", "id"});
                 setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
                 setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
                 setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
@@ -113,21 +115,27 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         VerticalLayout formLayout = new VerticalLayout();
 
         final ComboBox assignment = this.getAssignmentField(item);
-        form.addField("assignment", assignment);
         final DateField date = this.getDateField(item);
-        this.handleDateSelection(date, assignment);
+        final ComboBox event = this.getEventField(item);
+
+        this.handleDateSelection(date, assignment, event);
         this.handleAssignmentSelectionChange(assignment, date);
+
+        form.addField("assignment", assignment);
         form.addField("date", date);
         form.addField("overrideGroup", this.getOverrideGroupField(item));
+        form.addField("event", event);
         form.addField("comment", this.getCommentField(item));
 
         form.setBuffered(true);
         form.setEnabled(true);
 
         formLayout.addComponent(form);
+        this.filterEvents(event, date.getValue());
+
         return formLayout;
     }
-    
+
     @Override
     protected boolean canOpenItem(EntityItem<? extends TerrainNotification> item) {
         return true;
@@ -143,7 +151,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         });
     }
 
-    private void handleDateSelection(DateField date, final ComboBox assignment) {
+    private void handleDateSelection(DateField date, final ComboBox assignment, final ComboBox event) {
         date.addValidator(new AbstractValidator<Date>(t(TRANSLATION_PREFIX + "invalid_date")) {
 
             @Override
@@ -167,6 +175,25 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
             }
 
         });
+
+        date.addValueChangeListener(new ValueChangeListener() {
+
+            @Override
+            public void valueChange(Property.ValueChangeEvent e) {
+                filterEvents(event, (Date) e.getProperty().getValue());
+            }
+
+        });
+    }
+
+    private void filterEvents(ComboBox event, Date date) throws UnsupportedFilterException {
+        JPAContainer<pl.exsio.ca.model.Event> container = (JPAContainer<pl.exsio.ca.model.Event>) event.getContainerDataSource();
+        container.removeAllContainerFilters();
+        if(date != null) {
+            container.addContainerFilter(and(new Filter[]{lteq("startDate", date), gteq("endDate", date)}));
+        } else {
+            container.addContainerFilter(eq("id", -1));
+        }
     }
 
     private TextArea getCommentField(EntityItem<? extends TerrainNotification> item) {
@@ -186,8 +213,8 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     private ComboBox getOverrideGroupField(EntityItem<? extends TerrainNotification> item) {
-        JPAContainer<? extends ServiceGroup> groups = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.serviceGroupEntityProvider.getEntityManager());
-        groups.setEntityProvider(this.serviceGroupEntityProvider);
+        JPAContainer<? extends ServiceGroup> groups = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.caEntityProviders.getServiceGroupEntityProvider().getEntityManager());
+        groups.setEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
         ComboBox overrideGroup = new ComboBox(t(this.caEntities.getTerrainNotificationClass().getCanonicalName() + ".override_group"), groups);
         overrideGroup.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         overrideGroup.setItemCaptionPropertyId("caption");
@@ -196,9 +223,21 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         return overrideGroup;
     }
 
+    private ComboBox getEventField(EntityItem<? extends TerrainNotification> item) {
+        JPAContainer<? extends pl.exsio.ca.model.Event> events = JPAContainerFactory.make(this.caEntities.getEventClass(), this.caEntityProviders.getEventEntityProvider().getEntityManager());
+        events.setEntityProvider(this.caEntityProviders.getEventEntityProvider());
+        events.sort(new Object[]{"startDate"}, new boolean[]{false});
+        ComboBox event = new ComboBox(t(this.caEntities.getTerrainNotificationClass().getCanonicalName() + ".event"), events);
+        event.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        event.setItemCaptionPropertyId("name");
+        event.setPropertyDataSource(item.getItemProperty("event"));
+        event.setConverter(new SingleSelectConverter(event));
+        return event;
+    }
+
     private ComboBox getAssignmentField(EntityItem<? extends TerrainNotification> item) throws Property.ReadOnlyException, UnsupportedFilterException {
-        JPAContainer<? extends TerrainAssignment> assignments = JPAContainerFactory.make(this.caEntities.getTerrainAssignmentClass(), this.terrainAssignmentEntityProvider.getEntityManager());
-        assignments.setEntityProvider(this.terrainAssignmentEntityProvider);
+        JPAContainer<? extends TerrainAssignment> assignments = JPAContainerFactory.make(this.caEntities.getTerrainAssignmentClass(), this.caEntityProviders.getTerrainAssignmentEntityProvider().getEntityManager());
+        assignments.setEntityProvider(this.caEntityProviders.getTerrainAssignmentEntityProvider());
         assignments.addContainerFilter(eq("terrain", this.terrain));
         ComboBox assignment = new ComboBox(t(this.caEntities.getTerrainNotificationClass().getCanonicalName() + ".assignment"), assignments);
         assignment.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
@@ -233,12 +272,8 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         this.caRepositories = caRepositories;
     }
 
-    public void setServiceGroupEntityProvider(EntityProvider serviceGroupEntityProvider) {
-        this.serviceGroupEntityProvider = serviceGroupEntityProvider;
-    }
-
-    public void setTerrainAssignmentEntityProvider(EntityProvider terrainAssignmentEntityProvider) {
-        this.terrainAssignmentEntityProvider = terrainAssignmentEntityProvider;
+    public void setCaEntityProviders(CaEntityProviderProvider caEntityProviders) {
+        this.caEntityProviders = caEntityProviders;
     }
 
     @Override
@@ -267,17 +302,17 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     public void entityDeleted(EntityItem item, JPAContainer container) {
         this.updateLastNotificationDate();
     }
-    
+
     protected void updateLastNotificationDate() {
         List<TerrainNotification> notifications = (List<TerrainNotification>) this.caRepositories.getTerrainNotificationRepository().findByTerrain(this.terrain);
-  
-        if(!notifications.isEmpty()) {
+
+        if (!notifications.isEmpty()) {
             TerrainNotification notification = notifications.get(0);
             this.terrain.setLastNotificationDate(notification.getDate());
             this.caRepositories.getTerrainRepository().save(this.terrain);
         } else {
-           this.terrain.setLastNotificationDate(null);
-           this.caRepositories.getTerrainRepository().save(this.terrain);
+            this.terrain.setLastNotificationDate(null);
+            this.caRepositories.getTerrainRepository().save(this.terrain);
         }
     }
 

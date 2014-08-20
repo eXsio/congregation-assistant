@@ -1,0 +1,105 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.exsio.ca.module.config.events;
+
+import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.data.Validator;
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.util.converter.StringToDateConverter;
+import com.vaadin.data.validator.NullValidator;
+import com.vaadin.ui.Form;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.VerticalLayout;
+import java.text.DateFormat;
+import java.util.Arrays;
+import java.util.Locale;
+import org.springframework.context.ApplicationEventPublisher;
+import pl.exsio.ca.model.entity.factory.CaEntityFactory;
+import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
+import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
+import pl.exsio.frameset.security.context.SecurityContext;
+import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
+import pl.exsio.frameset.vaadin.ui.support.component.AclSubjectDataTable;
+
+/**
+ *
+ * @author exsio
+ */
+public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event, Form> {
+
+    public static final String TRANSLATION_PREFIX = "ca.events.";
+
+    protected CaEntityFactory caEntities;
+
+    protected ApplicationEventPublisher aep;
+
+    protected CaRepositoryProvider caRepositories;
+
+    public EventsDataTable(SecurityContext security) {
+        super(Form.class, new TableConfig() {
+            {
+                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
+                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
+                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
+                setColumnHeaders(new String[]{"event.name", "event.start_date", "event.end_date", "id"});
+                setVisibleColumns(new String[]{"name", "startDate", "endDate", "id"});
+                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
+                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
+                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
+                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
+                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
+                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
+                setTableCaption("");
+            }
+        }, security);
+    }
+
+    @Override
+    protected void doInit() {
+        super.doInit();
+        Converter dateConverter = new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+                return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
+            }
+        };
+        this.table.setConverter("startDate", dateConverter);
+        this.table.setConverter("endDate", dateConverter);
+        this.table.sort(new Object[] { "startDate"}, new boolean[] { false });
+    }
+
+    @Override
+    protected Layout decorateForm(Form form, EntityItem<? extends pl.exsio.ca.model.Event> item, int mode) {
+
+        VerticalLayout formLayout = new VerticalLayout();
+
+        FramesetFieldFactory<? extends pl.exsio.ca.model.Event> ff = new FramesetFieldFactory<>(this.caEntities.getEventClass());
+        form.setFormFieldFactory(ff);
+        form.setItemDataSource(item, Arrays.asList(new String[]{"name", "startDate", "endDate"}));
+        form.setBuffered(true);
+        form.setEnabled(true);
+        formLayout.addComponent(form);
+        Validator notNull = new NullValidator(t("ca.events.not_null"), false);
+        form.getField("name").addValidator(notNull);
+        form.getField("startDate").addValidator(notNull);
+        form.getField("endDate").addValidator(notNull);
+        return formLayout;
+    }
+
+    @Override
+    protected <S extends pl.exsio.ca.model.Event> Class<S> getEntityClass() {
+        return this.caEntities.getEventClass();
+    }
+
+    public void setCaEntities(CaEntityFactory caEntities) {
+        this.caEntities = caEntities;
+    }
+
+    public void setCaRepositories(CaRepositoryProvider caRepositories) {
+        this.caRepositories = caRepositories;
+    }
+
+}
