@@ -249,3 +249,4 @@ ca.events.button.edit: ""
 ca.events.msg.edited: Wydarzenie została zaktualizowana
 ca.events.window.edit: Edycja wydarzenia
 ca.events.not_null: Ta wartość nie może być pusta
+ca.report.pick: Wybierz raport

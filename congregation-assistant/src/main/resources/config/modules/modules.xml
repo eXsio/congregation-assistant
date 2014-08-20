@@ -13,5 +13,5 @@
     <import resource="config/groups.xml" /> 
     <import resource="config/events.xml" /> 
     <import resource="terrain/evidence.xml" /> 
-  
+    <import resource="terrain/report.xml" /> 
 </beans>
