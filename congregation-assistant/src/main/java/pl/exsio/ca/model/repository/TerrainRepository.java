@@ -36,19 +36,19 @@ public interface TerrainRepository extends GenericJpaRepository<TerrainImpl, Lon
 
     @Override
     @Query("from TerrainImpl where lastNotificationDate >= ?1 order by type, no")
-    LinkedHashSet<Terrain> findByDate(Date date);
+    LinkedHashSet<Terrain> findByLastNotificationDate(Date date);
 
     @Override
     @Query("from TerrainImpl where type=?1 and lastNotificationDate >= ?2 order by type, no")
-    LinkedHashSet<Terrain> findByTypeAndDate(TerrainType type, Date date);
+    LinkedHashSet<Terrain> findByTypeAndLastNotificationDate(TerrainType type, Date date);
 
     @Override
     @Query("select t from TerrainImpl t join t.assignments a where a.group = ?1 and a.active = true and t.lastNotificationDate >= ?2 order by t.type, t.no")
-    LinkedHashSet<Terrain> findByGroupAndDate(ServiceGroup group, Date date);
+    LinkedHashSet<Terrain> findByGroupAndLastNotificationDate(ServiceGroup group, Date date);
 
     @Override
     @Query("select t from TerrainImpl t join t.assignments a where a.group = ?2 and a.active = true and t.lastNotificationDate >= ?3 and t.type = ?1 order by t.type, t.no")
-    LinkedHashSet<Terrain> findByTypeAndGroupAndDate(TerrainType type, ServiceGroup group, Date date);
+    LinkedHashSet<Terrain> findByTypeAndGroupAndLastNotificationDate(TerrainType type, ServiceGroup group, Date date);
 
     @Override
     @Query("from TerrainImpl t order by t.type, t.no")

@@ -246,15 +246,15 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         } else if (type != null && group != null && date == null) {
             result = terrains.findByTypeAndGroup(type, group);
         } else if (type != null && group != null && date != null) {
-            result = terrains.findByTypeAndGroupAndDate(type, group, date);
+            result = terrains.findByTypeAndGroupAndLastNotificationDate(type, group, date);
         } else if (type != null && group == null && date != null) {
-            result = terrains.findByTypeAndDate(type, date);
+            result = terrains.findByTypeAndLastNotificationDate(type, date);
         } else if (type == null && group != null && date != null) {
-            result = terrains.findByGroupAndDate(group, date);
+            result = terrains.findByGroupAndLastNotificationDate(group, date);
         } else if (type == null && group != null && date == null) {
             result = terrains.findByGroup(group);
         } else if (type == null && group == null && date != null) {
-            result = terrains.findByDate(date);
+            result = terrains.findByLastNotificationDate(date);
         } else {
             result = terrains.findAllTerrains();
         }
