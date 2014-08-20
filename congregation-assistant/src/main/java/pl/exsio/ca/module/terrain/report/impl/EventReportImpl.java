@@ -137,7 +137,7 @@ public class EventReportImpl extends AbstractReportImpl {
     private IndexedContainer getChartContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
         IndexedContainer container = new IndexedContainer();
         Set<Terrain> reportTerrains = this.getReportTerrains(event, group, type);
-        Set<Terrain> allTerrains = this.getAllTerrains(group, type);
+        Set<Terrain> allTerrains = this.getAllTerrains(event, group, type);
         double allCount = allTerrains.size();
         double reportCount = reportTerrains.size();
         Double reportPercent = reportCount * 100 / allCount;
@@ -228,16 +228,16 @@ public class EventReportImpl extends AbstractReportImpl {
         }
     }
 
-    private Set<Terrain> getAllTerrains(ServiceGroup group, TerrainType type) {
+    private Set<Terrain> getAllTerrains(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) {
         TerrainDao dao = this.caRepositories.getTerrainRepository();
         if (group == null && type == null) {
-            return dao.findAllTerrains();
+            return dao.findByAssignmentDate(event.getStartDate());
         } else if (group != null && type == null) {
-            return dao.findByGroup(group);
+            return dao.findByGroupAndAssignmentDate(group, event.getStartDate());
         } else if (group != null && type != null) {
-            return dao.findByTypeAndGroup(type, group);
+            return dao.findByTypeAndAssignmentGroupAndDate(type, group, event.getStartDate());
         } else if (group == null && type != null) {
-            return dao.findByType(type);
+            return dao.findByTypeAndAssignmentDate(type, event.getStartDate());
         } else {
             return null;
         }

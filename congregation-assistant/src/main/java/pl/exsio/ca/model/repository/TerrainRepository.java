@@ -69,4 +69,20 @@ public interface TerrainRepository extends GenericJpaRepository<TerrainImpl, Lon
     @Override
     @Query("from TerrainImpl t join t.assignments a join a.notifications n where t.type = ?1 and a.group = ?2 and n.event = ?3 order by t.type, t.no")
     LinkedHashSet<Terrain> findByTypeAndGroupAndEvent(TerrainType type, ServiceGroup group, Event event);
+
+    @Override
+    @Query("from TerrainImpl t join t.assignments a where a.startDate <= ?1 and (a.endDate >= ?1 or a.endDate is null) order by t.type, t.no")
+    LinkedHashSet<Terrain> findByAssignmentDate(Date date);
+
+    @Override
+    @Query("from TerrainImpl t join t.assignments a where a.group = ?1 and a.startDate <= ?2 and (a.endDate >= ?2 or a.endDate is null) order by t.type, t.no")
+    LinkedHashSet<Terrain> findByGroupAndAssignmentDate(ServiceGroup group, Date date);
+
+    @Override
+    @Query("from TerrainImpl t join t.assignments a where t.type=?1 and a.group = ?2 and a.startDate <= ?3 and (a.endDate >= ?3 or a.endDate is null) order by t.type, t.no")
+    LinkedHashSet<Terrain> findByTypeAndAssignmentGroupAndDate(TerrainType type, ServiceGroup group, Date date);
+
+    @Override
+    @Query("from TerrainImpl t join t.assignments a where t.type=?1 and a.startDate <= ?2 and (a.endDate >= ?2 or a.endDate is null) order by t.type, t.no")
+    LinkedHashSet<Terrain> findByTypeAndAssignmentDate(TerrainType type, Date date);
 }
