@@ -7,6 +7,7 @@ package pl.exsio.ca.model.dao;
 
 import java.util.Date;
 import java.util.LinkedHashSet;
+import pl.exsio.ca.model.Event;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainType;
@@ -33,4 +34,12 @@ public interface TerrainDao<T extends Terrain> extends GenericDao<T, Long> {
     LinkedHashSet<Terrain> findByTypeAndGroupAndDate(TerrainType type, ServiceGroup group, Date date);
 
     LinkedHashSet<Terrain> findAllTerrains();
+    
+    LinkedHashSet<Terrain> findByEvent(Event event);
+
+    LinkedHashSet<Terrain> findByTypeAndEvent(TerrainType type, Event event);
+
+    LinkedHashSet<Terrain> findByGroupAndEvent(ServiceGroup group, Event event);
+
+    LinkedHashSet<Terrain> findByTypeAndGroupAndEvent(TerrainType type, ServiceGroup group, Event event);
 }

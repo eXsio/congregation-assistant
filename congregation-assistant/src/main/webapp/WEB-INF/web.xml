@@ -47,6 +47,10 @@
             <param-value>applicationUI</param-value>
         </init-param>
         <init-param>
+            <param-name>widgetset</param-name>
+            <param-value>pl.exsio.ca.app.ui.ApplicationWidgetSet</param-value>
+        </init-param>
+        <init-param>
             <param-name>systemMessagesBeanName</param-name>
             <param-value>DEFAULT</param-value>
         </init-param>

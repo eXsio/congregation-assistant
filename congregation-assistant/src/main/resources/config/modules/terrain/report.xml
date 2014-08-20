@@ -22,6 +22,7 @@
     <bean id="caReportRegistry" class="pl.exsio.ca.module.terrain.report.registry.ReportRegistryImpl" scope="ui">
         <property name="reports">
             <set>
+                <bean class="pl.exsio.ca.module.terrain.report.impl.EventReportImpl" parent="abtractReport" />
             </set>
         </property>
     </bean>

@@ -33,6 +33,9 @@ public class CaReportModule extends VerticalModule {
         ComboBox chooser = this.createReportChooser();
         this.addComponent(chooser);
         this.setExpandRatio(chooser, 1);
+        if (!chooser.getItemIds().isEmpty()) {
+            chooser.select(chooser.getItemIds().toArray()[0]);
+        }
     }
 
     protected ComboBox createReportChooser() {
@@ -59,6 +62,7 @@ public class CaReportModule extends VerticalModule {
                 }
             }
         });
+
         return chooser;
     }
 

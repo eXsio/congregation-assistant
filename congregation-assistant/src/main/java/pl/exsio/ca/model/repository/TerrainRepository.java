@@ -8,6 +8,7 @@ package pl.exsio.ca.model.repository;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import org.springframework.data.jpa.repository.Query;
+import pl.exsio.ca.model.Event;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainType;
@@ -50,6 +51,22 @@ public interface TerrainRepository extends GenericJpaRepository<TerrainImpl, Lon
     LinkedHashSet<Terrain> findByTypeAndGroupAndDate(TerrainType type, ServiceGroup group, Date date);
 
     @Override
-    @Query("from TerrainImpl order by type, no")
+    @Query("from TerrainImpl t order by t.type, t.no")
     LinkedHashSet<Terrain> findAllTerrains();
+
+    @Override
+    @Query("from TerrainImpl t join t.assignments a join a.notifications n where n.event = ?1 order by t.type, t.no")
+    LinkedHashSet<Terrain> findByEvent(Event event);
+
+    @Override
+    @Query("from TerrainImpl t join t.assignments a join a.notifications n where t.type = ?1 and n.event = ?2 order by t.type, t.no")
+    LinkedHashSet<Terrain> findByTypeAndEvent(TerrainType type, Event event);
+
+    @Override
+    @Query("from TerrainImpl t join t.assignments a join a.notifications n where a.group = ?1 and n.event = ?2 order by t.type, t.no")
+    LinkedHashSet<Terrain> findByGroupAndEvent(ServiceGroup group, Event event);
+
+    @Override
+    @Query("from TerrainImpl t join t.assignments a join a.notifications n where t.type = ?1 and a.group = ?2 and n.event = ?3 order by t.type, t.no")
+    LinkedHashSet<Terrain> findByTypeAndGroupAndEvent(TerrainType type, ServiceGroup group, Event event);
 }

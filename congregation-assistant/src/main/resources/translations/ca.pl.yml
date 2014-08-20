@@ -250,3 +250,16 @@ ca.events.msg.edited: Wydarzenie została zaktualizowana
 ca.events.window.edit: Edycja wydarzenia
 ca.events.not_null: Ta wartość nie może być pusta
 ca.report.pick: Wybierz raport
+ca.report.event: Opracowania podczas wydarzeń
+ca.report.event.pick: Wybierz wydarzenie
+event_terrain.type: Typ
+event_terrain.no: Numer
+event_terrain.name: Nazwa 
+event_terrain.notification_date: Data
+event_terrain.group: Grupa
+ca.report.event.group: Wybierz grupę
+ca.report.event.type: Wybierz typ
+ca.report.event.report: opracowano
+ca.report.event.rest: nieopracowano
+ca.report.event.chart: Wykres opracowania terenu
+ca.report.event.status: "%"
