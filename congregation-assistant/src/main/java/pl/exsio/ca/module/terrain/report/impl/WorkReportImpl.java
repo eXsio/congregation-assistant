@@ -20,15 +20,19 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.util.filter.UnsupportedFilterException;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -89,15 +93,19 @@ public class WorkReportImpl extends AbstractReportImpl {
         return 1l;
     }
 
-    private void showReport(Date start, Date end, ServiceGroup group, TerrainType type) {
+    private void showReport(final Date start, final Date end, final ServiceGroup group, final TerrainType type) {
 
         HorizontalLayout report = new HorizontalLayout();
         report.setSpacing(true);
 
-        Table table = getReportTable(start, end, group, type);
+        final Table table = getReportTable(start, end, group, type);
         Chart chart = getReportChart(start, end, group, type);
 
-        report.addComponent(table);
+        this.handleWorkButtonClick(table, start, end, group, type);
+        this.handleRestButtonClick(table, start, end, group, type);
+        VerticalLayout tableContainer = this.createTableContainer(table);
+
+        report.addComponent(tableContainer);
         report.addComponent(chart);
         if (this.lastReport != null) {
             this.removeComponent(this.lastReport);
@@ -105,6 +113,49 @@ public class WorkReportImpl extends AbstractReportImpl {
         this.lastReport = report;
         this.addComponent(this.lastReport);
 
+    }
+
+    private VerticalLayout createTableContainer(final Table table) {
+        final HorizontalLayout tableControls = new HorizontalLayout() {
+            {
+                setSpacing(true);
+                addComponent(report);
+                addComponent(rest);
+            }
+        };
+        VerticalLayout tableContainer = new VerticalLayout() {
+            {
+                setSpacing(false);
+                setMargin(new MarginInfo(true, false, false, false));
+                addComponent(tableControls);
+                addComponent(table);
+            }
+        };
+        return tableContainer;
+    }
+
+    private void handleRestButtonClick(final Table table, final Date start, final Date end, final ServiceGroup group, final TerrainType type) {
+        rest.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                setReportActive();
+                table.setContainerDataSource(getRestTableContainer(start, end, group, type));
+                lastMode = MODE_REST;
+            }
+        });
+    }
+
+    private void handleWorkButtonClick(final Table table, final Date start, final Date end, final ServiceGroup group, final TerrainType type) {
+        report.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                setWorkActive();
+                table.setContainerDataSource(getWorkTableContainer(start, end, group, type));
+                lastMode = MODE_WORK;
+            }
+        });
     }
 
     private Chart getReportChart(Date start, Date end, ServiceGroup group, TerrainType type) {
@@ -160,8 +211,14 @@ public class WorkReportImpl extends AbstractReportImpl {
     }
 
     private Table getReportTable(Date start, Date end, ServiceGroup group, TerrainType type) throws UnsupportedFilterException {
-
-        IndexedContainer container = getTableContainer(start, end, group, type);
+        IndexedContainer container = null;
+        if (lastMode == MODE_WORK) {
+             container = getWorkTableContainer(start, end, group, type);
+             setWorkActive();
+        } else {
+            container = getRestTableContainer(start, end, group, type);
+            setReportActive();
+        }
 
         Table table = new Table("", container);
         Converter dateConverter = new StringToDateConverter() {
@@ -177,17 +234,51 @@ public class WorkReportImpl extends AbstractReportImpl {
         return table;
     }
 
-    private IndexedContainer getTableContainer(Date start, Date end, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
-        IndexedContainer container = new IndexedContainer();
-        container.addContainerProperty("terrain_no", Long.class, null);
-        container.addContainerProperty("terrain_name", String.class, null);
-        container.addContainerProperty("terrain_type", TerrainType.class, null);
-        container.addContainerProperty("notification_date", Date.class, null);
-        container.addContainerProperty("group", String.class, null);
-        container.addContainerProperty("terrain_id", Long.class, null);
+    private IndexedContainer getRestTableContainer(Date start, Date end, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
+        IndexedContainer container = prepareContainer();
+        Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(start, end, group, type);
+        Set<Long> ids = new HashSet();
+        for (Terrain terrain : itemsMap.keySet()) {
+            ids.add(terrain.getId());
+        }
+        Set<Terrain> restTerrains = this.getAllTerrainsExcludingIds(end, group, type, ids);
+        for (Terrain terrain : restTerrains) {
+            Item item = container.addItem(terrain.getId());
 
+            item.getItemProperty("terrain_no").setValue(terrain.getNo());
+            item.getItemProperty("terrain_name").setValue(terrain.getName());
+            item.getItemProperty("terrain_type").setValue(terrain.getType());
+            item.getItemProperty("notification_date").setValue(terrain.getLastNotificationDate());
+            if (!terrain.getAssignments().isEmpty()) {
+                item.getItemProperty("group").setValue(terrain.getAssignments().last().getGroup().getCaption());
+            }
+            item.getItemProperty("terrain_id").setValue(terrain.getId());
+        }
+        container.sort(new Object[]{"terrain_no"}, new boolean[]{true});
+        return container;
+    }
+
+    private IndexedContainer getWorkTableContainer(Date start, Date end, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
+
+        IndexedContainer container = prepareContainer();
+        Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(start, end, group, type);
+        for (Terrain terrain : itemsMap.keySet()) {
+            TerrainWorkItem workItem = itemsMap.get(terrain);
+            Item item = container.addItem(workItem.getId());
+
+            item.getItemProperty("terrain_no").setValue(workItem.getNo());
+            item.getItemProperty("terrain_name").setValue(workItem.getName() + " (" + workItem.getCount() + "x)");
+            item.getItemProperty("terrain_type").setValue(workItem.getType());
+            item.getItemProperty("notification_date").setValue(workItem.getDate());
+            item.getItemProperty("group").setValue(workItem.getGroup());
+            item.getItemProperty("terrain_id").setValue(workItem.getId());
+        }
+        container.sort(new Object[]{"terrain_no"}, new boolean[]{true});
+        return container;
+    }
+
+    private Map<Terrain, TerrainWorkItem> getWorkItemsMap(Date start, Date end, ServiceGroup group, TerrainType type) {
         Map<Terrain, TerrainWorkItem> itemsMap = new HashMap<>();
-
         for (TerrainNotification notification : this.getNotifications(start, end, group, type)) {
             TerrainAssignment assignment = notification.getAssignment();
             Terrain terrain = assignment.getTerrain();
@@ -203,19 +294,17 @@ public class WorkReportImpl extends AbstractReportImpl {
             }
             itemsMap.put(terrain, item);
         }
+        return itemsMap;
+    }
 
-        for (Terrain terrain : itemsMap.keySet()) {
-            TerrainWorkItem workItem = itemsMap.get(terrain);
-            Item item = container.addItem(workItem.getId());
-
-            item.getItemProperty("terrain_no").setValue(workItem.getNo());
-            item.getItemProperty("terrain_name").setValue(workItem.getName() + " (" + workItem.getCount() + "x)");
-            item.getItemProperty("terrain_type").setValue(workItem.getType());
-            item.getItemProperty("notification_date").setValue(workItem.getDate());
-            item.getItemProperty("group").setValue(workItem.getGroup());
-            item.getItemProperty("terrain_id").setValue(workItem.getId());
-        }
-        container.sort(new Object[]{"terrain_no"}, new boolean[]{true});
+    private IndexedContainer prepareContainer() {
+        IndexedContainer container = new IndexedContainer();
+        container.addContainerProperty("terrain_no", Long.class, null);
+        container.addContainerProperty("terrain_name", String.class, "");
+        container.addContainerProperty("terrain_type", TerrainType.class, null);
+        container.addContainerProperty("notification_date", Date.class, null);
+        container.addContainerProperty("group", String.class, "");
+        container.addContainerProperty("terrain_id", Long.class, null);
         return container;
     }
 

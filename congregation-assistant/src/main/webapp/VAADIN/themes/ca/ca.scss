@@ -73,6 +73,10 @@
     .sidebar .menu .v-nativebutton.selected {
         color: #EE5311;
     }
+    
+    .button-selected .v-button-caption {
+        font-weight: bold !important;
+    }
 
     .sidebar .menu .v-nativebutton .v-icon {
         font-size: 20px!important;

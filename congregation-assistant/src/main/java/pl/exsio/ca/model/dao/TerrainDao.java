@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.model.dao;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import pl.exsio.ca.model.Event;
@@ -50,7 +51,7 @@ public interface TerrainDao<T extends Terrain> extends GenericDao<T, Long> {
     LinkedHashSet<Terrain> findByTypeAndGroupAndAssignmentDate(TerrainType type, ServiceGroup group, Date date);
 
     LinkedHashSet<Terrain> findByTypeAndAssignmentDate(TerrainType type, Date date);
-    
+
     LinkedHashSet<Terrain> findByNotificationDateRange(Date start, Date end);
 
     LinkedHashSet<Terrain> findByGroupAndNotificationDateRange(ServiceGroup group, Date start, Date end);
@@ -58,4 +59,16 @@ public interface TerrainDao<T extends Terrain> extends GenericDao<T, Long> {
     LinkedHashSet<Terrain> findByTypeAndGroupAndNotificationDateRange(TerrainType type, ServiceGroup group, Date start, Date end);
 
     LinkedHashSet<Terrain> findByTypeAndNotificationDateRange(TerrainType type, Date start, Date end);
+
+    LinkedHashSet<Terrain> findByIds(Collection ids);
+
+    LinkedHashSet<Terrain> findExcludingIds(Collection ids);
+
+    LinkedHashSet<Terrain> findByAssignmentDateExcludingIds(Date date, Collection ids);
+
+    LinkedHashSet<Terrain> findByGroupAndAssignmentDateExcludingIds(ServiceGroup group, Date date, Collection ids);
+
+    LinkedHashSet<Terrain> findByTypeAndGroupAndAssignmentDateExcludingIds(TerrainType type, ServiceGroup group, Date date, Collection ids);
+
+    LinkedHashSet<Terrain> findByTypeAndAssignmentDateExcludingIds(TerrainType type, Date date, Collection ids);
 }

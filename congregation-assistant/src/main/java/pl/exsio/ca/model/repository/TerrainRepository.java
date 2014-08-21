@@ -5,6 +5,7 @@
  */
 package pl.exsio.ca.model.repository;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import org.springframework.data.jpa.repository.Query;
@@ -87,18 +88,42 @@ public interface TerrainRepository extends GenericJpaRepository<TerrainImpl, Lon
     LinkedHashSet<Terrain> findByTypeAndAssignmentDate(TerrainType type, Date date);
 
     @Override
-    @Query("select distinct t from TerrainImpl t join t.assignments a join a.notifications n where n.date >= ?1 and n.date <= ?2")
+    @Query("select distinct t from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 order by n.date asc")
     LinkedHashSet<Terrain> findByNotificationDateRange(Date start, Date end);
 
     @Override
-    @Query("select distinct t from TerrainImpl t join t.assignments a join a.notifications n where a.group = ?1 and n.date >= ?2 and n.date <= ?3")
+    @Query("select distinct t from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?2 and n.date <= ?3 and (a.group = ?1 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t  ) and a2.terrain = t ) = ?1)) order by n.date asc")
     LinkedHashSet<Terrain> findByGroupAndNotificationDateRange(ServiceGroup group, Date start, Date end);
 
     @Override
-    @Query("select distinct t from TerrainImpl t join t.assignments a join a.notifications n where t.type=?1 and a.group = ?2  and n.date >= ?3 and n.date <= ?4")
+    @Query("select distinct t from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?3 and n.date <= ?4 and (a.group = ?2 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t  ) and a2.terrain = t ) = ?2)) and t.type = ?1 order by n.date asc")
     LinkedHashSet<Terrain> findByTypeAndGroupAndNotificationDateRange(TerrainType type, ServiceGroup group, Date start, Date end);
 
     @Override
-    @Query("select distinct t from TerrainImpl t join t.assignments a join a.notifications n where t.type = ?1 and n.date >= ?2 and n.date <= ?3")
+    @Query("select distinct t from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?2 and n.date <= ?3 and t.type=?1 order by n.date asc")
     LinkedHashSet<Terrain> findByTypeAndNotificationDateRange(TerrainType type, Date start, Date end);
+
+    @Override
+    @Query("from TerrainImpl where id in ?1")
+    LinkedHashSet<Terrain> findByIds(Collection ids);
+
+    @Override
+    @Query("from TerrainImpl where id not in ?1")
+    LinkedHashSet<Terrain> findExcludingIds(Collection ids);
+    
+    @Override
+    @Query("select distinct t from TerrainImpl t join t.assignments a where a.startDate <= ?1 and t.id not in ?2 order by t.type, t.no")
+    LinkedHashSet<Terrain> findByAssignmentDateExcludingIds(Date date, Collection ids);
+    
+    @Override
+    @Query("select distinct t from TerrainImpl t join t.assignments a where a.group = ?1 and a.startDate <= ?2 and (a.endDate >= ?2 or a.endDate is null) and t.id not in ?3 order by t.type, t.no")
+    LinkedHashSet<Terrain> findByGroupAndAssignmentDateExcludingIds(ServiceGroup group, Date date, Collection ids);
+
+    @Override
+    @Query("select distinct t from TerrainImpl t join t.assignments a where t.type=?1 and a.group = ?2 and a.startDate <= ?3 and (a.endDate >= ?3 or a.endDate is null) and t.id not in ?4 order by t.type, t.no")
+    LinkedHashSet<Terrain> findByTypeAndGroupAndAssignmentDateExcludingIds(TerrainType type, ServiceGroup group, Date date, Collection ids);
+
+    @Override
+    @Query("select distinct t from TerrainImpl t join t.assignments a where t.type=?1 and a.startDate <= ?2 and (a.endDate >= ?2 or a.endDate is null) and t.id not in ?3 order by t.type, t.no")
+    LinkedHashSet<Terrain> findByTypeAndAssignmentDateExcludingIds(TerrainType type, Date date, Collection ids);
 }

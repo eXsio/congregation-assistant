@@ -6151,6 +6151,10 @@ body .ca.v-app .v-app-loading {
 	color: #EE5311;
 }
 
+.ca .button-selected .v-button-caption {
+	font-weight: bold !important;
+}
+
 .ca .sidebar .menu .v-nativebutton .v-icon {
 	font-size: 20px !important;
 }

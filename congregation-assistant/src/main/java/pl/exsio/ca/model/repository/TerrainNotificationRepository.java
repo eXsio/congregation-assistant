@@ -53,7 +53,7 @@ public interface TerrainNotificationRepository extends GenericJpaRepository<Terr
     Set<TerrainNotification> findByDateRange(Date start, Date end);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a where n.date>= ?1 and n.date <= ?2 and a.group = ?3 order by n.date asc")
+    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and (a.group = ?3 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t  ) and a2.terrain = t ) = ?3)) order by n.date asc")
     Set<TerrainNotification> findByDateRangeAndGroup(Date start, Date end, ServiceGroup group);
 
     @Override
@@ -61,6 +61,6 @@ public interface TerrainNotificationRepository extends GenericJpaRepository<Terr
     Set<TerrainNotification> findByDateRangeAndTerrainType(Date start, Date end, TerrainType type);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and a.group = ?3 and t.type = ?4 order by n.date asc")
+    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and (a.group = ?3 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t ) and a2.terrain = t ) = ?3)) and t.type = ?4 order by n.date asc")
     Set<TerrainNotification> findByDateRangeAndGroupAndTerrainType(Date start, Date end, ServiceGroup group, TerrainType type);
 }
