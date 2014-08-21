@@ -130,14 +130,14 @@ public class EventReportImpl extends AbstractReportImpl {
         configuration.setPlotOptions(plotOptions);
         configuration.setSeries(ds);
         chart.drawChart(configuration);
-        chart.setWidth("350px");
+        chart.setWidth("450px");
         return chart;
     }
 
     private IndexedContainer getChartContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
         IndexedContainer container = new IndexedContainer();
         Set<Terrain> reportTerrains = this.getReportTerrains(event, group, type);
-        Set<Terrain> allTerrains = this.getAllTerrains(event, group, type);
+        Set<Terrain> allTerrains = this.getAllTerrains(event.getStartDate(), group, type);
         double allCount = allTerrains.size();
         double reportCount = reportTerrains.size();
         Double reportPercent = reportCount * 100 / allCount;
@@ -147,11 +147,11 @@ public class EventReportImpl extends AbstractReportImpl {
         container.addContainerProperty("percent", Number.class, null);
         container.addContainerProperty("color", Color.class, null);
         Item report = container.addItem("report");
-        report.getItemProperty("label").setValue(t("ca.report.event.report"));
+        report.getItemProperty("label").setValue(t("ca.report.event.report") + " (" + new Double(reportCount).intValue() + "/" + new Double(allCount).intValue() + ")");
         report.getItemProperty("percent").setValue(reportPercent);
         report.getItemProperty("color").setValue(colors[4]);
         Item rest = container.addItem("rest");
-        rest.getItemProperty("label").setValue(t("ca.report.event.rest"));
+        rest.getItemProperty("label").setValue(t("ca.report.event.rest") + " (" + new Double(allCount - reportCount).intValue() + "/" + new Double(allCount).intValue() + ")");
         rest.getItemProperty("percent").setValue(restPercent);
         rest.getItemProperty("color").setValue(colors[3]);
         return container;
@@ -195,6 +195,7 @@ public class EventReportImpl extends AbstractReportImpl {
             item.getItemProperty("group").setValue(assignment.getGroup().getCaption());
             item.getItemProperty("terrain_id").setValue(terrain.getId());
         }
+        container.sort(new Object[]{"terrain_no"}, new boolean[]{true});
         return container;
     }
 
@@ -228,21 +229,6 @@ public class EventReportImpl extends AbstractReportImpl {
         }
     }
 
-    private Set<Terrain> getAllTerrains(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) {
-        TerrainDao dao = this.caRepositories.getTerrainRepository();
-        if (group == null && type == null) {
-            return dao.findByAssignmentDate(event.getStartDate());
-        } else if (group != null && type == null) {
-            return dao.findByGroupAndAssignmentDate(group, event.getStartDate());
-        } else if (group != null && type != null) {
-            return dao.findByTypeAndAssignmentGroupAndDate(type, group, event.getStartDate());
-        } else if (group == null && type != null) {
-            return dao.findByTypeAndAssignmentDate(type, event.getStartDate());
-        } else {
-            return null;
-        }
-    }
-
     private ComboBox getEventsCombo() {
         JPAContainer<pl.exsio.ca.model.Event> container = JPAContainerFactory.make(this.caEntities.getEventClass(), this.caEntityProviders.getEventEntityProvider().getEntityManager());
         container.setEntityProvider(this.caEntityProviders.getEventEntityProvider());
@@ -256,22 +242,6 @@ public class EventReportImpl extends AbstractReportImpl {
         picker.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         picker.setItemCaptionPropertyId("name");
         return picker;
-    }
-
-    private ComboBox getGroupsCombo() throws UnsupportedFilterException {
-        JPAContainer<ServiceGroup> groupsContainer = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.caEntityProviders.getServiceGroupEntityProvider().getEntityManager());
-        groupsContainer.setEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
-        groupsContainer.addContainerFilter(eq("archival", false));
-        final ComboBox groups = new ComboBox(t("ca.report.event.group"), groupsContainer);
-        groups.setConverter(new SingleSelectConverter<ServiceGroup>(groups));
-        groups.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
-        groups.setItemCaptionPropertyId("caption");
-        return groups;
-    }
-
-    private ComboBox getTypesCombo() {
-        final ComboBox types = ComponentFactory.createEnumComboBox(t("ca.report.event.type"), TerrainType.class);
-        return types;
     }
 
     private Property.ValueChangeListener getControlsHandler(final ComboBox events, final ComboBox types, final ComboBox groups) {

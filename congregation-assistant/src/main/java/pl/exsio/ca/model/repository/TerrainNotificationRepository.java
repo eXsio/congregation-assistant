@@ -47,4 +47,20 @@ public interface TerrainNotificationRepository extends GenericJpaRepository<Terr
     @Override
     @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.event =?1 and a.group = ?2 and t.type=?3 order by n.date asc")
     Set<TerrainNotification> findByEventAndGroupAndTerrainType(Event event, ServiceGroup group, TerrainType type);
+
+    @Override
+    @Query("select n from TerrainNotificationImpl n where n.date>= ?1 and n.date <= ?2 order by n.date asc")
+    Set<TerrainNotification> findByDateRange(Date start, Date end);
+
+    @Override
+    @Query("select n from TerrainNotificationImpl n join n.assignment a where n.date>= ?1 and n.date <= ?2 and a.group = ?3 order by n.date asc")
+    Set<TerrainNotification> findByDateRangeAndGroup(Date start, Date end, ServiceGroup group);
+
+    @Override
+    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and t.type=?3 order by n.date asc")
+    Set<TerrainNotification> findByDateRangeAndTerrainType(Date start, Date end, TerrainType type);
+
+    @Override
+    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and a.group = ?3 and t.type = ?4 order by n.date asc")
+    Set<TerrainNotification> findByDateRangeAndGroupAndTerrainType(Date start, Date end, ServiceGroup group, TerrainType type);
 }

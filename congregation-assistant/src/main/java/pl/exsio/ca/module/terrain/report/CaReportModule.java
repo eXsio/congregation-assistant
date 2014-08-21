@@ -47,6 +47,7 @@ public class CaReportModule extends VerticalModule {
         chooser.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         chooser.setItemCaptionPropertyId("name");
         chooser.setContainerDataSource(container);
+        chooser.setWidth("300px");
         chooser.setNullSelectionAllowed(false);
         chooser.addValueChangeListener(new Property.ValueChangeListener() {
 

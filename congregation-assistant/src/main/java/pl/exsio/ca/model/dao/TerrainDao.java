@@ -47,7 +47,15 @@ public interface TerrainDao<T extends Terrain> extends GenericDao<T, Long> {
 
     LinkedHashSet<Terrain> findByGroupAndAssignmentDate(ServiceGroup group, Date date);
 
-    LinkedHashSet<Terrain> findByTypeAndAssignmentGroupAndDate(TerrainType type, ServiceGroup group, Date date);
+    LinkedHashSet<Terrain> findByTypeAndGroupAndAssignmentDate(TerrainType type, ServiceGroup group, Date date);
 
     LinkedHashSet<Terrain> findByTypeAndAssignmentDate(TerrainType type, Date date);
+    
+    LinkedHashSet<Terrain> findByNotificationDateRange(Date start, Date end);
+
+    LinkedHashSet<Terrain> findByGroupAndNotificationDateRange(ServiceGroup group, Date start, Date end);
+
+    LinkedHashSet<Terrain> findByTypeAndGroupAndNotificationDateRange(TerrainType type, ServiceGroup group, Date start, Date end);
+
+    LinkedHashSet<Terrain> findByTypeAndNotificationDateRange(TerrainType type, Date start, Date end);
 }

@@ -26,12 +26,20 @@ public interface TerrainNotificationDao<T extends TerrainNotification> extends G
     LinkedHashSet<TerrainNotification> findForTerrainCard(Terrain terrain, Date date);
 
     LinkedHashSet<TerrainNotification> findForTerrainCard(Terrain terrain);
-    
+
     Set<TerrainNotification> findByEvent(Event event);
-    
-    Set<TerrainNotification> findByEventAndGroup(Event event, ServiceGroup group );
-    
+
+    Set<TerrainNotification> findByEventAndGroup(Event event, ServiceGroup group);
+
     Set<TerrainNotification> findByEventAndTerrainType(Event event, TerrainType type);
-    
+
     Set<TerrainNotification> findByEventAndGroupAndTerrainType(Event event, ServiceGroup group, TerrainType type);
+
+    Set<TerrainNotification> findByDateRange(Date start, Date end);
+
+    Set<TerrainNotification> findByDateRangeAndGroup(Date start, Date end, ServiceGroup group);
+
+    Set<TerrainNotification> findByDateRangeAndTerrainType(Date start, Date end, TerrainType type);
+
+    Set<TerrainNotification> findByDateRangeAndGroupAndTerrainType(Date start, Date end, ServiceGroup group, TerrainType type);
 }
