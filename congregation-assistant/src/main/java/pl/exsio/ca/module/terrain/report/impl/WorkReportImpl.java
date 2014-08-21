@@ -139,7 +139,7 @@ public class WorkReportImpl extends AbstractReportImpl {
     private IndexedContainer getChartContainer(Date start, Date end, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
         IndexedContainer container = new IndexedContainer();
         Set<Terrain> reportTerrains = this.getReportTerrains(start, end, group, type);
-        Set<Terrain> allTerrains = this.getAllTerrains(start, group, type);
+        Set<Terrain> allTerrains = this.getAllTerrains(end, group, type);
         double allCount = allTerrains.size();
         double reportCount = reportTerrains.size();
         Double reportPercent = reportCount * 100 / allCount;
