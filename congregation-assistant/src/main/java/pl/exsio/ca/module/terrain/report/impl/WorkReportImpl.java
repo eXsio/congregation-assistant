@@ -190,8 +190,13 @@ public class WorkReportImpl extends AbstractReportImpl {
     private IndexedContainer getChartContainer(Date start, Date end, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
         IndexedContainer container = new IndexedContainer();
         Set<Terrain> reportTerrains = this.getReportTerrains(start, end, group, type);
-        Set<Terrain> allTerrains = this.getAllTerrains(end, group, type);
-        double allCount = allTerrains.size();
+        Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(start, end, group, type);
+        Set<Long> ids = new HashSet();
+        for (Terrain terrain : itemsMap.keySet()) {
+            ids.add(terrain.getId());
+        }
+        Set<Terrain> restTerrains = this.getAllTerrainsExcludingIds(end, group, type, ids);
+        double allCount = reportTerrains.size() + restTerrains.size();
         double reportCount = reportTerrains.size();
         Double reportPercent = reportCount * 100 / allCount;
         Double restPercent = 100 - reportPercent;
@@ -374,7 +379,7 @@ public class WorkReportImpl extends AbstractReportImpl {
 
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                if (start.getValue() != null && end.getValue() != null) {
+                if (start.getValue() != null && end.getValue() != null && end.getValue().compareTo(start.getValue()) > 0) {
                     showReport(start.getValue(), end.getValue(), (ServiceGroup) groups.getConvertedValue(), (TerrainType) types.getValue());
                 }
             }

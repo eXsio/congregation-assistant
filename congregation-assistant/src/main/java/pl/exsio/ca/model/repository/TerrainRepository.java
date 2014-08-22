@@ -92,11 +92,11 @@ public interface TerrainRepository extends GenericJpaRepository<TerrainImpl, Lon
     LinkedHashSet<Terrain> findByNotificationDateRange(Date start, Date end);
 
     @Override
-    @Query("select distinct t from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?2 and n.date <= ?3 and (a.group = ?1 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t  ) and a2.terrain = t ) = ?1)) order by n.date asc")
+    @Query("select distinct t from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?2 and n.date <= ?3 and (a.group = ?1 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t  and ((a3.startDate >= ?2 and a3.startDate <=?3) or (a3.endDate >= ?2 and a3.endDate <=?3) or (a3.startDate <= ?2 and a3.endDate >=?3)) ) and a2.terrain = t ) = ?1)) order by n.date asc")
     LinkedHashSet<Terrain> findByGroupAndNotificationDateRange(ServiceGroup group, Date start, Date end);
 
     @Override
-    @Query("select distinct t from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?3 and n.date <= ?4 and (a.group = ?2 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t  ) and a2.terrain = t ) = ?2)) and t.type = ?1 order by n.date asc")
+    @Query("select distinct t from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?3 and n.date <= ?4 and (a.group = ?2 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t  and ((a3.startDate >= ?3 and a3.startDate <=?4) or (a3.endDate >= ?3 and a3.endDate <=?4) or (a3.startDate <= ?3 and a3.endDate >=?4)) ) and a2.terrain = t ) = ?2)) and t.type = ?1 order by n.date asc")
     LinkedHashSet<Terrain> findByTypeAndGroupAndNotificationDateRange(TerrainType type, ServiceGroup group, Date start, Date end);
 
     @Override
