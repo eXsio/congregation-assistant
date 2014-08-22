@@ -15,6 +15,8 @@ import pl.exsio.frameset.vaadin.navigation.FramesetNavigator;
 import pl.exsio.frameset.vaadin.navigation.menu.AccordionMenu;
 import pl.exsio.frameset.vaadin.navigation.target.NavigationTarget;
 import pl.exsio.frameset.vaadin.ui.Viewport;
+import pl.exsio.frameset.vaadin.ui.support.flexer.Flexer;
+import pl.exsio.frameset.vaadin.ui.support.flexer.OrderedLayoutWidthFlexerImpl;
 
 /**
  *
@@ -87,6 +89,18 @@ public class AppViewport extends InitializableHorizontalLayout implements Viewpo
         addComponent(content);
         this.setExpandRatio(sidebar, 1);
         this.setExpandRatio(content, 10);
+        this.attachSidebarFlexer(sidebar);
+    }
+    
+    private void attachSidebarFlexer(VerticalLayout sidebar) {
+        Flexer sidebarFlexer = new OrderedLayoutWidthFlexerImpl(this, sidebar);
+        sidebarFlexer
+                .addConstraint(1800, 1)
+                .addConstraint(1600, 1.1)
+                .addConstraint(1400, 1.3)
+                .addConstraint(1200, 1.5)
+                .addConstraint(1000, 2.0)
+                .attach();
     }
     
     
