@@ -19,7 +19,6 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -151,7 +150,7 @@ public class WorkReportImpl extends AbstractReportImpl {
     }
 
     private IndexedContainer getChartContainer(Date start, Date end, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
-        IndexedContainer container = new IndexedContainer();
+
         Set<Terrain> reportTerrains = this.getReportTerrains(start, end, group, type);
         Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(start, end, group, type);
         Set<Long> ids = new HashSet();
@@ -161,8 +160,8 @@ public class WorkReportImpl extends AbstractReportImpl {
         Set<Terrain> restTerrains = this.getAllTerrainsExcludingIds(end, group, type, ids);
         double allCount = reportTerrains.size() + restTerrains.size();
         double reportCount = reportTerrains.size();
-        this.fillChartContainer(allCount, reportCount, container);
-        return container;
+
+        return this.getChartContainer(allCount, reportCount);
     }
 
     private Table getReportTable(Date start, Date end, ServiceGroup group, TerrainType type) throws UnsupportedFilterException {
@@ -180,30 +179,25 @@ public class WorkReportImpl extends AbstractReportImpl {
     }
 
     private IndexedContainer getRestTableContainer(Date start, Date end, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
-        IndexedContainer container = prepareReportContainer();
+
         Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(start, end, group, type);
         Set<Long> ids = new HashSet();
         for (Terrain terrain : itemsMap.keySet()) {
             ids.add(terrain.getId());
         }
         Set<Terrain> restTerrains = this.getAllTerrainsExcludingIds(end, group, type, ids);
-        this.fillReportRestContainer(restTerrains, container);
-        return container;
+        return this.getReportRestContainer(restTerrains);
     }
 
     private IndexedContainer getWorkTableContainer(Date start, Date end, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
 
-        IndexedContainer container = prepareReportContainer();
         Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(start, end, group, type);
-        this.fillReportWorkContainer(itemsMap, container);
-        return container;
+        return this.getReportWorkContainer(itemsMap);
     }
 
     private Map<Terrain, TerrainWorkItem> getWorkItemsMap(Date start, Date end, ServiceGroup group, TerrainType type) {
-        Map<Terrain, TerrainWorkItem> itemsMap = new HashMap<>();
         Set<TerrainNotification> notifications = this.getNotifications(start, end, group, type);
-        this.fillWorkItemsMap(notifications, type, itemsMap);
-        return itemsMap;
+        return this.getWorkItemsMap(notifications, type);
     }
 
     private Set<TerrainNotification> getNotifications(Date start, Date end, ServiceGroup group, TerrainType type) {

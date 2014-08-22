@@ -32,6 +32,7 @@ import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
@@ -115,7 +116,8 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
         }
     }
 
-    protected void fillChartContainer(double allCount, double reportCount, IndexedContainer container) throws Property.ReadOnlyException {
+    protected IndexedContainer getChartContainer(double allCount, double reportCount) throws Property.ReadOnlyException {
+        IndexedContainer container = new IndexedContainer();
         Double reportPercent = allCount > 0 ? reportCount * 100 / allCount : 0;
         Double restPercent = 100 - reportPercent;
         Color[] colors = new VaadinTheme().getColors();
@@ -131,9 +133,11 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
         rest.getItemProperty("percent").setValue(restPercent);
         rest.getItemProperty("color").setValue(colors[3]);
         container.sort(new Object[]{"terrain_no"}, new boolean[]{true});
+        return container;
     }
 
-    protected void fillReportRestContainer(Set<Terrain> restTerrains, IndexedContainer container) throws Property.ReadOnlyException {
+    protected IndexedContainer getReportRestContainer(Set<Terrain> restTerrains) throws Property.ReadOnlyException {
+        IndexedContainer container = prepareReportContainer();
         for (Terrain terrain : restTerrains) {
             Item item = container.addItem(terrain.getId());
 
@@ -146,9 +150,11 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
             }
             item.getItemProperty("terrain_id").setValue(terrain.getId());
         }
+        return container;
     }
 
-    protected void fillReportWorkContainer(Map<Terrain, TerrainWorkItem> itemsMap, IndexedContainer container) throws Property.ReadOnlyException {
+    protected IndexedContainer getReportWorkContainer(Map<Terrain, TerrainWorkItem> itemsMap) throws Property.ReadOnlyException {
+        IndexedContainer container = prepareReportContainer();
         for (Terrain terrain : itemsMap.keySet()) {
             TerrainWorkItem workItem = itemsMap.get(terrain);
             Item item = container.addItem(workItem.getId());
@@ -161,9 +167,11 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
             item.getItemProperty("terrain_id").setValue(workItem.getId());
         }
         container.sort(new Object[]{"terrain_no"}, new boolean[]{true});
+        return container;
     }
 
-    protected void fillWorkItemsMap(Set<TerrainNotification> notifications, TerrainType type, Map<Terrain, TerrainWorkItem> itemsMap) {
+    protected Map<Terrain, TerrainWorkItem> getWorkItemsMap(Set<TerrainNotification> notifications, TerrainType type) {
+        Map<Terrain, TerrainWorkItem> itemsMap = new HashMap<>();
         for (TerrainNotification notification : notifications) {
             TerrainAssignment assignment = notification.getAssignment();
             Terrain terrain = assignment.getTerrain();
@@ -179,6 +187,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
             }
             itemsMap.put(terrain, item);
         }
+        return itemsMap;
     }
 
     protected Chart prepareReportChart(IndexedContainer container) {

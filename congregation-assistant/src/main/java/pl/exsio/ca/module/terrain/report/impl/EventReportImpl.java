@@ -19,7 +19,6 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -148,10 +147,7 @@ public class EventReportImpl extends AbstractReportImpl {
         return chart;
     }
 
-    
-
     private IndexedContainer getChartContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
-        IndexedContainer container = new IndexedContainer();
         Set<Terrain> reportTerrains = this.getReportTerrains(event, group, type);
         Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(event, group, type);
         Set<Long> ids = new HashSet();
@@ -163,8 +159,7 @@ public class EventReportImpl extends AbstractReportImpl {
         double allCount = reportTerrains.size() + restTerrains.size();
         double reportCount = reportTerrains.size();
 
-        this.fillChartContainer(allCount, reportCount, container);
-        return container;
+        return this.getChartContainer(allCount, reportCount);
     }
 
     private Table getReportTable(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws UnsupportedFilterException {
@@ -182,7 +177,6 @@ public class EventReportImpl extends AbstractReportImpl {
     }
 
     private IndexedContainer getRestTableContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
-        IndexedContainer container = prepareReportContainer();
         Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(event, group, type);
 
         Set<Long> ids = new HashSet();
@@ -190,22 +184,17 @@ public class EventReportImpl extends AbstractReportImpl {
             ids.add(terrain.getId());
         }
         Set<Terrain> restTerrains = this.getAllTerrainsExcludingIds(event.getEndDate(), group, type, ids);
-        this.fillReportRestContainer(restTerrains, container);
-        return container;
+        return this.getReportRestContainer(restTerrains);
     }
 
     private IndexedContainer getWorkTableContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
-        IndexedContainer container = this.prepareReportContainer();
         Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(event, group, type);
-        this.fillReportWorkContainer(itemsMap, container);
-        return container;
+        return this.getReportWorkContainer(itemsMap);
     }
 
     private Map<Terrain, TerrainWorkItem> getWorkItemsMap(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) {
-        Map<Terrain, TerrainWorkItem> itemsMap = new HashMap<>();
         Set<TerrainNotification> notifications = this.getNotifications(event, group, type);
-        this.fillWorkItemsMap(notifications, type, itemsMap);
-        return itemsMap;
+        return this.getWorkItemsMap(notifications, type);
     }
 
     private Set<TerrainNotification> getNotifications(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) {
