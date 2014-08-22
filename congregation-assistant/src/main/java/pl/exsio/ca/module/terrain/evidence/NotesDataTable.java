@@ -24,6 +24,7 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
+import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
 import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
 
@@ -86,6 +87,26 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     }
 
     @Override
+    protected boolean canCreateItem() {
+        return true;
+    }
+
+    @Override
+    protected boolean canOpenItem(EntityItem<? extends TerrainNote> item) {
+        return true;
+    }
+
+    @Override
+    protected boolean canSaveItem(EntityItem<? extends TerrainNote> item) {
+        return item.getEntity().getCreatedBy().equals(UserDetailsProvider.getUserDetails().getUsername()) || this.security.canWrite();
+    }
+
+    @Override
+    protected boolean canDeleteItem(EntityItem<? extends TerrainNote> item) {
+        return item.getEntity().getCreatedBy().equals(UserDetailsProvider.getUserDetails().getUsername()) || this.security.canDelete();
+    }
+
+    @Override
     protected Table createTable(JPAContainer<TerrainNote> container) {
         return new Table(this.config.getTableCaption(), container) {
 
@@ -111,11 +132,6 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
 
         formLayout.addComponent(form);
         return formLayout;
-    }
-
-    @Override
-    protected boolean canOpenItem(EntityItem<? extends TerrainNote> item) {
-        return true;
     }
 
     private TextArea getContentField(EntityItem<? extends TerrainNote> item) {
