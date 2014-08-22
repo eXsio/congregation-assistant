@@ -6,42 +6,32 @@
 package pl.exsio.ca.module.terrain.report.impl;
 
 import com.vaadin.addon.charts.Chart;
-import com.vaadin.addon.charts.model.ChartType;
-import com.vaadin.addon.charts.model.Configuration;
-import com.vaadin.addon.charts.model.ContainerDataSeries;
-import com.vaadin.addon.charts.model.Cursor;
-import com.vaadin.addon.charts.model.PlotOptionsPie;
-import com.vaadin.addon.charts.model.Tooltip;
-import com.vaadin.addon.charts.model.style.Color;
-import com.vaadin.addon.charts.themes.VaadinTheme;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
-import static com.vaadin.addon.jpacontainer.filter.Filters.eq;
-import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.util.filter.UnsupportedFilterException;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.vaadin.ui.VerticalLayout;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
-import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.TerrainType;
 import pl.exsio.ca.model.dao.TerrainDao;
 import pl.exsio.ca.model.dao.TerrainNotificationDao;
 import pl.exsio.ca.module.terrain.report.Report;
+import static pl.exsio.ca.module.terrain.report.impl.AbstractReportImpl.MODE_REST;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
-import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
 
 /**
  *
@@ -95,7 +85,11 @@ public class EventReportImpl extends AbstractReportImpl {
         Table table = getReportTable(event, group, type);
         Chart chart = getReportChart(event, group, type);
 
-        report.addComponent(table);
+        this.handleWorkButtonClick(table, event, group, type);
+        this.handleRestButtonClick(table, event, group, type);
+        VerticalLayout tableContainer = this.createTableContainer(table);
+
+        report.addComponent(tableContainer);
         report.addComponent(chart);
         if (this.lastReport != null) {
             this.removeComponent(this.lastReport);
@@ -105,98 +99,113 @@ public class EventReportImpl extends AbstractReportImpl {
 
     }
 
+    private VerticalLayout createTableContainer(final Table table) {
+        final HorizontalLayout tableControls = new HorizontalLayout() {
+            {
+                setSpacing(true);
+                addComponent(report);
+                addComponent(rest);
+            }
+        };
+        VerticalLayout tableContainer = new VerticalLayout() {
+            {
+                setSpacing(false);
+                setMargin(new MarginInfo(true, false, false, false));
+                addComponent(tableControls);
+                addComponent(table);
+            }
+        };
+        return tableContainer;
+    }
+
+    private void handleRestButtonClick(final Table table, final pl.exsio.ca.model.Event event, final ServiceGroup group, final TerrainType type) {
+        rest.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent e) {
+                setReportActive();
+                table.setContainerDataSource(getRestTableContainer(event, group, type));
+                lastMode = MODE_REST;
+            }
+        });
+    }
+
+    private void handleWorkButtonClick(final Table table, final pl.exsio.ca.model.Event event, final ServiceGroup group, final TerrainType type) {
+        report.addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent e) {
+                setWorkActive();
+                table.setContainerDataSource(getWorkTableContainer(event, group, type));
+                lastMode = MODE_WORK;
+            }
+        });
+    }
+
     private Chart getReportChart(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) {
         IndexedContainer container = getChartContainer(event, group, type);
-        ContainerDataSeries ds = new ContainerDataSeries(container);
-        ds.setYPropertyId("percent");
-        ds.setNamePropertyId("label");
-        ds.addAttributeToPropertyIdMapping("color", "color");
-        ds.setName(t("ca.report.event.status"));
-
-        final Chart chart = new Chart();
-
-        final Configuration configuration = new Configuration();
-        configuration.getChart().setType(ChartType.PIE);
-        configuration.getTitle().setText(t("ca.report.event.chart"));
-        Tooltip tooltip = new Tooltip();
-        tooltip.setValueDecimals(1);
-        tooltip.setPointFormat("{point.y}%");
-        configuration.setTooltip(tooltip);
-
-        PlotOptionsPie plotOptions = new PlotOptionsPie();
-        plotOptions.setAllowPointSelect(true);
-        plotOptions.setCursor(Cursor.POINTER);
-
-        configuration.setPlotOptions(plotOptions);
-        configuration.setSeries(ds);
-        chart.drawChart(configuration);
-        chart.setWidth("450px");
+        Chart chart = prepareReportChart(container);
         return chart;
     }
+
+    
 
     private IndexedContainer getChartContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
         IndexedContainer container = new IndexedContainer();
         Set<Terrain> reportTerrains = this.getReportTerrains(event, group, type);
-        Set<Terrain> allTerrains = this.getAllTerrains(event.getStartDate(), group, type);
-        double allCount = allTerrains.size();
+        Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(event, group, type);
+        Set<Long> ids = new HashSet();
+        for (Terrain terrain : itemsMap.keySet()) {
+            ids.add(terrain.getId());
+        }
+
+        Set<Terrain> restTerrains = this.getAllTerrainsExcludingIds(event.getEndDate(), group, type, ids);
+        double allCount = reportTerrains.size() + restTerrains.size();
         double reportCount = reportTerrains.size();
-        Double reportPercent = reportCount * 100 / allCount;
-        Double restPercent = 100 - reportPercent;
-        Color[] colors = new VaadinTheme().getColors();
-        container.addContainerProperty("label", String.class, null);
-        container.addContainerProperty("percent", Number.class, null);
-        container.addContainerProperty("color", Color.class, null);
-        Item report = container.addItem("report");
-        report.getItemProperty("label").setValue(t("ca.report.event.report") + " (" + new Double(reportCount).intValue() + "/" + new Double(allCount).intValue() + ")");
-        report.getItemProperty("percent").setValue(reportPercent);
-        report.getItemProperty("color").setValue(colors[4]);
-        Item rest = container.addItem("rest");
-        rest.getItemProperty("label").setValue(t("ca.report.event.rest") + " (" + new Double(allCount - reportCount).intValue() + "/" + new Double(allCount).intValue() + ")");
-        rest.getItemProperty("percent").setValue(restPercent);
-        rest.getItemProperty("color").setValue(colors[3]);
+
+        this.fillChartContainer(allCount, reportCount, container);
         return container;
     }
 
     private Table getReportTable(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws UnsupportedFilterException {
+        IndexedContainer container = null;
+        if (lastMode == MODE_WORK) {
+            container = getWorkTableContainer(event, group, type);
+            setWorkActive();
+        } else {
+            container = getRestTableContainer(event, group, type);
+            setReportActive();
+        }
 
-        IndexedContainer container = getTableContainer(event, group, type);
-
-        Table table = new Table("", container);
-        Converter dateConverter = new StringToDateConverter() {
-            @Override
-            protected DateFormat getFormat(Locale locale) {
-                return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
-            }
-        };
-        table.setConverter("notification_date", dateConverter);
-        table.setVisibleColumns(new Object[]{"terrain_type", "terrain_no", "terrain_name", "notification_date", "group", "terrain_id"});
-        table.setColumnHeaders(t(new String[]{"event_terrain.type", "event_terrain.no", "event_terrain.name", "event_terrain.notification_date", "event_terrain.group", "id"}));
-        table.setWidth("600px");
+        Table table = prepareReportTable(container);
         return table;
     }
 
-    private IndexedContainer getTableContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
-        IndexedContainer container = new IndexedContainer();
-        container.addContainerProperty("terrain_no", Long.class, null);
-        container.addContainerProperty("terrain_name", String.class, null);
-        container.addContainerProperty("terrain_type", TerrainType.class, null);
-        container.addContainerProperty("notification_date", Date.class, null);
-        container.addContainerProperty("group", String.class, null);
-        container.addContainerProperty("terrain_id", Long.class, null);
-        for (TerrainNotification notification : this.getNotifications(event, group, type)) {
-            Item item = container.addItem(notification.getId());
-            TerrainAssignment assignment = notification.getAssignment();
-            Terrain terrain = assignment.getTerrain();
+    private IndexedContainer getRestTableContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
+        IndexedContainer container = prepareReportContainer();
+        Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(event, group, type);
 
-            item.getItemProperty("terrain_no").setValue(terrain.getNo());
-            item.getItemProperty("terrain_name").setValue(terrain.getName());
-            item.getItemProperty("terrain_type").setValue(terrain.getType());
-            item.getItemProperty("notification_date").setValue(notification.getDate());
-            item.getItemProperty("group").setValue(assignment.getGroup().getCaption());
-            item.getItemProperty("terrain_id").setValue(terrain.getId());
+        Set<Long> ids = new HashSet();
+        for (Terrain terrain : itemsMap.keySet()) {
+            ids.add(terrain.getId());
         }
-        container.sort(new Object[]{"terrain_no"}, new boolean[]{true});
+        Set<Terrain> restTerrains = this.getAllTerrainsExcludingIds(event.getEndDate(), group, type, ids);
+        this.fillReportRestContainer(restTerrains, container);
         return container;
+    }
+
+    private IndexedContainer getWorkTableContainer(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) throws Property.ReadOnlyException {
+        IndexedContainer container = this.prepareReportContainer();
+        Map<Terrain, TerrainWorkItem> itemsMap = getWorkItemsMap(event, group, type);
+        this.fillReportWorkContainer(itemsMap, container);
+        return container;
+    }
+
+    private Map<Terrain, TerrainWorkItem> getWorkItemsMap(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) {
+        Map<Terrain, TerrainWorkItem> itemsMap = new HashMap<>();
+        Set<TerrainNotification> notifications = this.getNotifications(event, group, type);
+        this.fillWorkItemsMap(notifications, type, itemsMap);
+        return itemsMap;
     }
 
     private Set<TerrainNotification> getNotifications(pl.exsio.ca.model.Event event, ServiceGroup group, TerrainType type) {

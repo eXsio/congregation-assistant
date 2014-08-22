@@ -6103,10 +6103,6 @@ body .ca.v-app .v-app-loading {
 	text-align: center;
 }
 
-.ca .v-slot-sidebar {
-	min-width: 160px !important;
-}
-
 .ca .v-margin-top {
 	padding-top: 17px;
 }
