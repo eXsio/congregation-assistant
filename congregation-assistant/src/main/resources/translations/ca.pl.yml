@@ -1,5 +1,5 @@
 ca.preachers.button.create: ""
-ca.preachers.created: Utworzono nowego głosiciela
+ca.preachers.msg.created: Utworzono nowego głosiciela
 ca.preachers.window.create: Tworzenie głosiciela
 ca.preachers.button.delete: ""
 ca.preachers.msg.deleted: Głosiciel został usunięty
@@ -23,7 +23,7 @@ ca.preachers.basic_data: Dane podstawowe
 ca.preachers.priviledges: Przywileje
 ca.preachers.group_assignment: Przydział do grupy
 ca.priviledges.button.create: ""
-ca.priviledges.created: Dodano nowy przywilej
+ca.priviledges.msg.created: Dodano nowy przywilej
 ca.priviledges.window.create: Dodawanie przywileju
 ca.priviledges.button.delete: ""
 ca.priviledges.msg.deleted: Przywilej został usunięty
@@ -56,7 +56,7 @@ ca.priviledge.pioneer_helper: Pionier pomocniczy
 ca.priviledge.pioneer_special: Pionier specjalny
 ca.priviledge.district_overseer: Nadzorca obwodu
 ca.groups.button.create: ""
-ca.groups.created: Dodano nową grupę
+ca.groups.msg.created: Dodano nową grupę
 ca.groups.window.create: Dodawanie grupy
 ca.groups.button.delete: ""
 ca.groups.msg.deleted: Grupa została usunięta
@@ -76,7 +76,7 @@ group.overseer: Nazdorca
 group.archival: Archiwalna?
 ca.groups.groups: Grupy słuzby w zborze
 ca.pr_assignments.button.create: ""
-ca.pr_assignments.created: Dodano nowe przypisanie do grupy
+ca.pr_assignments.msg.created: Dodano nowe przypisanie do grupy
 ca.pr_assignments.window.create: Nowe przypisanie do grupy
 ca.pr_assignments.button.delete: ""
 ca.pr_assignments.msg.deleted: Przypisanie do grupy zostało usunięte
@@ -97,7 +97,7 @@ preacher.priviledge_end_date: Data zakończenia
 pl.exsio.ca.model.entity.PreacherPriviledgeImpl.start_date: Data rozpoczęcia
 pl.exsio.ca.model.entity.PreacherPriviledgeImpl.end_date: Data zakończenia
 ca.terrains.button.create: ""
-ca.terrains.created: Dodano nowy teren
+ca.terrains.msg.created: Dodano nowy teren
 ca.terrains.window.create: Nowy teren
 ca.terrains.button.delete: ""
 ca.terrains.msg.deleted: Teren został usunięty
@@ -124,7 +124,7 @@ ca.terrain_type.village: wiejski
 ca.terrain_type.phone: telefoniczny
 ca.terrains.terrains: Ewidencja terenów zboru
 ca.tr_assignments.button.create: ""
-ca.tr_assignments.created: Dodano nowe przypisanie do grupy
+ca.tr_assignments.msg.created: Dodano nowe przypisanie do grupy
 ca.tr_assignments.window.create: Nowe przypisanie do grupy
 ca.tr_assignments.button.delete: ""
 ca.tr_assignments.msg.deleted: Przypisanie do grupy zostało usunięte
@@ -143,7 +143,7 @@ terrain.assignment_start_date: Data początku
 terrain.assignment_end_date: Data końca
 preacher.assignment_active: Aktywne?
 ca.notifications.button.create: ""
-ca.notifications.created: Dodano nowe zgłoszenie opracowania
+ca.notifications.msg.created: Dodano nowe zgłoszenie opracowania
 ca.notifications.window.create: Nowe zgłoszenie opracowania
 ca.notifications.button.delete: ""
 ca.notifications.msg.deleted: Zgłoszenie opracowania zostało usunięte
@@ -181,7 +181,7 @@ ca.report.terrain_cards.group: "Grupa służby"
 ca.report.terrain_cards.date: Data
 ca.terrains.files: Pliki
 ca.tr_files.button.create: ""
-ca.tr_files.created: Dodano nowy plik
+ca.tr_files.msg.created: Dodano nowy plik
 ca.tr_files.window.create: Nowy plik
 ca.tr_files.button.delete: ""
 ca.tr_files.msg.deleted: Plik został usunięty
@@ -191,12 +191,12 @@ ca.tr_files.msg.edited: Plik został zaktualizowany
 ca.tr_files.window.edit: Edycja pliku
 file.title: Tytuł
 file.name: Nazwa
-file.created_at: Utworzono  
+file.msg.created_at: Utworzono  
 pl.exsio.ca.model.entity.TerrainFileImpl.title: Tytuł
 pl.exsio.ca.model.entity.TerrainFileImpl.decription: Opis
 pl.exsio.ca.model.entity.TerrainFileImpl.data: Wybierz plik
 ca.tr_notes.button.create: ""
-ca.tr_notes.created: Dodano nową notatkę
+ca.tr_notes.msg.created: Dodano nową notatkę
 ca.tr_notes.window.create: Nowa notatka
 ca.tr_notes.button.delete: ""
 ca.tr_notes.msg.deleted: Notatka została usunięta
@@ -206,12 +206,12 @@ ca.tr_notes.msg.edited: Notatka została zaktualizowana
 ca.tr_notes.window.edit: Edycja notatki
 pl.exsio.ca.model.entity.TerrainNoteImpl.content: Treść
 note.content: Treść
-note.created_at: Utworzono
-note.created_by: Autor
+note.msg.created_at: Utworzono
+note.msg.created_by: Autor
 ca.terrains.notes: Notatki
 ca.report.terrain_cards.creation_date: "Data utworzenia raportu: "
 ca.ov_assignments.button.create: ""
-ca.ov_assignments.created: Dodano nowe przypisanie nadzorcy do grupy
+ca.ov_assignments.msg.created: Dodano nowe przypisanie nadzorcy do grupy
 ca.ov_assignments.window.create: Nowe przypisanie nadzorcy
 ca.ov_assignments.button.delete: ""
 ca.ov_assignments.msg.deleted: Przypisanie nadzorcy do grupy zostało usunięte
@@ -240,7 +240,7 @@ event.name: Nazwa
 event.start_date: Data rozpoczęcia
 event.end_date: Data zakończenia
 ca.events.button.create: ""
-ca.events.created: Dodano nowe wydarzenia
+ca.events.msg.created: Dodano nowe wydarzenia
 ca.events.window.create: Dodawanie wydarzenia
 ca.events.button.delete: ""
 ca.events.msg.deleted: Wydarzenie zostało usunięte
