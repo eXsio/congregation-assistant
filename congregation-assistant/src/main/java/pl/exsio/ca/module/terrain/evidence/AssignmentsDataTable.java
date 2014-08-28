@@ -82,20 +82,10 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     }
 
     public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig() {
+        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"terrain.group", "terrain.assignment_start_date", "terrain.assignment_end_date", "preacher.assignment_active", "id"});
                 setVisibleColumns(new String[]{"group", "startDate", "endDate", "active", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.addEntityCreatedListener(this);

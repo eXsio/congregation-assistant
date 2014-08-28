@@ -61,9 +61,9 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
         }
         this.setHeight("250px");
         Converter dateConverter = new StringToDateConverter() {
-             protected DateFormat getFormat(Locale locale) {
-                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
-             }
+            protected DateFormat getFormat(Locale locale) {
+                return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
+            }
         };
         this.table.setConverter("date", dateConverter);
     }
@@ -77,27 +77,17 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
     }
 
     public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig() {
+        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"preacher.group", "preacher.assignment_date", "preacher.assignment_active", "id"});
                 setVisibleColumns(new String[]{"group", "date", "active", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.addEntityCreatedListener(this);
         this.addEntityUpdatedListener(this);
         this.addEntityDeletedListener(this);
     }
-    
+
     @Override
     protected Table createTable(JPAContainer<PreacherAssignment> container) {
         return new Table(this.config.getTableCaption(), container) {
@@ -106,7 +96,7 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {
                 switch (colId.toString()) {
                     case "active":
-                        if(property.getValue() != null && ((Boolean) property.getValue())) {
+                        if (property.getValue() != null && ((Boolean) property.getValue())) {
                             return t("core.yes");
                         } else {
                             return t("core.no");

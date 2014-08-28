@@ -51,9 +51,9 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
         }
         this.setHeight("250px");
         Converter dateConverter = new StringToDateConverter() {
-             protected DateFormat getFormat(Locale locale) {
-                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
-             }
+            protected DateFormat getFormat(Locale locale) {
+                return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
+            }
         };
         this.table.setConverter("startDate", dateConverter);
         this.table.setConverter("endDate", dateConverter);
@@ -65,7 +65,7 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
         container.addContainerFilter(eq("preacher", this.preacher));
         return container;
     }
-    
+
     @Override
     protected HorizontalLayout decorateControls(HorizontalLayout controls) {
         controls.removeComponent(this.editButton);
@@ -73,20 +73,10 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
     }
 
     public PriviledgesDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig() {
+        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"preacher.priviledge", "preacher.priviledge_start_date", "preacher.priviledge_end_date", "id"});
                 setVisibleColumns(new String[]{"priviledge", "startDate", "endDate", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.addEntityCreatedListener(this);
@@ -101,21 +91,20 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
         priviledge.setPropertyDataSource(item.getItemProperty("priviledge"));
         priviledge.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "not_null"), false));
         form.addField("priviledge", priviledge);
-        
+
         DateField start = new DateField(t(this.caEntities.getPreacherPriviledgeClass().getCanonicalName() + ".start_date"));
         start.setPropertyDataSource(item.getItemProperty("startDate"));
         start.setResolution(Resolution.DAY);
         start.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_start_date"), false));
         start.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
         form.addField("startDate", start);
-        
+
         DateField end = new DateField(t(this.caEntities.getPreacherPriviledgeClass().getCanonicalName() + ".end_date"));
         end.setPropertyDataSource(item.getItemProperty("endDate"));
         end.setResolution(Resolution.DAY);
         end.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
         form.addField("endDate", end);
 
-        
         form.setBuffered(true);
         form.setEnabled(true);
 
@@ -139,7 +128,7 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
 
     @Override
     public void entityCreated(EntityItem<? extends PreacherPriviledge> item, JPAContainer<PreacherPriviledge> container) {
-        
+
     }
 
     public void setPreacher(Preacher preacher) {

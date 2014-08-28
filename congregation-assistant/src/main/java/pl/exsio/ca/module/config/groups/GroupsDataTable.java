@@ -52,20 +52,10 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
     protected CaEntityProviderProvider caEntityProviders;
 
     public GroupsDataTable(SecurityContext security) {
-        super(TabbedForm.class, new TableConfig() {
+        super(TabbedForm.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"group.no", "group.overseer", "group.archival", "id"});
                 setVisibleColumns(new String[]{"no", "overseerAssignments", "archival", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
     }
@@ -81,7 +71,7 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
                         SortedSet<OverseerAssignment> assignments = (SortedSet<OverseerAssignment>) property.getValue();
                         if (assignments != null && !assignments.isEmpty()) {
                             OverseerAssignment lastAssignment = assignments.last();
-                                return lastAssignment.getPreacher().getCaption();
+                            return lastAssignment.getPreacher().getCaption();
                         } else {
                             return "";
                         }

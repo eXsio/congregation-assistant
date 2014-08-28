@@ -49,20 +49,10 @@ public class PreachersDataTable extends JPADataTable<Preacher, TabbedForm> {
     protected CaEntityProviderProvider caEntityProviders;
 
     public PreachersDataTable(SecurityContext security) {
-        super(TabbedForm.class, new TableConfig() {
+        super(TabbedForm.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"preacher.first_name", "preacher.last_name", "preacher.email", "preacher.phone_no", "preacher.user", "id"});
                 setVisibleColumns(new String[]{"firstName", "lastName", "email", "phoneNo", "user", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.openEditionAfterCreation = true;

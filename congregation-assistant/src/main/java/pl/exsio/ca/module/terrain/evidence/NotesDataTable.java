@@ -67,20 +67,10 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     }
 
     public NotesDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig() {
+        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"note.content", "note.created_at", "note.created_by", "id"});
                 setVisibleColumns(new String[]{"content", "createdAt", "createdBy", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.addEntityCreatedListener(this);

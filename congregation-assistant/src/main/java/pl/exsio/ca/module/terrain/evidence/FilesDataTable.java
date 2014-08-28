@@ -47,23 +47,23 @@ import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
  * @author exsio
  */
 public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
-    
+
     public static final String TRANSLATION_PREFIX = "ca.tr_files.";
-    
+
     protected CaEntityFactory caEntities;
-    
+
     protected CaRepositoryProvider caRepositories;
-    
+
     protected Terrain terrain;
-    
+
     protected UploadField uploadField;
-    
+
     protected String lastFileName;
-    
+
     protected String lastMimeType;
-    
+
     protected long lastSize;
-    
+
     @Override
     protected void doInit() {
         super.doInit();
@@ -80,7 +80,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
         this.table.setConverter("createdAt", dateConverter);
         this.addDownloadButtonColumn();
     }
-    
+
     @Override
     protected JPAContainer<TerrainFile> createContainer() {
         JPAContainer<TerrainFile> container = super.createContainer();
@@ -88,31 +88,21 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
         container.sort(new Object[]{"createdAt"}, new boolean[]{false});
         return container;
     }
-    
+
     public FilesDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig() {
+        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"file.title", "file.name", "file.created_at", "id"});
                 setVisibleColumns(new String[]{"title", "name", "createdAt", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.addEntityCreatedListener(this);
     }
-    
+
     @Override
     protected Table createTable(JPAContainer<TerrainFile> container) {
         return new Table(this.config.getTableCaption(), container) {
-            
+
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {
                 switch (colId.toString()) {
@@ -122,17 +112,17 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
             }
         };
     }
-    
+
     protected void addDownloadButtonColumn() {
         table.addGeneratedColumn("", new Table.ColumnGenerator() {
-            
+
             @Override
             public Component generateCell(final Table source, final Object itemId, final Object columnId) {
-                
+
                 final Button download = new Button("", FontAwesome.DOWNLOAD);
                 final TerrainFile terrainFile = ((EntityItem<TerrainFile>) table.getItem(itemId)).getEntity();
                 Resource res = new StreamResource(new StreamSource() {
-                    
+
                     @Override
                     public InputStream getStream() {
                         return new ByteArrayInputStream(terrainFile.getData());
@@ -146,30 +136,30 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
             }
         });
     }
-    
+
     @Override
     protected Layout decorateForm(Form form, EntityItem<? extends TerrainFile> item, int mode) {
-        
+
         VerticalLayout formLayout = new VerticalLayout();
-        
+
         if (mode == DataTable.MODE_ADDITION) {
             form.addField("data", this.getFileField(item));
         }
         form.addField("title", this.getTitleField(item));
         form.addField("description", this.getDescriptionField(item));
-        
+
         form.setBuffered(true);
         form.setEnabled(true);
-        
+
         formLayout.addComponent(form);
         return formLayout;
     }
-    
+
     @Override
     protected boolean canOpenItem(EntityItem<? extends TerrainFile> item) {
         return true;
     }
-    
+
     private UploadField getFileField(EntityItem<? extends TerrainFile> item) {
         this.uploadField = new UploadField() {
             @Override
@@ -179,7 +169,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
                 lastSize = this.getLastFileSize();
                 return this.getLastFileName();
             }
-            
+
         };
         this.uploadField.setButtonCaption(t(this.caEntities.getTerrainFileClass().getCanonicalName() + ".data"));
         this.uploadField.setStorageMode(StorageMode.MEMORY);
@@ -188,7 +178,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
         this.uploadField.setPropertyDataSource(item.getItemProperty("data"));
         return this.uploadField;
     }
-    
+
     private TextField getTitleField(EntityItem<? extends TerrainFile> item) {
         TextField title = new TextField(t(this.caEntities.getTerrainFileClass().getCanonicalName() + ".title"));
         title.setPropertyDataSource(item.getItemProperty("title"));
@@ -196,42 +186,42 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
         title.setNullRepresentation("");
         return title;
     }
-    
+
     private TextArea getDescriptionField(EntityItem<? extends TerrainFile> item) {
         TextArea desc = new TextArea(t(this.caEntities.getTerrainFileClass().getCanonicalName() + ".decription"));
         desc.setPropertyDataSource(item.getItemProperty("description"));
         desc.setNullRepresentation("");
         return desc;
     }
-    
+
     @Override
     protected <S extends TerrainFile> Class<S> getEntityClass() {
         return this.caEntities.getTerrainFileClass();
     }
-    
+
     public void setCaEntities(CaEntityFactory caEntities) {
         this.caEntities = caEntities;
     }
-    
+
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }
-    
+
     public void setCaRepositories(CaRepositoryProvider caRepositories) {
         this.caRepositories = caRepositories;
     }
-    
+
     @Override
     public void beforeEntityCreation(EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
         item.getItemProperty("mimeType").setValue(this.lastMimeType);
         item.getItemProperty("name").setValue(this.lastFileName);
         item.getItemProperty("size").setValue(this.lastSize);
-        
+
     }
-    
+
     @Override
     public void entityCreated(EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
     }
-    
+
 }

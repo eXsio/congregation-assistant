@@ -82,20 +82,10 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     protected Button quickNotification;
 
     public TerrainDataTable(SecurityContext security) {
-        super(TabbedForm.class, new TableConfig() {
+        super(TabbedForm.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"terrain.type", "terrain.no", "terrain.name", "terrain.last_notification", "terrain.current_group", "terrain.archival", "id"});
                 setVisibleColumns(new String[]{"type", "no", "name", "lastNotificationDate", "assignments", "archival", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.openEditionAfterCreation = true;
@@ -114,7 +104,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
             }
         };
         this.table.setConverter("lastNotificationDate", dateConverter);
-        if(this.security.canWrite()) {
+        if (this.security.canWrite()) {
             this.addSelectTerrainColumn();
         }
     }
@@ -137,7 +127,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
                         SortedSet<TerrainAssignment> assignments = (SortedSet<TerrainAssignment>) property.getValue();
                         if (assignments != null && !assignments.isEmpty()) {
                             TerrainAssignment lastAssignment = assignments.last();
-                            if(!lastAssignment.isExpired() ) {
+                            if (!lastAssignment.isExpired()) {
                                 return lastAssignment.getGroup().getCaption();
                             } else {
                                 return "";
@@ -167,7 +157,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         Button printCards = this.getPrintCardsButton(types, groups, date);
 
         this.handleFilterActions(types, groups, date);
-        if(this.security.canWrite()) {
+        if (this.security.canWrite()) {
             controls.addComponent(quickNotification);
             controls.setComponentAlignment(quickNotification, Alignment.MIDDLE_CENTER);
         }
@@ -178,7 +168,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         controls.setComponentAlignment(addButton, Alignment.MIDDLE_CENTER);
         controls.setComponentAlignment(editButton, Alignment.MIDDLE_CENTER);
         controls.setComponentAlignment(deleteButton, Alignment.MIDDLE_CENTER);
-        
+
         controls.setComponentAlignment(printCards, Alignment.MIDDLE_CENTER);
 
         return controls;
@@ -209,7 +199,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         }
         return formLayout;
     }
-    
+
     @Override
     protected boolean canOpenItem(EntityItem<? extends Terrain> item) {
         return true;

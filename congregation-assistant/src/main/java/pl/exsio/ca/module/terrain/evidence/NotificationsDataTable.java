@@ -88,20 +88,10 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     public NotificationsDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig() {
+        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"terrain.notification_date", "terrain.assignment", "terrain.override_group", "terrain.event", "terrain.notification_comment", "id"});
                 setVisibleColumns(new String[]{"date", "assignment", "overrideGroup", "event", "comment", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.addEntityCreatedListener(this);
@@ -189,7 +179,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     private void filterEvents(ComboBox event, Date date) throws UnsupportedFilterException {
         JPAContainer<pl.exsio.ca.model.Event> container = (JPAContainer<pl.exsio.ca.model.Event>) event.getContainerDataSource();
         container.removeAllContainerFilters();
-        if(date != null) {
+        if (date != null) {
             container.addContainerFilter(and(new Filter[]{lteq("startDate", date), gteq("endDate", date)}));
         } else {
             container.addContainerFilter(eq("id", -1));

@@ -40,20 +40,10 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
     protected CaRepositoryProvider caRepositories;
 
     public EventsDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig() {
+        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"event.name", "event.start_date", "event.end_date", "id"});
                 setVisibleColumns(new String[]{"name", "startDate", "endDate", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
     }
@@ -69,7 +59,7 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
         };
         this.table.setConverter("startDate", dateConverter);
         this.table.setConverter("endDate", dateConverter);
-        this.table.sort(new Object[] { "startDate"}, new boolean[] { false });
+        this.table.sort(new Object[]{"startDate"}, new boolean[]{false});
     }
 
     @Override
@@ -86,9 +76,9 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
         Validator notNull = new NullValidator(t("ca.events.not_null"), false);
         form.getField("name").addValidator(notNull);
         form.getField("startDate").addValidator(notNull);
-        ((DateField)form.getField("startDate")).setDateFormat("yyyy-MM-dd");
+        ((DateField) form.getField("startDate")).setDateFormat("yyyy-MM-dd");
         form.getField("endDate").addValidator(notNull);
-        ((DateField)form.getField("endDate")).setDateFormat("yyyy-MM-dd");
+        ((DateField) form.getField("endDate")).setDateFormat("yyyy-MM-dd");
         return formLayout;
     }
 

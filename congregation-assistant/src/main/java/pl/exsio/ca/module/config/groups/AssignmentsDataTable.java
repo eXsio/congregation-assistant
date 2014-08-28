@@ -80,20 +80,10 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
     }
 
     public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig() {
+        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
             {
-                setAddButtonLabel(TRANSLATION_PREFIX + "button.create");
-                setAdditionSuccessMessage(TRANSLATION_PREFIX + "created");
-                setAdditionWindowTitle(TRANSLATION_PREFIX + "window.create");
                 setColumnHeaders(new String[]{"overseer.preacher", "overseer.group_no", "overseer.assignment_start_date", "overseer.assignment_active", "id"});
                 setVisibleColumns(new String[]{"preacher", "groupNo", "date", "active", "id"});
-                setDeleteButtonLabel(TRANSLATION_PREFIX + "button.delete");
-                setDeletionSuccessMessage(TRANSLATION_PREFIX + "msg.deleted");
-                setDeletionWindowQuestion(TRANSLATION_PREFIX + "confirmation.delete");
-                setEditButtonLabel(TRANSLATION_PREFIX + "button.edit");
-                setEditionSuccessMessage(TRANSLATION_PREFIX + "msg.edited");
-                setEditionWindowTitle(TRANSLATION_PREFIX + "window.edit");
-                setTableCaption("");
             }
         }, security);
         this.addEntityCreatedListener(this);
@@ -143,7 +133,7 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
         date.setDateFormat("yyyy-MM-dd");
         return date;
     }
-    
+
     private TextField getGroupNoField(EntityItem<? extends OverseerAssignment> item) {
         TextField groupNo = new TextField(t(this.caEntities.getOverseerAssignmentClass().getCanonicalName() + ".groupNo"));
         groupNo.setPropertyDataSource(item.getItemProperty("groupNo"));
