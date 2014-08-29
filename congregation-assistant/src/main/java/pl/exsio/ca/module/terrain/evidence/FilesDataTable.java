@@ -38,9 +38,9 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
-import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 
 /**
  *
@@ -90,7 +90,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     public FilesDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
             {
                 setColumnHeaders(new String[]{"file.title", "file.name", "file.created_at", "id"});
                 setVisibleColumns(new String[]{"title", "name", "createdAt", "id"});

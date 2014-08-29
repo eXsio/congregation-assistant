@@ -44,8 +44,8 @@ import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
-import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 
 /**
  *
@@ -88,7 +88,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     public NotificationsDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
             {
                 setColumnHeaders(new String[]{"terrain.notification_date", "terrain.assignment", "terrain.override_group", "terrain.event", "terrain.notification_comment", "id"});
                 setVisibleColumns(new String[]{"date", "assignment", "overrideGroup", "event", "comment", "id"});

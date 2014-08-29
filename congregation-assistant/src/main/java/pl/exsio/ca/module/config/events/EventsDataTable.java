@@ -23,7 +23,8 @@ import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.AclSubjectDataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.AclSubjectDataTable;
 
 /**
  *
@@ -40,7 +41,7 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
     protected CaRepositoryProvider caRepositories;
 
     public EventsDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
             {
                 setColumnHeaders(new String[]{"event.name", "event.start_date", "event.end_date", "id"});
                 setVisibleColumns(new String[]{"name", "startDate", "endDate", "id"});

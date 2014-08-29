@@ -8,7 +8,6 @@ package pl.exsio.ca.module.config.groups;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Property;
-import com.vaadin.data.validator.NullValidator;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
@@ -24,16 +23,16 @@ import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
-import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.AclSubjectDataTable;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
-import pl.exsio.frameset.vaadin.ui.support.component.TabbedForm;
+import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.AclSubjectDataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
 
 /**
  *
@@ -52,7 +51,7 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
     protected CaEntityProviderProvider caEntityProviders;
 
     public GroupsDataTable(SecurityContext security) {
-        super(TabbedForm.class, new TableConfig(TRANSLATION_PREFIX) {
+        super(TabbedForm.class, new DataConfig(TRANSLATION_PREFIX) {
             {
                 setColumnHeaders(new String[]{"group.no", "group.overseer", "group.archival", "id"});
                 setVisibleColumns(new String[]{"no", "overseerAssignments", "archival", "id"});

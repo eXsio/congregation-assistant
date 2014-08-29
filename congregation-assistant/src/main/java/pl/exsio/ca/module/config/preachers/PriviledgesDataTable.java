@@ -28,8 +28,8 @@ import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
-import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 
 /**
  *
@@ -73,7 +73,7 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
     }
 
     public PriviledgesDataTable(SecurityContext security) {
-        super(Form.class, new TableConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
             {
                 setColumnHeaders(new String[]{"preacher.priviledge", "preacher.priviledge_start_date", "preacher.priviledge_end_date", "id"});
                 setVisibleColumns(new String[]{"priviledge", "startDate", "endDate", "id"});

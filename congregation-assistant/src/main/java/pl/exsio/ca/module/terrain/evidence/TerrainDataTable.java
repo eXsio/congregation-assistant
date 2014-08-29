@@ -56,10 +56,10 @@ import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable;
-import pl.exsio.frameset.vaadin.ui.support.component.DataTable.TableConfig;
-import pl.exsio.frameset.vaadin.ui.support.component.JPADataTable;
-import pl.exsio.frameset.vaadin.ui.support.component.TabbedForm;
+import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
 
 /**
  *
@@ -82,7 +82,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     protected Button quickNotification;
 
     public TerrainDataTable(SecurityContext security) {
-        super(TabbedForm.class, new TableConfig(TRANSLATION_PREFIX) {
+        super(TabbedForm.class, new DataConfig(TRANSLATION_PREFIX) {
             {
                 setColumnHeaders(new String[]{"terrain.type", "terrain.no", "terrain.name", "terrain.last_notification", "terrain.current_group", "terrain.archival", "id"});
                 setVisibleColumns(new String[]{"type", "no", "name", "lastNotificationDate", "assignments", "archival", "id"});
