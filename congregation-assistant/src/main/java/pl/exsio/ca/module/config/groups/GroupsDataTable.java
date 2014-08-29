@@ -57,7 +57,7 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
                 setVisibleColumns(new String[]{"no", "overseerAssignments", "archival", "id"});
             }
         }, security);
-        this.flexableControls = true;
+        this.flexibleControls = true;
     }
 
     @Override

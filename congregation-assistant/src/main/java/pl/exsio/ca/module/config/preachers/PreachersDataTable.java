@@ -56,7 +56,7 @@ public class PreachersDataTable extends JPADataTable<Preacher, TabbedForm> {
             }
         }, security);
         this.openEditionAfterCreation = true;
-        this.flexableControls = true;
+        this.flexibleControls = true;
     }
 
     @Override

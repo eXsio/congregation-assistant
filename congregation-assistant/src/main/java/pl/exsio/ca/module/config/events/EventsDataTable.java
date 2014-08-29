@@ -47,7 +47,7 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
                 setVisibleColumns(new String[]{"name", "startDate", "endDate", "id"});
             }
         }, security);
-        this.flexableControls = true;
+        this.flexibleControls = true;
     }
 
     @Override
