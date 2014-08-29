@@ -138,6 +138,11 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     @Override
+    protected float getControlsExpandRatio() {
+        return 1.4f;
+    }
+
+    @Override
     protected Layout decorateForm(Form form, EntityItem<? extends TerrainFile> item, int mode) {
 
         VerticalLayout formLayout = new VerticalLayout();

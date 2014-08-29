@@ -125,6 +125,11 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
         return formLayout;
     }
 
+    @Override
+    protected float getControlsExpandRatio() {
+        return 1.4f;
+    }
+
     private DateField getDateField(EntityItem<? extends OverseerAssignment> item) {
         DateField date = new DateField(t(this.caEntities.getOverseerAssignmentClass().getCanonicalName() + ".date"));
         date.setPropertyDataSource(item.getItemProperty("date"));

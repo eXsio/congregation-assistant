@@ -127,6 +127,11 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     @Override
+    protected float getControlsExpandRatio() {
+        return 1.4f;
+    }
+
+    @Override
     protected boolean canOpenItem(EntityItem<? extends TerrainNotification> item) {
         return true;
     }

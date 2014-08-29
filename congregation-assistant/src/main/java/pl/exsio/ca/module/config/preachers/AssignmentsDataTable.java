@@ -120,6 +120,11 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
         formLayout.addComponent(form);
         return formLayout;
     }
+    
+    @Override
+    protected float getControlsExpandRatio() {
+        return 1.4f;
+    }
 
     private DateField getDateField(EntityItem<? extends PreacherAssignment> item) {
         DateField date = new DateField(t(this.caEntities.getPreacherAssignmentClass().getCanonicalName() + ".date"));

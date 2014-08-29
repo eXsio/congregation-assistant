@@ -124,6 +124,11 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
         return formLayout;
     }
 
+    @Override
+    protected float getControlsExpandRatio() {
+        return 1.4f;
+    }
+
     private TextArea getContentField(EntityItem<? extends TerrainNote> item) {
         TextArea desc = new TextArea(t(this.caEntities.getTerrainNoteClass().getCanonicalName() + ".content"));
         desc.setPropertyDataSource(item.getItemProperty("content"));

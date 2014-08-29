@@ -16,6 +16,7 @@ import pl.exsio.frameset.vaadin.navigation.menu.AccordionMenu;
 import pl.exsio.frameset.vaadin.navigation.target.NavigationTarget;
 import pl.exsio.frameset.vaadin.ui.Viewport;
 import pl.exsio.frameset.vaadin.ui.support.flexer.Flexer;
+import pl.exsio.frameset.vaadin.ui.support.flexer.OrderedLayoutHeightFlexerImpl;
 import pl.exsio.frameset.vaadin.ui.support.flexer.OrderedLayoutWidthFlexerImpl;
 
 /**
@@ -66,6 +67,19 @@ public class AppViewport extends InitializableHorizontalLayout implements Viewpo
                 setSpacing(true);
                 this.setExpandRatio(accountMenu, 1);
                 this.setExpandRatio(menu, 8);
+                
+                Flexer accMenuFlexer = new OrderedLayoutHeightFlexerImpl(this, accountMenu);
+                accMenuFlexer.addConstraint(900, 1)
+                        .addConstraint(900, 1)
+                        .addConstraint(800, 1.1)
+                        .addConstraint(700, 1.3)
+                        .addConstraint(600, 1.6)
+                        .addConstraint(500, 2)
+                        .addConstraint(400, 2.3)
+                        .addConstraint(300, 3)
+                        .attach();
+                        
+                        
 
                 accountMenu.setSizeFull();
                 setStyleName("sidebar");

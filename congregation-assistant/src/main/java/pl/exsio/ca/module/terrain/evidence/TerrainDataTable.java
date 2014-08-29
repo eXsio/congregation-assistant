@@ -89,6 +89,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
             }
         }, security);
         this.openEditionAfterCreation = true;
+        this.flexableControls = true;
         this.selectedTerrains = new HashSet<>();
         this.quickNotification = new Button("", FontAwesome.CHECK);
         this.quickNotification.setEnabled(false);

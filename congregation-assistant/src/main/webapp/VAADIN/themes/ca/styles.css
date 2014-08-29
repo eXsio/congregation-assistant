@@ -6119,10 +6119,6 @@ body .ca.v-app .v-app-loading {
 	padding-right: 17px;
 }
 
-.ca .v-slot-user {
-	min-height: 100px;
-}
-
 .ca .sidebar .menu .v-nativebutton-caption {
 	font-size: 12px;
 	display: block;

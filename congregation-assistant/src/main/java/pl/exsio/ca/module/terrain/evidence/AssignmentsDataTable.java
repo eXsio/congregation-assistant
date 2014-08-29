@@ -72,6 +72,7 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
         this.table.setConverter("startDate", dateConverter);
         this.table.setConverter("endDate", dateConverter);
     }
+    
 
     @Override
     protected JPAContainer<TerrainAssignment> createContainer() {
@@ -111,6 +112,11 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
                 }
             }
         };
+    }
+    
+    @Override
+    protected float getControlsExpandRatio() {
+        return 1.4f;
     }
 
     @Override

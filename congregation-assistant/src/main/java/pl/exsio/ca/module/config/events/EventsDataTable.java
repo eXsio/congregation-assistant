@@ -47,6 +47,7 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
                 setVisibleColumns(new String[]{"name", "startDate", "endDate", "id"});
             }
         }, security);
+        this.flexableControls = true;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             }
         };
+
         this.table.setConverter("startDate", dateConverter);
         this.table.setConverter("endDate", dateConverter);
         this.table.sort(new Object[]{"startDate"}, new boolean[]{false});

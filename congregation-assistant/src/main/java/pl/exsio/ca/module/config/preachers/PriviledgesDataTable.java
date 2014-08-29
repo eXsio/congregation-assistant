@@ -113,6 +113,11 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
     }
 
     @Override
+    protected float getControlsExpandRatio() {
+        return 1.4f;
+    }
+
+    @Override
     protected <S extends PreacherPriviledge> Class<S> getEntityClass() {
         return this.caEntities.getPreacherPriviledgeClass();
     }
