@@ -25,7 +25,6 @@ import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
@@ -42,6 +41,15 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     protected CaRepositoryProvider caRepositories;
 
     protected Terrain terrain;
+
+    public NotesDataTable(SecurityContext security) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+            {
+                setColumnHeaders("note.content", "note.created_at", "note.created_by", "id");
+                setVisibleColumns("content", "createdAt", "createdBy", "id");
+            }
+        }, security);
+    }
 
     @Override
     protected void doInit() {
@@ -65,16 +73,6 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
         container.addContainerFilter(eq("terrain", this.terrain));
         container.sort(new Object[]{"createdAt"}, new boolean[]{false});
         return container;
-    }
-
-    public NotesDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
-            {
-                setColumnHeaders("note.content", "note.created_at", "note.created_by", "id");
-                setVisibleColumns("content", "createdAt", "createdBy", "id");
-            }
-        }, security);
-        this.addDataAddedListener(this);
     }
 
     @Override
@@ -155,13 +153,9 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     }
 
     @Override
-    public void beforeEntityAddition(EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
+    public void beforeEntityAddition(Form form, EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
 
-    }
-
-    @Override
-    public void entityAdded(EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
     }
 
 }

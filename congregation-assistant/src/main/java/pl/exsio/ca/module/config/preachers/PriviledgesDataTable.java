@@ -44,6 +44,15 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
 
     protected Preacher preacher;
 
+    public PriviledgesDataTable(SecurityContext security) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+            {
+                setColumnHeaders("preacher.priviledge", "preacher.priviledge_start_date", "preacher.priviledge_end_date", "id");
+                setVisibleColumns("priviledge", "startDate", "endDate", "id");
+            }
+        }, security);
+    }
+
     @Override
     protected void doInit() {
         super.doInit();
@@ -71,16 +80,6 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
     protected HorizontalLayout decorateControls(HorizontalLayout controls) {
         controls.removeComponent(this.editButton);
         return super.decorateControls(controls);
-    }
-
-    public PriviledgesDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
-            {
-                setColumnHeaders("preacher.priviledge", "preacher.priviledge_start_date", "preacher.priviledge_end_date", "id");
-                setVisibleColumns("priviledge", "startDate", "endDate", "id");
-            }
-        }, security);
-        this.addDataAddedListener(this);
     }
 
     @Override
@@ -128,13 +127,8 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
     }
 
     @Override
-    public void beforeEntityAddition(EntityItem<? extends PreacherPriviledge> item, JPAContainer<PreacherPriviledge> container) {
+    public void beforeEntityAddition(Form form, EntityItem<? extends PreacherPriviledge> item, JPAContainer<PreacherPriviledge> container) {
         item.getItemProperty("preacher").setValue(this.preacher);
-    }
-
-    @Override
-    public void entityAdded(EntityItem<? extends PreacherPriviledge> item, JPAContainer<PreacherPriviledge> container) {
-
     }
 
     public void setPreacher(Preacher preacher) {

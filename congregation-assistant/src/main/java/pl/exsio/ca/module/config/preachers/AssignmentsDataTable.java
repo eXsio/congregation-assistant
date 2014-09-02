@@ -34,7 +34,6 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
@@ -53,6 +52,15 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
     protected Preacher preacher;
 
     protected EntityProvider serviceGroupEntityProvider;
+
+    public AssignmentsDataTable(SecurityContext security) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+            {
+                setColumnHeaders("preacher.group", "preacher.assignment_date", "preacher.assignment_active", "id");
+                setVisibleColumns("group", "date", "active", "id");
+            }
+        }, security);
+    }
 
     @Override
     protected void doInit() {
@@ -75,18 +83,6 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
         container.addContainerFilter(eq("preacher", this.preacher));
         container.sort(new Object[]{"date"}, new boolean[]{false});
         return container;
-    }
-
-    public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
-            {
-                setColumnHeaders("preacher.group", "preacher.assignment_date", "preacher.assignment_active", "id");
-                setVisibleColumns("group", "date", "active", "id");
-            }
-        }, security);
-        this.addDataAddedListener(this);
-        this.addDataUpdatedListener(this);
-        this.addDataDeletedListener(this);
     }
 
     @Override
@@ -158,30 +154,22 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
     }
 
     @Override
-    public void beforeEntityAddition(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void beforeEntityAddition(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         item.getItemProperty("preacher").setValue(this.preacher);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityAdded(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void entityAdded(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         this.setNewActive();
         container.refresh();
-    }
-
-    @Override
-    public void beforeEntityUpdate(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityUpdated(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void entityUpdated(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         this.setNewActive();
         container.refresh();
-    }
-
-    @Override
-    public void beforeEntityDeletion(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
     }
 
     @Override

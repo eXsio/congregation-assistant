@@ -36,7 +36,6 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
@@ -55,6 +54,15 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
     protected ServiceGroup group;
 
     protected EntityProvider preacherEntityProvider;
+
+    public AssignmentsDataTable(SecurityContext security) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+            {
+                setColumnHeaders("overseer.preacher", "overseer.group_no", "overseer.assignment_start_date", "overseer.assignment_active", "id");
+                setVisibleColumns("preacher", "groupNo", "date", "active", "id");
+            }
+        }, security);
+    }
 
     @Override
     protected void doInit() {
@@ -78,18 +86,6 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
         container.addContainerFilter(eq("group", this.group));
         container.sort(new Object[]{"date"}, new boolean[]{false});
         return container;
-    }
-
-    public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
-            {
-                setColumnHeaders("overseer.preacher", "overseer.group_no", "overseer.assignment_start_date", "overseer.assignment_active", "id");
-                setVisibleColumns("preacher", "groupNo", "date", "active", "id");
-            }
-        }, security);
-        this.addDataAddedListener(this);
-        this.addDataUpdatedListener(this);
-        this.addDataDeletedListener(this);
     }
 
     @Override
@@ -170,30 +166,22 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
     }
 
     @Override
-    public void beforeEntityAddition(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void beforeEntityAddition(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         item.getItemProperty("group").setValue(this.group);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityAdded(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void entityAdded(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         this.setNewActive();
         container.refresh();
-    }
-
-    @Override
-    public void beforeEntityUpdate(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityUpdated(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void entityUpdated(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         this.setNewActive();
         container.refresh();
-    }
-
-    @Override
-    public void beforeEntityDeletion(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
     }
 
     @Override

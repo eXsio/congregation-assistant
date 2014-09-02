@@ -38,7 +38,6 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
@@ -65,6 +64,15 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
 
     protected long lastSize;
 
+    public FilesDataTable(SecurityContext security) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+            {
+                setColumnHeaders("file.title", "file.name", "file.created_at", "id");
+                setVisibleColumns("title", "name", "createdAt", "id");
+            }
+        }, security);
+    }
+
     @Override
     protected void doInit() {
         super.doInit();
@@ -88,16 +96,6 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
         container.addContainerFilter(eq("terrain", this.terrain));
         container.sort(new Object[]{"createdAt"}, new boolean[]{false});
         return container;
-    }
-
-    public FilesDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
-            {
-                setColumnHeaders("file.title", "file.name", "file.created_at", "id");
-                setVisibleColumns("title", "name", "createdAt", "id");
-            }
-        }, security);
-        this.addDataAddedListener(this);
     }
 
     @Override
@@ -218,16 +216,11 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     @Override
-    public void beforeEntityAddition(EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
+    public void beforeEntityAddition(Form form, EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
         item.getItemProperty("mimeType").setValue(this.lastMimeType);
         item.getItemProperty("name").setValue(this.lastFileName);
         item.getItemProperty("size").setValue(this.lastSize);
 
     }
-
-    @Override
-    public void entityAdded(EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
-    }
-
 }

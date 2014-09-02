@@ -37,7 +37,6 @@ import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
@@ -56,6 +55,15 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     protected Terrain terrain;
 
     protected EntityProvider serviceGroupEntityProvider;
+
+    public AssignmentsDataTable(SecurityContext security) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+            {
+                setColumnHeaders("terrain.group", "terrain.assignment_start_date", "terrain.assignment_end_date", "preacher.assignment_active", "id");
+                setVisibleColumns("group", "startDate", "endDate", "active", "id");
+            }
+        }, security);
+    }
 
     @Override
     protected void doInit() {
@@ -80,18 +88,6 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
         container.addContainerFilter(eq("terrain", this.terrain));
         container.sort(new Object[]{"startDate"}, new boolean[]{false});
         return container;
-    }
-
-    public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
-            {
-                setColumnHeaders("terrain.group", "terrain.assignment_start_date", "terrain.assignment_end_date", "preacher.assignment_active", "id");
-                setVisibleColumns("group", "startDate", "endDate", "active", "id");
-            }
-        }, security);
-        this.addDataAddedListener(this);
-        this.addDataUpdatedListener(this);
-        this.addDataDeletedListener(this);
     }
 
     @Override
@@ -188,30 +184,22 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     }
 
     @Override
-    public void beforeEntityAddition(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void beforeEntityAddition(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityAdded(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void entityAdded(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         this.setNewActive();
         container.refresh();
-    }
-
-    @Override
-    public void beforeEntityUpdate(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityUpdated(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void entityUpdated(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         this.setNewActive();
         container.refresh();
-    }
-
-    @Override
-    public void beforeEntityDeletion(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
     }
 
     @Override

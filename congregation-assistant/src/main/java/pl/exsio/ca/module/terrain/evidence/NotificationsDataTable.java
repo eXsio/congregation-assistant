@@ -44,7 +44,6 @@ import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
@@ -63,6 +62,15 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     protected Terrain terrain;
 
     protected CaEntityProviderProvider caEntityProviders;
+
+    public NotificationsDataTable(SecurityContext security) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+            {
+                setColumnHeaders("terrain.notification_date", "terrain.assignment", "terrain.override_group", "terrain.event", "terrain.notification_comment", "id");
+                setVisibleColumns("date", "assignment", "overrideGroup", "event", "comment", "id");
+            }
+        }, security);
+    }
 
     @Override
     protected void doInit() {
@@ -86,18 +94,6 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         container.addContainerFilter(joinFilter("assignment", new Filter[]{eq("terrain", this.terrain)}));
         container.sort(new Object[]{"date"}, new boolean[]{false});
         return container;
-    }
-
-    public NotificationsDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
-            {
-                setColumnHeaders("terrain.notification_date", "terrain.assignment", "terrain.override_group", "terrain.event", "terrain.notification_comment", "id");
-                setVisibleColumns("date", "assignment", "overrideGroup", "event", "comment", "id");
-            }
-        }, security);
-        this.addDataAddedListener(this);
-        this.addDataDeletedListener(this);
-        this.addDataUpdatedListener(this);
     }
 
     @Override
@@ -273,25 +269,13 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     @Override
-    public void beforeEntityAddition(EntityItem item, JPAContainer container) {
-    }
-
-    @Override
-    public void entityAdded(EntityItem item, JPAContainer container) {
+    public void entityAdded(Form form, EntityItem item, JPAContainer container) {
         this.updateLastNotificationDate();
     }
 
     @Override
-    public void beforeEntityUpdate(EntityItem item, JPAContainer container) {
-    }
-
-    @Override
-    public void entityUpdated(EntityItem item, JPAContainer container) {
+    public void entityUpdated(Form form, EntityItem item, JPAContainer container) {
         this.updateLastNotificationDate();
-    }
-
-    @Override
-    public void beforeEntityDeletion(EntityItem item, JPAContainer container) {
     }
 
     @Override
