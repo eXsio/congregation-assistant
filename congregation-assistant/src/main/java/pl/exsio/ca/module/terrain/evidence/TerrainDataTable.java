@@ -60,6 +60,7 @@ import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -82,13 +83,13 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     protected Button quickNotification;
 
     public TerrainDataTable(SecurityContext security) {
-        super(TabbedForm.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(TabbedForm.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"terrain.type", "terrain.no", "terrain.name", "terrain.last_notification", "terrain.current_group", "terrain.archival", "id"});
-                setVisibleColumns(new String[]{"type", "no", "name", "lastNotificationDate", "assignments", "archival", "id"});
+                setColumnHeaders("terrain.type", "terrain.no", "terrain.name", "terrain.last_notification", "terrain.current_group", "terrain.archival", "id");
+                setVisibleColumns("type", "no", "name", "lastNotificationDate", "assignments", "archival", "id");
             }
         }, security);
-        this.openEditionAfterCreation = true;
+        this.openEditionAfterAddition = true;
         this.flexibleControls = true;
         this.selectedTerrains = new HashSet<>();
         this.quickNotification = new Button("", FontAwesome.CHECK);
@@ -104,7 +105,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             }
         };
-        this.table.setConverter("lastNotificationDate", dateConverter);
+        this.dataComponent.setConverter("lastNotificationDate", dateConverter);
         if (this.security.canWrite()) {
             this.addSelectTerrainColumn();
         }
@@ -118,8 +119,8 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     }
 
     @Override
-    protected Table createTable(JPAContainer<Terrain> container) {
-        return new Table(this.config.getTableCaption(), container) {
+    protected Table createDataComponent(JPAContainer<Terrain> container) {
+        return new Table(this.config.getCaption(), container) {
 
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {
@@ -271,7 +272,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     }
 
     protected void addSelectTerrainColumn() {
-        table.addGeneratedColumn("", new ColumnGenerator() {
+        dataComponent.addGeneratedColumn("", new ColumnGenerator() {
 
             @Override
             public Component generateCell(final Table source, final Object itemId, final Object columnId) {
@@ -281,7 +282,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
                 checkBox.addValueChangeListener(new Property.ValueChangeListener() {
                     @Override
                     public void valueChange(final ValueChangeEvent event) {
-                        Terrain terrain = ((EntityItem<Terrain>) table.getItem(itemId)).getEntity();
+                        Terrain terrain = ((EntityItem<Terrain>) dataComponent.getItem(itemId)).getEntity();
                         if ((Boolean) event.getProperty().getValue()) {
                             selectedTerrains.add(terrain);
                         } else {
@@ -349,7 +350,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
 
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                JPAContainer<Terrain> terrains = (JPAContainer<Terrain>) table.getContainerDataSource();
+                JPAContainer<Terrain> terrains = (JPAContainer<Terrain>) dataComponent.getContainerDataSource();
                 terrains.removeAllContainerFilters();
                 if (types.getValue() != null) {
                     terrains.addContainerFilter(eq("type", types.getValue()));
@@ -373,7 +374,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (!selectedTerrains.isEmpty()) {
-                    QuickNotifyWindow window = new QuickNotifyWindow(selectedTerrains, (JPAContainer<Terrain>) table.getContainerDataSource());
+                    QuickNotifyWindow window = new QuickNotifyWindow(selectedTerrains, (JPAContainer<Terrain>) dataComponent.getContainerDataSource());
                     window.setCaEntities(caEntities);
                     window.setCaRepositories(caRepositories);
                     window.setCaEntityProviders(caEntityProviders);

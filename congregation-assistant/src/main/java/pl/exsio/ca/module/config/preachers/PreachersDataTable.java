@@ -29,6 +29,7 @@ import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -49,13 +50,13 @@ public class PreachersDataTable extends JPADataTable<Preacher, TabbedForm> {
     protected CaEntityProviderProvider caEntityProviders;
 
     public PreachersDataTable(SecurityContext security) {
-        super(TabbedForm.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(TabbedForm.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"preacher.first_name", "preacher.last_name", "preacher.email", "preacher.phone_no", "preacher.user", "id"});
-                setVisibleColumns(new String[]{"firstName", "lastName", "email", "phoneNo", "user", "id"});
+                setColumnHeaders("preacher.first_name", "preacher.last_name", "preacher.email", "preacher.phone_no", "preacher.user", "id");
+                setVisibleColumns("firstName", "lastName", "email", "phoneNo", "user", "id");
             }
         }, security);
-        this.openEditionAfterCreation = true;
+        this.openEditionAfterAddition = true;
         this.flexibleControls = true;
     }
 

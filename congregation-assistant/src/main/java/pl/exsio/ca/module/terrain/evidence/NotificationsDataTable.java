@@ -46,6 +46,7 @@ import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -76,7 +77,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             }
         };
-        this.table.setConverter("date", dateConverter);
+        this.dataComponent.setConverter("date", dateConverter);
     }
 
     @Override
@@ -88,15 +89,15 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     public NotificationsDataTable(SecurityContext security) {
-        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"terrain.notification_date", "terrain.assignment", "terrain.override_group", "terrain.event", "terrain.notification_comment", "id"});
-                setVisibleColumns(new String[]{"date", "assignment", "overrideGroup", "event", "comment", "id"});
+                setColumnHeaders("terrain.notification_date", "terrain.assignment", "terrain.override_group", "terrain.event", "terrain.notification_comment", "id");
+                setVisibleColumns("date", "assignment", "overrideGroup", "event", "comment", "id");
             }
         }, security);
-        this.addEntityCreatedListener(this);
-        this.addEntityDeletedListener(this);
-        this.addEntityUpdatedListener(this);
+        this.addDataAddedListener(this);
+        this.addDataDeletedListener(this);
+        this.addDataUpdatedListener(this);
     }
 
     @Override
@@ -272,11 +273,11 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     @Override
-    public void beforeEntityCreation(EntityItem item, JPAContainer container) {
+    public void beforeEntityAddition(EntityItem item, JPAContainer container) {
     }
 
     @Override
-    public void entityCreated(EntityItem item, JPAContainer container) {
+    public void entityAdded(EntityItem item, JPAContainer container) {
         this.updateLastNotificationDate();
     }
 

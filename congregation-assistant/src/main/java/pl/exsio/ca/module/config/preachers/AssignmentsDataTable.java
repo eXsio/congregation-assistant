@@ -36,6 +36,7 @@ import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -65,7 +66,7 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             }
         };
-        this.table.setConverter("date", dateConverter);
+        this.dataComponent.setConverter("date", dateConverter);
     }
 
     @Override
@@ -77,20 +78,20 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
     }
 
     public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"preacher.group", "preacher.assignment_date", "preacher.assignment_active", "id"});
-                setVisibleColumns(new String[]{"group", "date", "active", "id"});
+                setColumnHeaders("preacher.group", "preacher.assignment_date", "preacher.assignment_active", "id");
+                setVisibleColumns("group", "date", "active", "id");
             }
         }, security);
-        this.addEntityCreatedListener(this);
-        this.addEntityUpdatedListener(this);
-        this.addEntityDeletedListener(this);
+        this.addDataAddedListener(this);
+        this.addDataUpdatedListener(this);
+        this.addDataDeletedListener(this);
     }
 
     @Override
-    protected Table createTable(JPAContainer<PreacherAssignment> container) {
-        return new Table(this.config.getTableCaption(), container) {
+    protected Table createDataComponent(JPAContainer<PreacherAssignment> container) {
+        return new Table(this.config.getCaption(), container) {
 
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {
@@ -120,7 +121,7 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
         formLayout.addComponent(form);
         return formLayout;
     }
-    
+
     @Override
     protected float getControlsExpandRatio() {
         return 1.4f;
@@ -157,13 +158,13 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
     }
 
     @Override
-    public void beforeEntityCreation(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void beforeEntityAddition(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         item.getItemProperty("preacher").setValue(this.preacher);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityCreated(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void entityAdded(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         this.setNewActive();
         container.refresh();
     }

@@ -41,6 +41,7 @@ import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -77,7 +78,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             }
         };
-        this.table.setConverter("createdAt", dateConverter);
+        this.dataComponent.setConverter("createdAt", dateConverter);
         this.addDownloadButtonColumn();
     }
 
@@ -90,18 +91,18 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     public FilesDataTable(SecurityContext security) {
-        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"file.title", "file.name", "file.created_at", "id"});
-                setVisibleColumns(new String[]{"title", "name", "createdAt", "id"});
+                setColumnHeaders("file.title", "file.name", "file.created_at", "id");
+                setVisibleColumns("title", "name", "createdAt", "id");
             }
         }, security);
-        this.addEntityCreatedListener(this);
+        this.addDataAddedListener(this);
     }
 
     @Override
-    protected Table createTable(JPAContainer<TerrainFile> container) {
-        return new Table(this.config.getTableCaption(), container) {
+    protected Table createDataComponent(JPAContainer<TerrainFile> container) {
+        return new Table(this.config.getCaption(), container) {
 
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {
@@ -114,13 +115,13 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     protected void addDownloadButtonColumn() {
-        table.addGeneratedColumn("", new Table.ColumnGenerator() {
+        dataComponent.addGeneratedColumn("", new Table.ColumnGenerator() {
 
             @Override
             public Component generateCell(final Table source, final Object itemId, final Object columnId) {
 
                 final Button download = new Button("", FontAwesome.DOWNLOAD);
-                final TerrainFile terrainFile = ((EntityItem<TerrainFile>) table.getItem(itemId)).getEntity();
+                final TerrainFile terrainFile = ((EntityItem<TerrainFile>) dataComponent.getItem(itemId)).getEntity();
                 Resource res = new StreamResource(new StreamSource() {
 
                     @Override
@@ -217,7 +218,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     @Override
-    public void beforeEntityCreation(EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
+    public void beforeEntityAddition(EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
         item.getItemProperty("mimeType").setValue(this.lastMimeType);
         item.getItemProperty("name").setValue(this.lastFileName);
@@ -226,7 +227,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     @Override
-    public void entityCreated(EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
+    public void entityAdded(EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
     }
 
 }

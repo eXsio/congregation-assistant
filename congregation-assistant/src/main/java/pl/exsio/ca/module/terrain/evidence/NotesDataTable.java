@@ -27,6 +27,7 @@ import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
 import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -55,7 +56,7 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             }
         };
-        this.table.setConverter("createdAt", dateConverter);
+        this.dataComponent.setConverter("createdAt", dateConverter);
     }
 
     @Override
@@ -67,17 +68,17 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     }
 
     public NotesDataTable(SecurityContext security) {
-        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"note.content", "note.created_at", "note.created_by", "id"});
-                setVisibleColumns(new String[]{"content", "createdAt", "createdBy", "id"});
+                setColumnHeaders("note.content", "note.created_at", "note.created_by", "id");
+                setVisibleColumns("content", "createdAt", "createdBy", "id");
             }
         }, security);
-        this.addEntityCreatedListener(this);
+        this.addDataAddedListener(this);
     }
 
     @Override
-    protected boolean canCreateItem() {
+    protected boolean canAddItem() {
         return true;
     }
 
@@ -97,8 +98,8 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     }
 
     @Override
-    protected Table createTable(JPAContainer<TerrainNote> container) {
-        return new Table(this.config.getTableCaption(), container) {
+    protected Table createDataComponent(JPAContainer<TerrainNote> container) {
+        return new Table(this.config.getCaption(), container) {
 
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {
@@ -154,13 +155,13 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     }
 
     @Override
-    public void beforeEntityCreation(EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
+    public void beforeEntityAddition(EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
 
     }
 
     @Override
-    public void entityCreated(EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
+    public void entityAdded(EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
     }
 
 }

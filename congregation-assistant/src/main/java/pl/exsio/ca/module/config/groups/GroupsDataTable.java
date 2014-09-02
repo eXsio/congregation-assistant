@@ -33,6 +33,7 @@ import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.AclSubjectDataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -51,18 +52,18 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
     protected CaEntityProviderProvider caEntityProviders;
 
     public GroupsDataTable(SecurityContext security) {
-        super(TabbedForm.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(TabbedForm.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"group.no", "group.overseer", "group.archival", "id"});
-                setVisibleColumns(new String[]{"no", "overseerAssignments", "archival", "id"});
+                setColumnHeaders("group.no", "group.overseer", "group.archival", "id");
+                setVisibleColumns("no", "overseerAssignments", "archival", "id");
             }
         }, security);
         this.flexibleControls = true;
     }
 
     @Override
-    protected Table createTable(JPAContainer<ServiceGroup> container) {
-        return new Table(this.config.getTableCaption(), container) {
+    protected Table createDataComponent(JPAContainer<ServiceGroup> container) {
+        return new Table(this.config.getCaption(), container) {
 
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {

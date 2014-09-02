@@ -38,6 +38,7 @@ import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -68,7 +69,7 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             }
         };
-        this.table.setConverter("date", dateConverter);
+        this.dataComponent.setConverter("date", dateConverter);
     }
 
     @Override
@@ -80,20 +81,20 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
     }
 
     public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"overseer.preacher", "overseer.group_no", "overseer.assignment_start_date", "overseer.assignment_active", "id"});
-                setVisibleColumns(new String[]{"preacher", "groupNo", "date", "active", "id"});
+                setColumnHeaders("overseer.preacher", "overseer.group_no", "overseer.assignment_start_date", "overseer.assignment_active", "id");
+                setVisibleColumns("preacher", "groupNo", "date", "active", "id");
             }
         }, security);
-        this.addEntityCreatedListener(this);
-        this.addEntityUpdatedListener(this);
-        this.addEntityDeletedListener(this);
+        this.addDataAddedListener(this);
+        this.addDataUpdatedListener(this);
+        this.addDataDeletedListener(this);
     }
 
     @Override
-    protected Table createTable(JPAContainer<OverseerAssignment> container) {
-        return new Table(this.config.getTableCaption(), container) {
+    protected Table createDataComponent(JPAContainer<OverseerAssignment> container) {
+        return new Table(this.config.getCaption(), container) {
 
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {
@@ -169,13 +170,13 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
     }
 
     @Override
-    public void beforeEntityCreation(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void beforeEntityAddition(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         item.getItemProperty("group").setValue(this.group);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityCreated(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void entityAdded(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         this.setNewActive();
         container.refresh();
     }

@@ -39,6 +39,7 @@ import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
 import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
+import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 
 /**
  *
@@ -69,10 +70,9 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
                 return DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
             }
         };
-        this.table.setConverter("startDate", dateConverter);
-        this.table.setConverter("endDate", dateConverter);
+        this.dataComponent.setConverter("startDate", dateConverter);
+        this.dataComponent.setConverter("endDate", dateConverter);
     }
-    
 
     @Override
     protected JPAContainer<TerrainAssignment> createContainer() {
@@ -83,26 +83,26 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     }
 
     public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new DataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
             {
-                setColumnHeaders(new String[]{"terrain.group", "terrain.assignment_start_date", "terrain.assignment_end_date", "preacher.assignment_active", "id"});
-                setVisibleColumns(new String[]{"group", "startDate", "endDate", "active", "id"});
+                setColumnHeaders("terrain.group", "terrain.assignment_start_date", "terrain.assignment_end_date", "preacher.assignment_active", "id");
+                setVisibleColumns("group", "startDate", "endDate", "active", "id");
             }
         }, security);
-        this.addEntityCreatedListener(this);
-        this.addEntityUpdatedListener(this);
-        this.addEntityDeletedListener(this);
+        this.addDataAddedListener(this);
+        this.addDataUpdatedListener(this);
+        this.addDataDeletedListener(this);
     }
-    
+
     @Override
-    protected Table createTable(JPAContainer<TerrainAssignment> container) {
-        return new Table(this.config.getTableCaption(), container) {
+    protected Table createDataComponent(JPAContainer<TerrainAssignment> container) {
+        return new Table(this.config.getCaption(), container) {
 
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property property) {
                 switch (colId.toString()) {
                     case "active":
-                        if(property.getValue() != null && ((Boolean) property.getValue())) {
+                        if (property.getValue() != null && ((Boolean) property.getValue())) {
                             return t("core.yes");
                         } else {
                             return t("core.no");
@@ -113,7 +113,7 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
             }
         };
     }
-    
+
     @Override
     protected float getControlsExpandRatio() {
         return 1.4f;
@@ -135,7 +135,7 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
         formLayout.addComponent(form);
         return formLayout;
     }
-    
+
     @Override
     protected boolean canOpenItem(EntityItem<? extends TerrainAssignment> item) {
         return true;
@@ -188,13 +188,13 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     }
 
     @Override
-    public void beforeEntityCreation(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void beforeEntityAddition(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityCreated(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void entityAdded(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         this.setNewActive();
         container.refresh();
     }
