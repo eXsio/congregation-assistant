@@ -86,7 +86,7 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
     }
 
     @Override
-    protected Table createDataComponent(JPAContainer<PreacherAssignment> container) {
+    protected Table createTable(JPAContainer<PreacherAssignment> container) {
         return new Table(this.config.getCaption(), container) {
 
             @Override

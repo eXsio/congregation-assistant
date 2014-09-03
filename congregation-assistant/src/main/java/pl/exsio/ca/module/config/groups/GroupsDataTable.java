@@ -62,7 +62,7 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
     }
 
     @Override
-    protected Table createDataComponent(JPAContainer<ServiceGroup> container) {
+    protected Table createTable(JPAContainer<ServiceGroup> container) {
         return new Table(this.config.getCaption(), container) {
 
             @Override

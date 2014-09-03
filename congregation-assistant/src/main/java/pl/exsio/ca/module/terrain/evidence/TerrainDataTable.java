@@ -119,7 +119,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     }
 
     @Override
-    protected Table createDataComponent(JPAContainer<Terrain> container) {
+    protected Table createTable(JPAContainer<Terrain> container) {
         return new Table(this.config.getCaption(), container) {
 
             @Override

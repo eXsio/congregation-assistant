@@ -99,7 +99,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     @Override
-    protected Table createDataComponent(JPAContainer<TerrainFile> container) {
+    protected Table createTable(JPAContainer<TerrainFile> container) {
         return new Table(this.config.getCaption(), container) {
 
             @Override

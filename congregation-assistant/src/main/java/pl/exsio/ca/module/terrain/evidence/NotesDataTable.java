@@ -96,7 +96,7 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     }
 
     @Override
-    protected Table createDataComponent(JPAContainer<TerrainNote> container) {
+    protected Table createTable(JPAContainer<TerrainNote> container) {
         return new Table(this.config.getCaption(), container) {
 
             @Override
