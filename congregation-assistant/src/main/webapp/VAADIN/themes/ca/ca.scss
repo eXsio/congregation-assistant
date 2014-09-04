@@ -1,7 +1,19 @@
-@import "../runo/runo.scss";
+$v-layout-margin-top: 15px;
+$v-layout-margin-right: 15px;
+$v-layout-margin-bottom: 15px;
+$v-layout-margin-left: 15px;
+
+$v-selection-color: #f68236;
+$v-focus-color: #f68236;
+$v-font-size: 15px;
+$v-unit-size: round(2.3 * $v-font-size);
+
+$v-font-family: Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
+
+@import "../valo/valo.scss";
 
 @mixin ca {
-    @include runo;
+    @include valo;
     .sidebar .menu .v-nativebutton {
         /* TODO mixin */
         -webkit-appearance: none;

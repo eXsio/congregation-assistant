@@ -225,7 +225,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
         table.setConverter("notification_date", dateConverter);
         table.setVisibleColumns(new Object[]{"terrain_type", "terrain_no", "terrain_name", "notification_date", "group", "terrain_id"});
         table.setColumnHeaders(t(new String[]{"event_terrain.type", "event_terrain.no", "event_terrain.name", "terrain.last_notification_date", "event_terrain.group", "id"}));
-        table.setWidth("700px");
+        table.setWidth("740px");
         return table;
     }
 
