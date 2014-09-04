@@ -105,6 +105,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         if (this.security.canWrite()) {
             this.addSelectTerrainColumn();
         }
+        this.dataComponent.setPageLength(100);
     }
 
     @Override
