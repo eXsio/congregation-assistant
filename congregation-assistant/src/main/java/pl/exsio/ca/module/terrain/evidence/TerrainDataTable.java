@@ -44,7 +44,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
@@ -56,7 +55,6 @@ import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
@@ -75,8 +73,6 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     protected CaRepositoryProvider caRepositories;
 
     protected CaEntityProviderProvider caEntityProviders;
-
-    protected ApplicationEventPublisher aep;
 
     protected transient final Set<Terrain> selectedTerrains;
 
@@ -393,12 +389,6 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
 
     public void setCaEntities(CaEntityFactory caEntities) {
         this.caEntities = caEntities;
-    }
-
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher aep) {
-        this.aep = aep;
-        super.setApplicationEventPublisher(aep);
     }
 
     public void setCaRepositories(CaRepositoryProvider caRepositories) {

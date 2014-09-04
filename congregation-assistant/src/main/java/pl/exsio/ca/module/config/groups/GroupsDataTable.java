@@ -19,7 +19,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.OverseerAssignment;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
@@ -29,7 +28,6 @@ import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.AclSubjectDataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
@@ -44,8 +42,6 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
     public static final String TRANSLATION_PREFIX = "ca.groups.";
 
     protected CaEntityFactory caEntities;
-
-    protected ApplicationEventPublisher aep;
 
     protected CaRepositoryProvider caRepositories;
 
@@ -143,12 +139,6 @@ public class GroupsDataTable extends AclSubjectDataTable<ServiceGroup, TabbedFor
 
     public void setCaEntities(CaEntityFactory caEntities) {
         this.caEntities = caEntities;
-    }
-
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher aep) {
-        this.aep = aep;
-        super.setApplicationEventPublisher(aep);
     }
 
     public void setCaRepositories(CaRepositoryProvider caRepositories) {

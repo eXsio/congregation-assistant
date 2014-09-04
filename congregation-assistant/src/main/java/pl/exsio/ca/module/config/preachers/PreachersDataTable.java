@@ -16,7 +16,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
@@ -25,7 +24,6 @@ import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.security.entity.factory.SecurityEntityFactory;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
@@ -42,8 +40,6 @@ public class PreachersDataTable extends JPADataTable<Preacher, TabbedForm> {
     protected CaEntityFactory caEntities;
 
     protected SecurityEntityFactory securityEntities;
-
-    protected ApplicationEventPublisher aep;
 
     protected CaRepositoryProvider caRepositories;
 
@@ -133,12 +129,6 @@ public class PreachersDataTable extends JPADataTable<Preacher, TabbedForm> {
 
     public void setSecurityEntities(SecurityEntityFactory securityEntities) {
         this.securityEntities = securityEntities;
-    }
-
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher aep) {
-        this.aep = aep;
-        super.setApplicationEventPublisher(aep);
     }
 
     public void setCaRepositories(CaRepositoryProvider caRepositories) {
