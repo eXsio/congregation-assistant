@@ -133,5 +133,6 @@
                 <artifactId>jetty-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>congregation-assistant</finalName>
     </build>
 </project>
