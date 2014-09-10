@@ -275,3 +275,6 @@ ca.report.work.end: Data końcowa
 terrain.last_notification_date: Ostatnio opracowano
 ca.report.work.times: razy
 terrain.last_notification_group: Ostatnio opracowała grupa...
+note.created_at: Utworzono
+note.created_by: Autor
+file.created_at: Utworzono

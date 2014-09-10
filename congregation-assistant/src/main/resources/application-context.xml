@@ -18,6 +18,6 @@
     <context:component-scan base-package="pl.exsio" />
     
     <import resource="classpath:frameset-core-context.xml" /> 
-    <import resource="classpath:frameset-vaadin-context.xml" /> 
+    <import resource="classpath:frameset-vaadin-context.xml" />
     <import resource="config\app.xml" /> 
 </beans>
