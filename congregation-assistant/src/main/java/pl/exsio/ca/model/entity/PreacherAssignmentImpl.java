@@ -28,7 +28,7 @@ import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
  *
  * @author exsio
  */
-@Entity
+@Entity(name = "caPreacherAssignmentImpl")
 @Table(name = "ca_preacher_assignments")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PreacherAssignmentImpl implements PreacherAssignment {

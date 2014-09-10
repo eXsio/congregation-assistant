@@ -37,7 +37,7 @@ import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
  *
  * @author exsio
  */
-@Entity
+@Entity(name = "caTerrainImpl")
 @Table(name = "ca_terrains", uniqueConstraints = @UniqueConstraint(columnNames = {"type", "terrain_no"}, name = "uniqueTerrain"))
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TerrainImpl implements Terrain {

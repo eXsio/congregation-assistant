@@ -22,6 +22,6 @@ import pl.exsio.frameset.core.repository.GenericJpaRepository;
 public interface ServiceGroupRepository extends GenericJpaRepository<ServiceGroupImpl, Long>, ServiceGroupDao<ServiceGroupImpl> {
     
     @Override
-    @Query("select a from ServiceGroupImpl g join g.overseerAssignments a where g=?1 and a.date <= ?2 order by a.date desc")
+    @Query("select a from caServiceGroupImpl g join g.overseerAssignments a where g=?1 and a.date <= ?2 order by a.date desc")
     ArrayList<OverseerAssignment> getOverseerAssignmentByDate(ServiceGroup group, Date date);
 }

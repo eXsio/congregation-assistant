@@ -24,7 +24,7 @@ import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
  *
  * @author exsio
  */
-@Entity
+@Entity(name = "caEventImpl")
 @Table(name = "ca_events")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class EventImpl implements Event {

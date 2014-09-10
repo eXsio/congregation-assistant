@@ -35,7 +35,7 @@ import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
  *
  * @author exsio
  */
-@Entity
+@Entity(name = "caTerrainAssignmentImpl")
 @Table(name = "ca_terrain_assignments")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TerrainAssignmentImpl implements TerrainAssignment {

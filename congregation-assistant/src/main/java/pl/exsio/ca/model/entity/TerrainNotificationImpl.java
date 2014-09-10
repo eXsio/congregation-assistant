@@ -29,7 +29,7 @@ import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
  *
  * @author exsio
  */
-@Entity
+@Entity(name = "caTerrainNotificationImpl")
 @Table(name = "ca_terrain_notifications")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TerrainNotificationImpl implements TerrainNotification {

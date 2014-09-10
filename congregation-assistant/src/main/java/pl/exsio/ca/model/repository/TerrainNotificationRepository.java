@@ -25,42 +25,42 @@ import pl.exsio.frameset.core.repository.GenericJpaRepository;
 public interface TerrainNotificationRepository extends GenericJpaRepository<TerrainNotificationImpl, Long>, TerrainNotificationDao<TerrainNotificationImpl> {
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a where a.terrain = ?1 order by date desc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a where a.terrain = ?1 order by date desc")
     Iterable<TerrainNotification> findByTerrain(Terrain terrain);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t join a.group g  where a.terrain =?1 and n.date >=?2 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t join a.group g  where a.terrain =?1 and n.date >=?2 order by n.date asc")
     LinkedHashSet<TerrainNotification> findForTerrainCard(Terrain terrain, Date date);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t join a.group g where a.terrain =?1 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t join a.group g where a.terrain =?1 order by n.date asc")
     LinkedHashSet<TerrainNotification> findForTerrainCard(Terrain terrain);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a where n.event =?1 and a.group = ?2 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a where n.event =?1 and a.group = ?2 order by n.date asc")
     Set<TerrainNotification> findByEventAndGroup(Event event, ServiceGroup group);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.event =?1 and t.type = ?2 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t where n.event =?1 and t.type = ?2 order by n.date asc")
     Set<TerrainNotification> findByEventAndTerrainType(Event event, TerrainType type);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.event =?1 and a.group = ?2 and t.type=?3 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t where n.event =?1 and a.group = ?2 and t.type=?3 order by n.date asc")
     Set<TerrainNotification> findByEventAndGroupAndTerrainType(Event event, ServiceGroup group, TerrainType type);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n where n.date>= ?1 and n.date <= ?2 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n where n.date>= ?1 and n.date <= ?2 order by n.date asc")
     Set<TerrainNotification> findByDateRange(Date start, Date end);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and (a.group = ?3 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t and ((a3.startDate >= ?1 and a3.startDate <=?2) or (a3.endDate >= ?1 and a3.endDate <=?2) or (a3.startDate <= ?1 and a3.endDate >=?2))  ) and a2.terrain = t ) = ?3)) order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and (a.group = ?3 or ((a.endDate is not null) and (select g2 from caTerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from caTerrainAssignmentImpl a3 where a3.terrain = t and ((a3.startDate >= ?1 and a3.startDate <=?2) or (a3.endDate >= ?1 and a3.endDate <=?2) or (a3.startDate <= ?1 and a3.endDate >=?2))  ) and a2.terrain = t ) = ?3)) order by n.date asc")
     Set<TerrainNotification> findByDateRangeAndGroup(Date start, Date end, ServiceGroup group);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and t.type=?3 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and t.type=?3 order by n.date asc")
     Set<TerrainNotification> findByDateRangeAndTerrainType(Date start, Date end, TerrainType type);
 
     @Override
-    @Query("select n from TerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and (a.group = ?3 or ((a.endDate is not null) and (select g2 from TerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from TerrainAssignmentImpl a3 where a3.terrain = t and ((a3.startDate >= ?1 and a3.startDate <=?2) or (a3.endDate >= ?1 and a3.endDate <=?2) or (a3.startDate <= ?1 and a3.endDate >=?2))) and a2.terrain = t ) = ?3)) and t.type = ?4 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t where n.date>= ?1 and n.date <= ?2 and (a.group = ?3 or ((a.endDate is not null) and (select g2 from caTerrainAssignmentImpl a2 join a2.group g2 where a2.startDate = (select max(a3.startDate) from caTerrainAssignmentImpl a3 where a3.terrain = t and ((a3.startDate >= ?1 and a3.startDate <=?2) or (a3.endDate >= ?1 and a3.endDate <=?2) or (a3.startDate <= ?1 and a3.endDate >=?2))) and a2.terrain = t ) = ?3)) and t.type = ?4 order by n.date asc")
     Set<TerrainNotification> findByDateRangeAndGroupAndTerrainType(Date start, Date end, ServiceGroup group, TerrainType type);
 }

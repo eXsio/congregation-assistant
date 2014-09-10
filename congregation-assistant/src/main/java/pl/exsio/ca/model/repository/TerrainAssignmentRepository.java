@@ -25,42 +25,42 @@ import pl.exsio.frameset.core.repository.GenericJpaRepository;
 public interface TerrainAssignmentRepository extends GenericJpaRepository<TerrainAssignmentImpl, Long>, TerrainAssignmentDao<TerrainAssignmentImpl> {
     
     @Override
-    @Query("from TerrainAssignmentImpl where terrain =?1 and startDate > ?2 order by startDate desc")
+    @Query("from caTerrainAssignmentImpl where terrain =?1 and startDate > ?2 order by startDate desc")
     Iterable<TerrainAssignment> findAfter(Terrain terrain, Date date);
 
     @Override
-    @Query("from TerrainAssignmentImpl where terrain =?1 and startDate < ?2 order by startDate desc")
+    @Query("from caTerrainAssignmentImpl where terrain =?1 and startDate < ?2 order by startDate desc")
     Iterable<TerrainAssignment> findBefore(Terrain terrain, Date date);
 
     @Override
-    @Query("from TerrainAssignmentImpl where terrain =?1 and startDate >= ?2 order by startDate desc")
+    @Query("from caTerrainAssignmentImpl where terrain =?1 and startDate >= ?2 order by startDate desc")
     Iterable<TerrainAssignment> findAfterOrEqual(Terrain terrain, Date date);
 
     @Override
-    @Query("from TerrainAssignmentImpl where terrain =?1 and startDate <= ?2 order by startDate desc")
+    @Query("from caTerrainAssignmentImpl where terrain =?1 and startDate <= ?2 order by startDate desc")
     Iterable<TerrainAssignment> findBeforeOrEqual(Terrain terrain, Date date);
 
     @Override
     @Modifying
     @Transactional(propagation = Propagation.REQUIRED)
-    @Query("update TerrainAssignmentImpl set active = false where terrain = ?1")
+    @Query("update caTerrainAssignmentImpl set active = false where terrain = ?1")
     int deactivateAll(Terrain terrain);
 
     @Override
-    @Query("from TerrainAssignmentImpl where terrain=?1 and startDate = (select max(startDate) from TerrainAssignmentImpl where terrain = ?1)")
+    @Query("from caTerrainAssignmentImpl where terrain=?1 and startDate = (select max(startDate) from caTerrainAssignmentImpl where terrain = ?1)")
     TerrainAssignment findLatest(Terrain terrain);
 
     @Override
-    @Query("from TerrainAssignmentImpl where active = true and terrain = ?1")
+    @Query("from caTerrainAssignmentImpl where active = true and terrain = ?1")
     TerrainAssignment findActive(Terrain terrain);
     
     @Override
     @Modifying
     @Transactional(propagation = Propagation.REQUIRED)
-    @Query("update TerrainAssignmentImpl set active = true where id = ?1")
+    @Query("update caTerrainAssignmentImpl set active = true where id = ?1")
     int setActive(Long id);
     
     @Override
-    @Query("from TerrainAssignmentImpl where terrain = ?1 and startDate <= ?2 and (endDate is null or endDate >= ?2) order by startDate desc")
+    @Query("from caTerrainAssignmentImpl where terrain = ?1 and startDate <= ?2 and (endDate is null or endDate >= ?2) order by startDate desc")
     Iterable<TerrainAssignment> findByTerrainAndDate(Terrain terrain, Date date);
 }

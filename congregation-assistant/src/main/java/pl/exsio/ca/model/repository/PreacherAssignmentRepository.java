@@ -23,38 +23,38 @@ import pl.exsio.frameset.core.repository.GenericJpaRepository;
 public interface PreacherAssignmentRepository extends GenericJpaRepository<PreacherAssignmentImpl, Long>, PreacherAssignmentDao<PreacherAssignmentImpl> {
 
     @Override
-    @Query("from PreacherAssignmentImpl where preacher =?1 and date > ?2 order by date desc")
+    @Query("from caPreacherAssignmentImpl where preacher =?1 and date > ?2 order by date desc")
     Iterable<PreacherAssignment> findAfter(Preacher preacher, Date date);
 
     @Override
-    @Query("from PreacherAssignmentImpl where preacher =?1 and date < ?2 order by date desc")
+    @Query("from caPreacherAssignmentImpl where preacher =?1 and date < ?2 order by date desc")
     Iterable<PreacherAssignment> findBefore(Preacher preacher, Date date);
 
     @Override
-    @Query("from PreacherAssignmentImpl where preacher =?1 and date >= ?2 order by date desc")
+    @Query("from caPreacherAssignmentImpl where preacher =?1 and date >= ?2 order by date desc")
     Iterable<PreacherAssignment> findAfterOrEqual(Preacher preacher, Date date);
 
     @Override
-    @Query("from PreacherAssignmentImpl where preacher =?1 and date <= ?2 order by date desc")
+    @Query("from caPreacherAssignmentImpl where preacher =?1 and date <= ?2 order by date desc")
     Iterable<PreacherAssignment> findBeforeOrEqual(Preacher preacher, Date date);
 
     @Override
     @Modifying
     @Transactional(propagation = Propagation.REQUIRED)
-    @Query("update PreacherAssignmentImpl set active = false where preacher = ?1")
+    @Query("update caPreacherAssignmentImpl set active = false where preacher = ?1")
     int deactivateAll(Preacher preacher);
 
     @Override
-    @Query("from PreacherAssignmentImpl where preacher=?1 and date = (select max(date) from PreacherAssignmentImpl where preacher = ?1)")
+    @Query("from caPreacherAssignmentImpl where preacher=?1 and date = (select max(date) from caPreacherAssignmentImpl where preacher = ?1)")
     PreacherAssignment findLatest(Preacher preacher);
 
     @Override
-    @Query("from PreacherAssignmentImpl where active = true and preacher = ?1")
+    @Query("from caPreacherAssignmentImpl where active = true and preacher = ?1")
     PreacherAssignment findActive(Preacher preacher);
     
     @Override
     @Modifying
     @Transactional(propagation = Propagation.REQUIRED)
-    @Query("update PreacherAssignmentImpl set active = true where id = ?1")
+    @Query("update caPreacherAssignmentImpl set active = true where id = ?1")
     int setActive(Long id);
 }

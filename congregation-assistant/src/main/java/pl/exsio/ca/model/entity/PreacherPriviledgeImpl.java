@@ -30,7 +30,7 @@ import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
  *
  * @author exsio
  */
-@Entity
+@Entity(name = "caPreacherPriviledgeImpl")
 @Table(name = "ca_preacher_priviledges")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PreacherPriviledgeImpl implements PreacherPriviledge {

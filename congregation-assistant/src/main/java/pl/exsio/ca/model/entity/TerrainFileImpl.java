@@ -28,7 +28,7 @@ import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
  *
  * @author exsio
  */
-@Entity
+@Entity(name = "caTerrainFileImpl")
 @Table(name = "ca_terrain_files")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class TerrainFileImpl implements TerrainFile {
