@@ -512,6 +512,14 @@
  */
 
 /**
+ *
+ *
+ * @param {string} $primary-stylename (v-absolutelayout) - 
+ *
+ * @group absolutelayout
+ */
+
+/**
  * Outputs the selectors and properties for the Accordion component.
  *
  * @param {string} $primary-stylename (v-accordion) - the primary style name for the selectors
@@ -577,6 +585,22 @@
  */
 
 /**
+ *
+ *
+ * @param {string} $primary-stylename (v-customcomponent) - 
+ *
+ * @group customcomponent
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-customlayout) - 
+ *
+ * @group customlayout
+ */
+
+/**
  * Outputs the selectors and properties for the DateField component.
  *
  * @param {string} $primary-stylename (v-datefield) - the primary style name for the selectors
@@ -594,6 +618,14 @@
  */
 
 /**
+ *
+ *
+ * @param {string} $primary-stylename (v-form) - 
+ *
+ * @group form
+ */
+
+/**
  * Outputs the selectors and properties for the FormLayout component.
  *
  * @param {string} $primary-stylename (v-formlayout) - the primary style name for the selectors
@@ -603,9 +635,89 @@
  */
 
 /**
+ *
+ *
+ * @param {string} $primaryStyleName (v-escalator) - 
+ *
+ * @group escalator
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-gridlayout) - 
+ *
+ * @group gridlayout
+ */
+
+/**
  * The font weight for headers.
  * 
  * @group label
+ */
+
+/**
+ *
+ * @group link
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-loginform) - 
+ *
+ * @group loginform
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-menubar) - 
+ * @param {bool} $include-additional-styles - 
+ *
+ * @group menubar
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-nativebutton) - 
+ *
+ * @group nativebutton
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-select) - 
+ *
+ * @group nativeselect
+ */
+
+/**
+ *
+ * @group notification
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-select-optiongroup) - 
+ * @param {bool} $include-additional-styles - 
+ *
+ * @group optiongroup
+ */
+
+/**
+ *
+ *
+ *
+ * @group orderedlayout
+ */
+
+/**
+ *
+ * @group panel
  */
 
 @-webkit-keyframes v-popupview-animate-in {
@@ -628,6 +740,35 @@
 	}
 
 /**
+ *
+ * @group progressbar
+ */
+
+/**
+ *
+ * @group richtextarea
+ */
+
+/**
+ *
+ * @group slider
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-splitpanel) - 
+ * @param {bool} $include-additional-styles - 
+ *
+ * @group splitpanel
+ */
+
+/**
+ *
+ * @group table
+ */
+
+/**
  * Should the tabsheet content changes be animated.
  * 
  * @group tabsheet
@@ -645,6 +786,43 @@
  * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group textarea
+ */
+
+/**
+ *
+ * @group tree
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-treetable) - 
+ *
+ * @group treetable
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-select-twincol) - 
+ *
+ * @group twin-column-select
+ */
+
+/**
+ *
+ *
+ * @param {string} $primary-stylename (v-upload) - 
+ *
+ * @group upload
+ */
+
+/**
+ *
+ */
+
+/**
+ * @group window
  */
 
 @-webkit-keyframes valo-modal-window-indication {
@@ -696,8 +874,12 @@
 	}
 	}
 
+/**
+ * @group valo-menu
+ */
+
 .v-vaadin-version:after {
-	content: "@version@";
+	content: "7.3.2";
 }
 
 .v-widget {
@@ -3653,7 +3835,6 @@ div.v-layout.v-horizontal.v-widget {
 .ca .v-formlayout > table {
 	border-spacing: 0;
 	position: relative;
-	padding: 0 12px;
 }
 
 .ca .v-formlayout.v-has-width > table, .ca .v-formlayout.v-has-width .v-formlayout-contentcell {
@@ -4723,7 +4904,7 @@ div.v-layout.v-horizontal.v-widget {
 	color: #a3a3a3;
 }
 
-.ca .v-datefield [class$="button"] {
+.ca .v-datefield [class*="button"] {
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
 	cursor: pointer;
@@ -4748,11 +4929,11 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 3px 0 0 3px;
 }
 
-.ca .v-datefield [class$="button"]:hover {
+.ca .v-datefield [class*="button"]:hover {
 	color: #474747;
 }
 
-.ca .v-datefield [class$="button"]:before {
+.ca .v-datefield [class*="button"]:before {
 	font-family: FontAwesome;
 	content: "\f073";
 	-webkit-transition: color 140ms;
@@ -4760,7 +4941,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: color 140ms;
 }
 
-.ca .v-datefield [class$="button"]:active:after {
+.ca .v-datefield [class*="button"]:active:after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -4776,12 +4957,12 @@ div.v-layout.v-horizontal.v-widget {
 	filter: alpha(opacity=50) ;
 }
 
-.ca .v-datefield.v-disabled [class$="button"] {
+.ca .v-datefield.v-disabled [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield.v-disabled [class$="button"]:active:after {
+.ca .v-datefield.v-disabled [class*="button"]:active:after {
 	display: none;
 }
 
@@ -4797,12 +4978,12 @@ div.v-layout.v-horizontal.v-widget {
 	border-color: #c5c5c5;
 }
 
-.ca .v-datefield.v-readonly [class$="button"] {
+.ca .v-datefield.v-readonly [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield.v-readonly [class$="button"]:active:after {
+.ca .v-datefield.v-readonly [class*="button"]:active:after {
 	display: none;
 }
 
@@ -5317,7 +5498,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-bottom: 0;
 }
 
-.ca .v-datefield-tiny [class$="button"] {
+.ca .v-datefield-tiny [class*="button"] {
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
 	cursor: pointer;
@@ -5339,7 +5520,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px 0 0 4px;
 }
 
-.ca .v-datefield-tiny [class$="button"]:before {
+.ca .v-datefield-tiny [class*="button"]:before {
 	font-family: FontAwesome;
 	content: "\f073";
 	-webkit-transition: color 140ms;
@@ -5347,7 +5528,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: color 140ms;
 }
 
-.ca .v-datefield-tiny [class$="button"]:active:after {
+.ca .v-datefield-tiny [class*="button"]:active:after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -5362,12 +5543,12 @@ div.v-layout.v-horizontal.v-widget {
 	filter: alpha(opacity=50) ;
 }
 
-.ca .v-datefield-tiny.v-disabled [class$="button"] {
+.ca .v-datefield-tiny.v-disabled [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield-tiny.v-disabled [class$="button"]:active:after {
+.ca .v-datefield-tiny.v-disabled [class*="button"]:active:after {
 	display: none;
 }
 
@@ -5383,12 +5564,12 @@ div.v-layout.v-horizontal.v-widget {
 	border-color: #c5c5c5;
 }
 
-.ca .v-datefield-tiny.v-readonly [class$="button"] {
+.ca .v-datefield-tiny.v-readonly [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield-tiny.v-readonly [class$="button"]:active:after {
+.ca .v-datefield-tiny.v-readonly [class*="button"]:active:after {
 	display: none;
 }
 
@@ -5436,7 +5617,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-bottom: 0;
 }
 
-.ca .v-datefield-compact [class$="button"], .ca .v-datefield-small [class$="button"] {
+.ca .v-datefield-compact [class*="button"], .ca .v-datefield-small [class*="button"] {
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
 	cursor: pointer;
@@ -5458,7 +5639,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px 0 0 4px;
 }
 
-.ca .v-datefield-compact [class$="button"]:before, .ca .v-datefield-small [class$="button"]:before {
+.ca .v-datefield-compact [class*="button"]:before, .ca .v-datefield-small [class*="button"]:before {
 	font-family: FontAwesome;
 	content: "\f073";
 	-webkit-transition: color 140ms;
@@ -5466,7 +5647,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: color 140ms;
 }
 
-.ca .v-datefield-compact [class$="button"]:active:after, .ca .v-datefield-small [class$="button"]:active:after {
+.ca .v-datefield-compact [class*="button"]:active:after, .ca .v-datefield-small [class*="button"]:active:after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -5481,12 +5662,12 @@ div.v-layout.v-horizontal.v-widget {
 	filter: alpha(opacity=50) ;
 }
 
-.ca .v-datefield-compact.v-disabled [class$="button"], .ca .v-datefield-small.v-disabled [class$="button"] {
+.ca .v-datefield-compact.v-disabled [class*="button"], .ca .v-datefield-small.v-disabled [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield-compact.v-disabled [class$="button"]:active:after, .ca .v-datefield-small.v-disabled [class$="button"]:active:after {
+.ca .v-datefield-compact.v-disabled [class*="button"]:active:after, .ca .v-datefield-small.v-disabled [class*="button"]:active:after {
 	display: none;
 }
 
@@ -5502,12 +5683,12 @@ div.v-layout.v-horizontal.v-widget {
 	border-color: #c5c5c5;
 }
 
-.ca .v-datefield-compact.v-readonly [class$="button"], .ca .v-datefield-small.v-readonly [class$="button"] {
+.ca .v-datefield-compact.v-readonly [class*="button"], .ca .v-datefield-small.v-readonly [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield-compact.v-readonly [class$="button"]:active:after, .ca .v-datefield-small.v-readonly [class$="button"]:active:after {
+.ca .v-datefield-compact.v-readonly [class*="button"]:active:after, .ca .v-datefield-small.v-readonly [class*="button"]:active:after {
 	display: none;
 }
 
@@ -5560,7 +5741,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-bottom: 0;
 }
 
-.ca .v-datefield-large [class$="button"] {
+.ca .v-datefield-large [class*="button"] {
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
 	cursor: pointer;
@@ -5582,7 +5763,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px 0 0 4px;
 }
 
-.ca .v-datefield-large [class$="button"]:before {
+.ca .v-datefield-large [class*="button"]:before {
 	font-family: FontAwesome;
 	content: "\f073";
 	-webkit-transition: color 140ms;
@@ -5590,7 +5771,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: color 140ms;
 }
 
-.ca .v-datefield-large [class$="button"]:active:after {
+.ca .v-datefield-large [class*="button"]:active:after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -5605,12 +5786,12 @@ div.v-layout.v-horizontal.v-widget {
 	filter: alpha(opacity=50) ;
 }
 
-.ca .v-datefield-large.v-disabled [class$="button"] {
+.ca .v-datefield-large.v-disabled [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield-large.v-disabled [class$="button"]:active:after {
+.ca .v-datefield-large.v-disabled [class*="button"]:active:after {
 	display: none;
 }
 
@@ -5626,12 +5807,12 @@ div.v-layout.v-horizontal.v-widget {
 	border-color: #c5c5c5;
 }
 
-.ca .v-datefield-large.v-readonly [class$="button"] {
+.ca .v-datefield-large.v-readonly [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield-large.v-readonly [class$="button"]:active:after {
+.ca .v-datefield-large.v-readonly [class*="button"]:active:after {
 	display: none;
 }
 
@@ -5680,7 +5861,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding-bottom: 0;
 }
 
-.ca .v-datefield-huge [class$="button"] {
+.ca .v-datefield-huge [class*="button"] {
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none;
 	cursor: pointer;
@@ -5702,7 +5883,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px 0 0 4px;
 }
 
-.ca .v-datefield-huge [class$="button"]:before {
+.ca .v-datefield-huge [class*="button"]:before {
 	font-family: FontAwesome;
 	content: "\f073";
 	-webkit-transition: color 140ms;
@@ -5710,7 +5891,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: color 140ms;
 }
 
-.ca .v-datefield-huge [class$="button"]:active:after {
+.ca .v-datefield-huge [class*="button"]:active:after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -5725,12 +5906,12 @@ div.v-layout.v-horizontal.v-widget {
 	filter: alpha(opacity=50) ;
 }
 
-.ca .v-datefield-huge.v-disabled [class$="button"] {
+.ca .v-datefield-huge.v-disabled [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield-huge.v-disabled [class$="button"]:active:after {
+.ca .v-datefield-huge.v-disabled [class*="button"]:active:after {
 	display: none;
 }
 
@@ -5746,12 +5927,12 @@ div.v-layout.v-horizontal.v-widget {
 	border-color: #c5c5c5;
 }
 
-.ca .v-datefield-huge.v-readonly [class$="button"] {
+.ca .v-datefield-huge.v-readonly [class*="button"] {
 	cursor: default;
 	pointer-events: none;
 }
 
-.ca .v-datefield-huge.v-readonly [class$="button"]:active:after {
+.ca .v-datefield-huge.v-readonly [class*="button"]:active:after {
 	display: none;
 }
 
@@ -10853,21 +11034,21 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .ca .v-Notification-animate-in {
-	-webkit-animation: valo-animate-in-fade 180ms;
-	-moz-animation: valo-animate-in-fade 180ms;
-	animation: valo-animate-in-fade 180ms;
+	-webkit-animation: valo-animate-in-fade 180ms 10ms backwards;
+	-moz-animation: valo-animate-in-fade 180ms 10ms backwards;
+	animation: valo-animate-in-fade 180ms 10ms backwards;
 }
 
 .ca .v-Notification-animate-in.v-position-top {
-	-webkit-animation: valo-animate-in-slide-down 400ms;
-	-moz-animation: valo-animate-in-slide-down 400ms;
-	animation: valo-animate-in-slide-down 400ms;
+	-webkit-animation: valo-animate-in-slide-down 400ms 10ms backwards;
+	-moz-animation: valo-animate-in-slide-down 400ms 10ms backwards;
+	animation: valo-animate-in-slide-down 400ms 10ms backwards;
 }
 
 .ca .v-Notification-animate-in.v-position-bottom {
-	-webkit-animation: valo-animate-in-slide-up 400ms;
-	-moz-animation: valo-animate-in-slide-up 400ms;
-	animation: valo-animate-in-slide-up 400ms;
+	-webkit-animation: valo-animate-in-slide-up 400ms 10ms backwards;
+	-moz-animation: valo-animate-in-slide-up 400ms 10ms backwards;
+	animation: valo-animate-in-slide-up 400ms 10ms backwards;
 }
 
 .ca .v-Notification-animate-out {
@@ -10958,9 +11139,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .ca .v-Notification-system.v-position-top[class*="animate-in"] {
-	-webkit-animation: valo-animate-in-slide-down 300ms;
-	-moz-animation: valo-animate-in-slide-down 300ms;
-	animation: valo-animate-in-slide-down 300ms;
+	-webkit-animation: valo-animate-in-slide-down 300ms 10ms backwards;
+	-moz-animation: valo-animate-in-slide-down 300ms 10ms backwards;
+	animation: valo-animate-in-slide-down 300ms 10ms backwards;
 }
 
 .ca .v-Notification-system.v-position-top[class*="animate-out"] {
@@ -10974,9 +11155,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .ca .v-Notification-system.v-position-bottom[class*="animate-in"] {
-	-webkit-animation: valo-animate-in-slide-up 300ms;
-	-moz-animation: valo-animate-in-slide-up 300ms;
-	animation: valo-animate-in-slide-up 300ms;
+	-webkit-animation: valo-animate-in-slide-up 300ms 10ms backwards;
+	-moz-animation: valo-animate-in-slide-up 300ms 10ms backwards;
+	animation: valo-animate-in-slide-up 300ms 10ms backwards;
 }
 
 .ca .v-Notification-system.v-position-bottom[class*="animate-out"] {
@@ -11070,9 +11251,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .ca .v-Notification.bar.v-position-top[class*="animate-in"] {
-	-webkit-animation: valo-animate-in-slide-down 300ms;
-	-moz-animation: valo-animate-in-slide-down 300ms;
-	animation: valo-animate-in-slide-down 300ms;
+	-webkit-animation: valo-animate-in-slide-down 300ms 10ms backwards;
+	-moz-animation: valo-animate-in-slide-down 300ms 10ms backwards;
+	animation: valo-animate-in-slide-down 300ms 10ms backwards;
 }
 
 .ca .v-Notification.bar.v-position-top[class*="animate-out"] {
@@ -11086,9 +11267,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .ca .v-Notification.bar.v-position-bottom[class*="animate-in"] {
-	-webkit-animation: valo-animate-in-slide-up 300ms;
-	-moz-animation: valo-animate-in-slide-up 300ms;
-	animation: valo-animate-in-slide-up 300ms;
+	-webkit-animation: valo-animate-in-slide-up 300ms 10ms backwards;
+	-moz-animation: valo-animate-in-slide-up 300ms 10ms backwards;
+	animation: valo-animate-in-slide-up 300ms 10ms backwards;
 }
 
 .ca .v-Notification.bar.v-position-bottom[class*="animate-out"] {
