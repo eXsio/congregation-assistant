@@ -23,7 +23,7 @@
         <property name="navigationTarget" ref="navigationTarget" />
         <property name="navigator" ref="navigator" />
         <property name="menu" ref="menu" />
-        <property name="accountMenu" ref="accountMenu" />
+        <property name="accountMenu" ref="horizontalAccountMenu" />
         <property name="coreRepositories" ref="coreRepositoryProvider" />
     </bean>
     
@@ -34,20 +34,6 @@
     <!-- main application menu -->
     <bean id="menu" class="pl.exsio.frameset.vaadin.navigation.menu.AccordionMenu" scope="ui">
         <property name="menuBuilder" ref="menuBuilder" />
-    </bean>
-    
-    <!-- menu with account information, settings and logout button -->
-    <bean id="accountMenu" class="pl.exsio.frameset.vaadin.account.HorizontalAccountMenu" scope="ui">
-        <property name="securityRepositories" ref="securityRepositoryProvider" />
-        <property name="logoutPath" value="logout/" />
-    </bean>
-    
-    <!-- this bean has to be configured in order for accountMenu to work -->
-    <bean id="accountEditionWindow" class="pl.exsio.frameset.vaadin.account.AccountEditionWindow" scope="ui">
-        <property name="securityRepositories" ref="securityRepositoryProvider" />
-        <property name="securityEntities" ref="securityEntityFactory" />
-        <property name="entityProvider" ref="userEntityProvider" />
-        <property name="passwordEncoder" ref="passwordEncoder" />
     </bean>
     
   

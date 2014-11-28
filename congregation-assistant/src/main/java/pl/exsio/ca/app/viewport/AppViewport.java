@@ -8,7 +8,7 @@ package pl.exsio.ca.app.viewport;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.VerticalLayout;
 import pl.exsio.frameset.core.repository.provider.CoreRepositoryProvider;
-import pl.exsio.frameset.vaadin.account.HorizontalAccountMenu;
+import pl.exsio.frameset.vaadin.account.menu.view.AccountMenuView;
 import pl.exsio.frameset.vaadin.component.InitializableComponent;
 import pl.exsio.frameset.vaadin.component.InitializableHorizontalLayout;
 import pl.exsio.frameset.vaadin.navigation.FramesetNavigator;
@@ -48,7 +48,7 @@ public class AppViewport extends InitializableHorizontalLayout implements Viewpo
     /**
      * Account menu
      */
-    private HorizontalAccountMenu accountMenu;
+    private AccountMenuView accountMenu;
 
 
     @Override
@@ -126,7 +126,7 @@ public class AppViewport extends InitializableHorizontalLayout implements Viewpo
         this.navigationTarget = navigationTarget;
     }
 
-    public void setAccountMenu(HorizontalAccountMenu accountMenu) {
+    public void setAccountMenu(AccountMenuView accountMenu) {
         this.accountMenu = accountMenu;
     }
 
