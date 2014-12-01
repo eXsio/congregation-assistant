@@ -153,7 +153,7 @@ public class NotesDataTable extends JPADataTable<TerrainNote, Form> {
     }
 
     @Override
-    public void beforeEntityAddition(Form form, EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
+    public void beforeDataAddition(Form form, EntityItem<? extends TerrainNote> item, JPAContainer<TerrainNote> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
 
     }

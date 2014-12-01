@@ -269,17 +269,17 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     @Override
-    public void entityAdded(Form form, EntityItem item, JPAContainer container) {
+    public void dataAdded(Form form, EntityItem item, JPAContainer container) {
         this.updateLastNotificationDate();
     }
 
     @Override
-    public void entityUpdated(Form form, EntityItem item, JPAContainer container) {
+    public void dataUpdated(Form form, EntityItem item, JPAContainer container) {
         this.updateLastNotificationDate();
     }
 
     @Override
-    public void entityDeleted(EntityItem item, JPAContainer container) {
+    public void dataDeleted(EntityItem item, JPAContainer container) {
         this.updateLastNotificationDate();
     }
 

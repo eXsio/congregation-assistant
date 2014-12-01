@@ -216,7 +216,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     @Override
-    public void beforeEntityAddition(Form form, EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
+    public void beforeDataAddition(Form form, EntityItem<? extends TerrainFile> item, JPAContainer<TerrainFile> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
         item.getItemProperty("mimeType").setValue(this.lastMimeType);
         item.getItemProperty("name").setValue(this.lastFileName);

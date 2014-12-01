@@ -154,27 +154,27 @@ public class AssignmentsDataTable extends JPADataTable<PreacherAssignment, Form>
     }
 
     @Override
-    public void beforeEntityAddition(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void beforeDataAddition(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         item.getItemProperty("preacher").setValue(this.preacher);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityAdded(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void dataAdded(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         this.setNewActive();
         container.refresh();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityUpdated(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void dataUpdated(Form form, EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         this.setNewActive();
         container.refresh();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityDeleted(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
+    public void dataDeleted(EntityItem<? extends PreacherAssignment> item, JPAContainer<PreacherAssignment> container) {
         this.setNewActive();
         container.refresh();
     }

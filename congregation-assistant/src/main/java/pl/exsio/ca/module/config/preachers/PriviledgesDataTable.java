@@ -127,7 +127,7 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
     }
 
     @Override
-    public void beforeEntityAddition(Form form, EntityItem<? extends PreacherPriviledge> item, JPAContainer<PreacherPriviledge> container) {
+    public void beforeDataAddition(Form form, EntityItem<? extends PreacherPriviledge> item, JPAContainer<PreacherPriviledge> container) {
         item.getItemProperty("preacher").setValue(this.preacher);
     }
 

@@ -184,27 +184,27 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     }
 
     @Override
-    public void beforeEntityAddition(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void beforeDataAddition(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         item.getItemProperty("terrain").setValue(this.terrain);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityAdded(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void dataAdded(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         this.setNewActive();
         container.refresh();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityUpdated(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void dataUpdated(Form form, EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         this.setNewActive();
         container.refresh();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityDeleted(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
+    public void dataDeleted(EntityItem<? extends TerrainAssignment> item, JPAContainer<TerrainAssignment> container) {
         this.setNewActive();
         container.refresh();
     }

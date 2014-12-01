@@ -166,27 +166,27 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
     }
 
     @Override
-    public void beforeEntityAddition(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void beforeDataAddition(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         item.getItemProperty("group").setValue(this.group);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityAdded(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void dataAdded(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         this.setNewActive();
         container.refresh();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityUpdated(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void dataUpdated(Form form, EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         this.setNewActive();
         container.refresh();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void entityDeleted(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
+    public void dataDeleted(EntityItem<? extends OverseerAssignment> item, JPAContainer<OverseerAssignment> container) {
         this.setNewActive();
         container.refresh();
     }
