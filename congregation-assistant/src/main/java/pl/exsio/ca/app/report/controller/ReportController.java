@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pl.exsio.frameset.i18n.ex.TranslationInitializationException;
-import pl.exsio.frameset.i18n.translator.Translator;
+import pl.exsio.jin.ex.TranslationInitializationException;
+import pl.exsio.jin.translator.Translator;
 import pl.exsio.frameset.vaadin.ex.FramesetInitializationException;
 
 /**

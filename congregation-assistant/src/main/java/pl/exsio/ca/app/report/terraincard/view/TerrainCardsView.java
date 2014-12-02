@@ -27,7 +27,7 @@ import pl.exsio.ca.app.report.terraincard.model.TerrainCardPage;
 import pl.exsio.ca.app.report.terraincard.viewmodel.TerrainCardViewModel;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.TerrainType;
-import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
 
 /**
  *

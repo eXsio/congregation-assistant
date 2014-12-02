@@ -47,7 +47,7 @@ import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import pl.exsio.ca.module.terrain.report.Report;
-import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
 
 /**

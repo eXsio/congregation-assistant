@@ -5,7 +5,7 @@
  */
 package pl.exsio.ca.model;
 
-import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
 
 /**
  *

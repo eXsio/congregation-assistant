@@ -24,7 +24,7 @@ import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.PreacherPriviledge;
 import pl.exsio.ca.model.Priviledge;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
-import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;

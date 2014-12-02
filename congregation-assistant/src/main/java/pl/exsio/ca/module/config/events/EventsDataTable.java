@@ -20,7 +20,7 @@ import java.util.Locale;
 import org.springframework.context.ApplicationEventPublisher;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
-import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
 import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;

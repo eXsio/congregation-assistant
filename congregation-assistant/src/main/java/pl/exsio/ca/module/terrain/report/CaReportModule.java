@@ -10,7 +10,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
-import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.ca.module.terrain.report.registry.ReportRegistry;
 import pl.exsio.frameset.vaadin.module.VerticalModule;
 

@@ -30,7 +30,7 @@ import pl.exsio.ca.model.dao.TerrainDao;
 import pl.exsio.ca.model.dao.TerrainNotificationDao;
 import pl.exsio.ca.module.terrain.report.Report;
 import static pl.exsio.ca.module.terrain.report.impl.AbstractReportImpl.MODE_REST;
-import static pl.exsio.frameset.i18n.translationcontext.TranslationContext.t;
+import static pl.exsio.jin.translationcontext.TranslationContext.t;
 
 /**
  *
