@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.config.preachers;
 
@@ -28,26 +46,25 @@ import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.priviledges")
 public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form> {
-
-    public static final String TRANSLATION_PREFIX = "ca.priviledges.";
 
     protected CaEntityFactory caEntities;
 
     protected Preacher preacher;
 
     public PriviledgesDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(PriviledgesDataTable.class) {
             {
-                setColumnHeaders("preacher.priviledge", "preacher.priviledge_start_date", "preacher.priviledge_end_date", "id");
+                setColumnHeaders("priviledge", "priviledge_start_date", "priviledge_end_date", "id");
                 setVisibleColumns("priviledge", "startDate", "endDate", "id");
             }
         }, security);
@@ -87,19 +104,19 @@ public class PriviledgesDataTable extends JPADataTable<PreacherPriviledge, Form>
 
         VerticalLayout formLayout = new VerticalLayout();
 
-        Field priviledge = ComponentFactory.createEnumComboBox(t(this.caEntities.getPreacherPriviledgeClass().getCanonicalName() + ".priviledge"), Priviledge.class);
+        Field priviledge = ComponentFactory.createEnumComboBox(t("priviledge"), Priviledge.class);
         priviledge.setPropertyDataSource(item.getItemProperty("priviledge"));
-        priviledge.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "not_null"), false));
+        priviledge.addValidator(new NullValidator(t("not_null"), false));
         form.addField("priviledge", priviledge);
 
-        DateField start = new DateField(t(this.caEntities.getPreacherPriviledgeClass().getCanonicalName() + ".start_date"));
+        DateField start = new DateField(t("start_date"));
         start.setPropertyDataSource(item.getItemProperty("startDate"));
         start.setResolution(Resolution.DAY);
-        start.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_start_date"), false));
+        start.addValidator(new NullValidator(t("invalid_start_date"), false));
         start.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
         form.addField("startDate", start);
 
-        DateField end = new DateField(t(this.caEntities.getPreacherPriviledgeClass().getCanonicalName() + ".end_date"));
+        DateField end = new DateField(t("end_date"));
         end.setPropertyDataSource(item.getItemProperty("endDate"));
         end.setResolution(Resolution.DAY);
         end.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));

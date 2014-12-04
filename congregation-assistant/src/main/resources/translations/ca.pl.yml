@@ -1,280 +1,329 @@
-ca.preachers.button.create: ""
-ca.preachers.msg.created: Utworzono nowego głosiciela
-ca.preachers.window.create: Tworzenie głosiciela
-ca.preachers.button.delete: ""
-ca.preachers.msg.deleted: Głosiciel został usunięty
-ca.preachers.confirmation.delete: Czy napewno chcesz usunąc tego głosiciela?
-ca.preachers.button.edit: ""
-ca.preachers.msg.edited: Dane głosiciela zostały zaktualizowane
-ca.preachers.window.edit: Edycja danych głosiciela
-ca.preachers.preachers: Głosiciele skonfigurowani dla Zboru
-ca.preachers.invalid_email: Nieprawidłowy adres e-mail
-preacher.first_name: Imię
-preacher.last_name: Nazwisko
-preacher.email: E-mail
-preacher.phone_no: Telefon
-preacher.user: Użytkownik
-pl.exsio.ca.model.entity.PreacherImpl.firstName: Imię
-pl.exsio.ca.model.entity.PreacherImpl.lastName: Nazwisko
-pl.exsio.ca.model.entity.PreacherImpl.email: E-mail
-pl.exsio.ca.model.entity.PreacherImpl.phoneNo: Telefon
-pl.exsio.ca.model.entity.PreacherImpl.user: Uzytkownik
-ca.preachers.basic_data: Dane podstawowe
-ca.preachers.priviledges: Przywileje
-ca.preachers.group_assignment: Przydział do grupy
-ca.priviledges.button.create: ""
-ca.priviledges.msg.created: Dodano nowy przywilej
-ca.priviledges.window.create: Dodawanie przywileju
-ca.priviledges.button.delete: ""
-ca.priviledges.msg.deleted: Przywilej został usunięty
-ca.priviledges.confirmation.delete: Czy napewno chcesz usunąc ten przywilej?
-ca.priviledges.button.edit: ""
-ca.priviledges.msg.edited: Przywilej został zaktualizowany
-ca.priviledges.window.edit: Edycja przywileju
-ca.priviledges.not_null: Przywilej nie może być pusty
-ca.priviledges.invalid_start_date: Data rozpoczęcia przywileju nie może być pusta
-pl.exsio.ca.model.entity.PreacherPriviledgeImpl.priviledge: Przywilej
-preacher.priviledge: Przywilej
-ca.priviledge.mixer: Obsługa nagłośnienia
-ca.priviledge.microphone: Noszenie mikrofonu
-ca.priviledge.lector: Lektor
-ca.priviledge.servant: Sługa pomocniczy
-ca.priviledge.elder: Starszy
-ca.priviledge.magazines_servant: Sługa czasopism
-ca.priviledge.terrains_servant: Sługa terenów
-ca.priviledge.literature_servant: Sługa literatury
-ca.priviledge.elders_coordinator: Koordynator grona starszych
-ca.priviledge.service_overseer: Nadzorca służby
-ca.priviledge.sound_servant: Sługa nagłośnienia
-ca.priviledge.accounts_servant: Sługa kont
-ca.priviledge.school_overseer: Nadzorca TSSK
-ca.priviledge.orderly: Porządkowy
-ca.priviledge.congregation_secretary: Sekretarz zboru
-ca.priviledge.service_group_overseer: Nadzorca grupy służby
-ca.priviledge.pioneer: Pionier
-ca.priviledge.pioneer_helper: Pionier pomocniczy
-ca.priviledge.pioneer_special: Pionier specjalny
-ca.priviledge.district_overseer: Nadzorca obwodu
-ca.groups.button.create: ""
-ca.groups.msg.created: Dodano nową grupę
-ca.groups.window.create: Dodawanie grupy
-ca.groups.button.delete: ""
-ca.groups.msg.deleted: Grupa została usunięta
-ca.groups.confirmation.delete: Czy napewno chcesz usunąc tę grupę?
-ca.groups.button.edit: ""
-ca.groups.msg.edited: Grupa została zaktualizowana
-ca.groups.window.edit: Edycja grupy
-ca.groups.invalid_overseer: Grupa musi mieć nadzorcę
-ca.groups.invalid_no: Grupa musi mieć numer
-ca.groups.basic_data: Podstawowe dane
-ca.groups.overseer: Nazdorca
-pl.exsio.ca.model.entity.PreacherImpl.no: Numer
-pl.exsio.ca.model.entity.PreacherImpl.overseer: Nazdorca
-pl.exsio.ca.model.entity.PreacherImpl.archival: Archiwalna?
-group.no: Numer grupy
-group.overseer: Nazdorca
-group.archival: Archiwalna?
-ca.groups.groups: Grupy słuzby w zborze
-ca.pr_assignments.button.create: ""
-ca.pr_assignments.msg.created: Dodano nowe przypisanie do grupy
-ca.pr_assignments.window.create: Nowe przypisanie do grupy
-ca.pr_assignments.button.delete: ""
-ca.pr_assignments.msg.deleted: Przypisanie do grupy zostało usunięte
-ca.pr_assignments.confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
-ca.pr_assignments.button.edit: ""
-ca.pr_assignments.msg.edited: Przypisanie do grupy zostało zaktualizowane
-ca.pr_assignments.window.edit: Edycja przypisania do grupy
-ca.pr_assignments.invalid_group: Przypisanie musi mieć grupę
-ca.pr_assignments.invalid_no: Przypisanie musi mieć datę
-pl.exsio.ca.model.entity.PreacherAssignmentImpl.group: Grupa
-pl.exsio.ca.model.entity.PreacherAssignmentImpl.date: Data
-ca.preachers.group: Grupa
-preacher.group: Grupa
-preacher.assignment_date: Data przypisania
-preacher.assignment_active: Przypisanie aktywne?
-preacher.priviledge_start_date: Data rozpoczęcia
-preacher.priviledge_end_date: Data zakończenia
-pl.exsio.ca.model.entity.PreacherPriviledgeImpl.start_date: Data rozpoczęcia
-pl.exsio.ca.model.entity.PreacherPriviledgeImpl.end_date: Data zakończenia
-ca.terrains.button.create: ""
-ca.terrains.msg.created: Dodano nowy teren
-ca.terrains.window.create: Nowy teren
-ca.terrains.button.delete: ""
-ca.terrains.msg.deleted: Teren został usunięty
-ca.terrains.confirmation.delete: Czy napewno chcesz usunąc ten teren?
-ca.terrains.button.edit: ""
-ca.terrains.msg.edited: Teren został zaktualizowany
-ca.terrains.window.edit: Edycja terenu
-ca.terrains.invalid_name: Teren musi mieć nazwę
-ca.terrains.invalid_no: Teren musi mieć numer
-ca.terrains.invalid_type: Teren musi mieć typ
-pl.exsio.ca.model.entity.TerrainImpl.name: Nazwa
-pl.exsio.ca.model.entity.TerrainImpl.no: Numer
-pl.exsio.ca.model.entity.TerrainImpl.archival: Archiwalny?
-pl.exsio.ca.model.entity.TerrainImpl.type: Typ
-ca.terrains.basic_data: Podstawowe dane
-ca.terrains.group: Przypisanie do grupy
-ca.terrains.notifications: Zgłoszenia opracowania
-terrain.name: Nazwa
-terrain.no: Numer
-terrain.archival: Archiwalny?
-terrain.type: Typ
-ca.terrain_type.city: miejski
-ca.terrain_type.village: wiejski
-ca.terrain_type.phone: telefoniczny
-ca.terrains.terrains: Ewidencja terenów zboru
-ca.tr_assignments.button.create: ""
-ca.tr_assignments.msg.created: Dodano nowe przypisanie do grupy
-ca.tr_assignments.window.create: Nowe przypisanie do grupy
-ca.tr_assignments.button.delete: ""
-ca.tr_assignments.msg.deleted: Przypisanie do grupy zostało usunięte
-ca.tr_assignments.confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
-ca.tr_assignments.button.edit: ""
-ca.tr_assignments.msg.edited: Przypisanie do grupy zostało zaktualizowane
-ca.tr_assignments.window.edit: Edycja przypisania do grupy
-ca.tr_assignments.invalid_group: Przypisanie musi mieć grupę
-ca.tr_assignments.invalid_start_date: Przypisanie musi mieć datę początkową
-pl.exsio.ca.model.entity.TerrainAssignmentImpl.group: Grupa
-pl.exsio.ca.model.entity.TerrainAssignmentImpl.start_date: Data początku
-pl.exsio.ca.model.entity.TerrainAssignmentImpl.end_date: Data końca
-pl.exsio.ca.model.entity.TerrainAssignmentImpl.comment: Komentarz
-terrain.group: Grupa
-terrain.assignment_start_date: Data początku
-terrain.assignment_end_date: Data końca
-preacher.assignment_active: Aktywne?
-ca.notifications.button.create: ""
-ca.notifications.msg.created: Dodano nowe zgłoszenie opracowania
-ca.notifications.window.create: Nowe zgłoszenie opracowania
-ca.notifications.button.delete: ""
-ca.notifications.msg.deleted: Zgłoszenie opracowania zostało usunięte
-ca.notifications.confirmation.delete: Czy napewno chcesz usunąc to zgłoszenie?
-ca.notifications.button.edit: ""
-ca.notifications.msg.edited: Zgłoszenie opracowania zostało zaktualizowane
-ca.notifications.window.edit: Edycja zgłoszenia opracowania
-ca.notifications.invalid_assignment: Zgłoszenie opracowania musi być powiązane przypisanie terenu do grupy
-ca.notifications.invalid_date: Zgłoszenie musi mieć prawidłową datę (zgodną z wybranym przypisaniem terenu do grupy)
-pl.exsio.ca.model.entity.TerrainNotificationImpl.assignment: Przypisanie terenu do grupy
-pl.exsio.ca.model.entity.TerrainNotificationImpl.date: Data opracowania
-pl.exsio.ca.model.entity.TerrainNotificationImpl.override_group: Delegacja do grupy
-pl.exsio.ca.model.entity.TerrainNotificationImpl.event: Powiązane wydarzenie
-pl.exsio.ca.model.entity.TerrainNotificationImpl.comment: Komentarz
-terrain.assignment: Przypisanie terenu do grupy
-terrain.notification_date: Data opracowania
-terrain.override_group: Delegacja do grupy
-terrain.event: Powiązane wydarzenie
-terrain.notification_comment: Komentarz
-terrain.current_group: Obecna grupa
-ca.terrains.terrains: Tereny zboru
-terrain.last_notification: Ostatnie opracowanie
-ca.qnotify.title: Opracowanie
-ca.qnotify.processing: Przetwarzam teren
-ca.qnotify.wrong_dates: "Wprowadzenie opracowań zakończone niepowodzeniem dla następujących terenów:"
-ca.qnotify.success: Wprowadzenie opracowań zakończone powodzeniem
-ca.terrains.pick_type: Typ..
-ca.terrains.pick_group: Grupa..
-ca.terrains.pick_date: Ostatnie opracowanie..
-ca.report.terrain_card.from: Przydział
-ca.report.terrain_card.to: Opracowanie
-ca.report.terrain_cards.head: Raport opracowania terenów zboru.
-ca.report.terrain_cards.type: "Typ terenów"
-ca.report.terrain_cards.group: "Grupa służby"
-ca.report.terrain_cards.date: Data
-ca.terrains.files: Pliki
-ca.tr_files.button.create: ""
-ca.tr_files.msg.created: Dodano nowy plik
-ca.tr_files.window.create: Nowy plik
-ca.tr_files.button.delete: ""
-ca.tr_files.msg.deleted: Plik został usunięty
-ca.tr_files.confirmation.delete: Czy napewno chcesz usunąc ten plik?
-ca.tr_files.button.edit: ""
-ca.tr_files.msg.edited: Plik został zaktualizowany
-ca.tr_files.window.edit: Edycja pliku
-file.title: Tytuł
-file.name: Nazwa
-file.msg.created_at: Utworzono  
-pl.exsio.ca.model.entity.TerrainFileImpl.title: Tytuł
-pl.exsio.ca.model.entity.TerrainFileImpl.decription: Opis
-pl.exsio.ca.model.entity.TerrainFileImpl.data: Wybierz plik
-ca.tr_notes.button.create: ""
-ca.tr_notes.msg.created: Dodano nową notatkę
-ca.tr_notes.window.create: Nowa notatka
-ca.tr_notes.button.delete: ""
-ca.tr_notes.msg.deleted: Notatka została usunięta
-ca.tr_notes.confirmation.delete: Czy napewno chcesz usunąc tę notatkę?
-ca.tr_notes.button.edit: ""
-ca.tr_notes.msg.edited: Notatka została zaktualizowana
-ca.tr_notes.window.edit: Edycja notatki
-pl.exsio.ca.model.entity.TerrainNoteImpl.content: Treść
-note.content: Treść
-note.msg.created_at: Utworzono
-note.msg.created_by: Autor
-ca.terrains.notes: Notatki
-ca.report.terrain_cards.creation_date: "Data utworzenia raportu: "
-ca.ov_assignments.button.create: ""
-ca.ov_assignments.msg.created: Dodano nowe przypisanie nadzorcy do grupy
-ca.ov_assignments.window.create: Nowe przypisanie nadzorcy
-ca.ov_assignments.button.delete: ""
-ca.ov_assignments.msg.deleted: Przypisanie nadzorcy do grupy zostało usunięte
-ca.ov_assignments.confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
-ca.ov_assignments.button.edit: ""
-ca.ov_assignments.msg.edited: Przypisanie nadzorcy do grupy zostało zaktualizowane
-ca.ov_assignments.window.edit: Edycja przypisania nadzorcy do grupy
-ca.ov_assignments.invalid_preacher: Przypisanie nadzorcy musi mieć głosiciela
-ca.ov_assignments.invalid_date: Przypisanie nadzorcy musi mieć datę początku
-pl.exsio.ca.model.entity.OverseerAssignmentImpl.preacher: Głosiciel
-pl.exsio.ca.model.entity.OverseerAssignmentImpl.start_date: Data początku
-pl.exsio.ca.model.entity.OverseerAssignmentImpl.end_date: Data końca
-pl.exsio.ca.model.entity.OverseerAssignmentImpl.groupNo: Nr grupy
-overseer.preacher: Głosiciel
-overseer.assignment_start_date: Data początku
-overseer.assignment_end_date: Data końca
-overseer.assignment_active: Aktywne
-overseer.group_no: Nr grupy
-ca.groups.groups: Grupy Służby
-pl.exsio.ca.model.entity.OverseerAssignmentImpl.date: Data przydziału
-ca.service_group: "Gr. nr "
-pl.exsio.ca.model.entity.EventImpl.name: Nazwa
-pl.exsio.ca.model.entity.EventImpl.startDate: Data ropoczęcia
-pl.exsio.ca.model.entity.EventImpl.endDate: Data zakończenia
-event.name: Nazwa
-event.start_date: Data rozpoczęcia
-event.end_date: Data zakończenia
-ca.events.button.create: ""
-ca.events.msg.created: Dodano nowe wydarzenia
-ca.events.window.create: Dodawanie wydarzenia
-ca.events.button.delete: ""
-ca.events.msg.deleted: Wydarzenie zostało usunięte
-ca.events.confirmation.delete: Czy napewno chcesz usunąc to wydarzenie?
-ca.events.button.edit: ""
-ca.events.msg.edited: Wydarzenie została zaktualizowana
-ca.events.window.edit: Edycja wydarzenia
-ca.events.not_null: Ta wartość nie może być pusta
-ca.report.pick: Wybierz raport
-ca.report.event: Wydarzenia
-ca.report.event.pick: Wybierz wydarzenie
-event_terrain.type: Typ
-event_terrain.no: Numer
-event_terrain.name: Nazwa 
-event_terrain.notification_date: Data
-event_terrain.group: Grupa
-ca.report.event.group: Wybierz grupę
-ca.report.event.type: Wybierz typ
-ca.report.event.report: opracowano
-ca.report.event.rest: nieopracowano
-ca.report.event.chart: Wykres opracowania terenu
-ca.report.event.status: "%"
-ca.report.work.group: Wybierz grupę
-ca.report.work.type: Wybierz typ
-ca.report.work.report: opracowano
-ca.report.work.rest: nieopracowano
-ca.report.work.chart: Wykres opracowania terenu
-ca.report.work.status: "%"
-ca.report.work: Opracowanie terenów
-ca.report.work.start: Data początkowa
-ca.report.work.end: Data końcowa
-terrain.last_notification_date: Ostatnio opracowano
-ca.report.work.times: razy
-terrain.last_notification_group: Ostatnio opracowała grupa...
-note.created_at: Utworzono
-note.created_by: Autor
-file.created_at: Utworzono
+ca.preachers:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Utworzono nowego głosiciela
+        deleted: Głosiciel został usunięty
+        edited: Dane głosiciela zostały zaktualizowane
+    window:
+        create: Tworzenie głosiciela
+        edit: Edycja danych głosiciela
+    confirmation.delete: Czy napewno chcesz usunąc tego głosiciela?
+    preachers: Głosiciele skonfigurowani dla Zboru
+    invalid_email: Nieprawidłowy adres e-mail
+    first_name: Imię
+    last_name: Nazwisko
+    email: E-mail
+    phone_no: Telefon
+    user: Użytkownik
+    firstName: Imię
+    lastName: Nazwisko
+    phoneNo: Telefon
+    basic_data: Dane podstawowe
+    priviledges: Przywileje
+    group_assignment: Przydział do grupy
+    group: Przypisanie do grupy
+    id: Id
+ca.priviledges:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nowy przywilej
+        deleted: Przywilej został usunięty
+        edited: Przywilej został zaktualizowany
+    window:
+        create: Dodawanie przywileju
+        edit: Edycja przywileju
+    confirmation.delete: Czy napewno chcesz usunąc ten przywilej?
+    not_null: Przywilej nie może być pusty
+    invalid_start_date: Data rozpoczęcia przywileju nie może być pusta
+    priviledge: Przywilej
+    id: Id
+    priviledge_start_date: Data rozpoczęcia
+    priviledge_end_date: Data zakończenia
+ca.priviledge:
+    mixer: Obsługa nagłośnienia
+    microphone: Noszenie mikrofonu
+    lector: Lektor
+    servant: Sługa pomocniczy
+    elder: Starszy
+    magazines_servant: Sługa czasopism
+    terrains_servant: Sługa terenów
+    literature_servant: Sługa literatury
+    elders_coordinator: Koordynator grona starszych
+    service_overseer: Nadzorca służby
+    sound_servant: Sługa nagłośnienia
+    accounts_servant: Sługa kont
+    school_overseer: Nadzorca TSSK
+    orderly: Porządkowy
+    congregation_secretary: Sekretarz zboru
+    service_group_overseer: Nadzorca grupy służby
+    pioneer: Pionier
+    pioneer_helper: Pionier pomocniczy
+    pioneer_special: Pionier specjalny
+    district_overseer: Nadzorca obwodu
+ca.groups:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nową grupę
+        deleted: Grupa została usunięta
+        edited: Grupa została zaktualizowana
+    window:
+        create: Dodawanie grupy
+        edit: Edycja grupy
+    confirmation.delete: Czy napewno chcesz usunąc tę grupę?
+    invalid_overseer: Grupa musi mieć nadzorcę
+    invalid_no: Grupa musi mieć numer
+    basic_data: Podstawowe dane
+    overseer: Nazdorca
+    "no": Numer
+    overseer: Nazdorca
+    archival: Archiwalna?
+    id: Id
+    core.yes: Tak
+    core.no: Nie
+ca.pr_assignments:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nowe przypisanie do grupy
+        deleted: Przypisanie do grupy zostało usunięte
+        edited: Przypisanie do grupy zostało zaktualizowane
+    window:
+        create: Nowe przypisanie do grupy
+        edit: Edycja przypisania do grupy
+    confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
+    invalid_group: Przypisanie musi mieć grupę
+    invalid_no: Przypisanie musi mieć datę
+    group: Grupa
+    date: Data
+    assignment_date: Data przypisania
+    assignment_active: Przypisanie aktywne?
+    priviledge_start_date: Data rozpoczęcia
+    priviledge_end_date: Data zakończenia
+    start_date: Data rozpoczęcia
+    end_date: Data zakończenia
+    id: Id
+    core.yes: Tak
+    core.no: Nie
+ca.terrains:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nowy teren
+        deleted: Teren został usunięty
+        edited: Teren został zaktualizowany
+    window:
+        create: Nowy teren
+        edit: Edycja terenu
+    confirmation.delete: Czy napewno chcesz usunąc ten teren?
+    invalid_name: Teren musi mieć nazwę
+    invalid_no: Teren musi mieć numer
+    invalid_type: Teren musi mieć typ
+    name: Nazwa
+    "no": Numer
+    archival: Archiwalny?
+    type: Typ
+    basic_data: Podstawowe dane
+    group: Przypisanie do grupy
+    notifications: Zgłoszenia opracowania
+    id: Id
+    current_group: Obecna grupa
+    last_notification: Ostatnie opracowanie
+    core.yes: Tak
+    core.no: Nie
+    notes: Notatki
+    files: Pliki
+    terrains: Tereny zboru
+    pick_type: Typ..
+    pick_group: Grupa..
+    pick_date: Ostatnie opracowanie..    
+ca.terrain_type:
+    city: miejski
+    village: wiejski
+    phone: telefoniczny
+ca.tr_assignments:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nowe przypisanie do grupy
+        deleted: Przypisanie do grupy zostało usunięte
+        edited: Przypisanie do grupy zostało zaktualizowane
+    window:
+        create: Nowe przypisanie do grupy
+        edit: Edycja przypisania do grupy
+    confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
+    invalid_group: Przypisanie musi mieć grupę
+    invalid_start_date: Przypisanie musi mieć datę początkową
+    group: Grupa
+    start_date: Data początku
+    end_date: Data końca
+    comment: Komentarz
+    group: Grupa
+    assignment_start_date: Data początku
+    assignment_end_date: Data końca
+    assignment_active: Aktywne?
+    id: Id
+    core.yes: Tak
+    core.no: Nie
+ca.notifications:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nowe zgłoszenie opracowania
+        deleted: Zgłoszenie opracowania zostało usunięte
+        edited: Zgłoszenie opracowania zostało zaktualizowane
+    window:
+        create: Nowe zgłoszenie opracowania
+        edit: Edycja zgłoszenia opracowania
+    confirmation.delete: Czy napewno chcesz usunąc to zgłoszenie?
+    invalid_assignment: Zgłoszenie opracowania musi być powiązane przypisanie terenu do grupy
+    invalid_date: Zgłoszenie musi mieć prawidłową datę (zgodną z wybranym przypisaniem terenu do grupy)
+    assignment: Przypisanie terenu do grupy
+    date: Data opracowania
+    override_group: Delegacja do grupy
+    event: Powiązane wydarzenie
+    comment: Komentarz
+    notification_date: Data opracowania
+    notification_comment: Komentarz
+    current_group: Obecna grupa
+    last_notification: Ostatnie opracowanie
+    id: Id
+ca.qnotify:
+    title: Opracowanie
+    processing: Przetwarzam teren
+    wrong_dates: "Wprowadzenie opracowań zakończone niepowodzeniem dla następujących terenów:"
+    success: Wprowadzenie opracowań zakończone powodzeniem
+ca.tr_files:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nowy plik
+        deleted: Plik został usunięty
+        edited: Plik został zaktualizowany
+    window:
+        create: Nowy plik
+        edit: Edycja pliku
+    confirmation.delete: Czy napewno chcesz usunąc ten plik?
+    title: Tytuł
+    name: Nazwa
+    msg.created_at: Utworzono  
+    decription: Opis
+    created_at: Utworzono
+    id: Id
+    data: Wybierz plik
+ca.tr_notes:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nową notatkę
+        deleted: Notatka została usunięta
+        edited: Notatka została zaktualizowana
+    window:
+        create: Nowa notatka
+        edit: Edycja notatki
+    confirmation.delete: Czy napewno chcesz usunąc tę notatkę?
+    content: Treść
+    created_at: Utworzono
+    created_by: Autor
+    id: Id
+ca.ov_assignments:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nowe przypisanie nadzorcy do grupy
+        deleted: Przypisanie nadzorcy do grupy zostało usunięte
+        edited: Przypisanie nadzorcy do grupy zostało zaktualizowane
+    window:
+        create: Nowe przypisanie nadzorcy
+        edit: Edycja przypisania nadzorcy do grupy
+    confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
+    invalid_preacher: Przypisanie nadzorcy musi mieć głosiciela
+    invalid_date: Przypisanie nadzorcy musi mieć datę początku
+    preacher: Głosiciel
+    start_date: Data początku
+    end_date: Data końca
+    groupNo: Nr grupy
+    assignment_active: Aktywne
+    group_no: Nr grupy
+    date: Data przydziału
+    id: Id
+    core.yes: Tak
+    core.no: Nie
+    assignment_start_date: Data rozpoczęcia
+ca.events:
+    button:
+        create: ""
+        delete: ""
+        edit: ""
+    msg:
+        created: Dodano nowe wydarzenia
+        deleted: Wydarzenie zostało usunięte
+        edited: Wydarzenie została zaktualizowana
+    window:
+        create: Dodawanie wydarzenia
+        edit: Edycja wydarzenia
+    confirmation.delete: Czy napewno chcesz usunąc to wydarzenie?
+    not_null: Ta wartość nie może być pusta
+    name: Nazwa
+    start_date: Data rozpoczęcia
+    end_date: Data zakończenia
+    startDate: Data ropoczęcia
+    endDate: Data zakończenia
+    id: Id
+ca.report:
+    pick: Wybierz raport
+    abstract:
+        group: Wybierz grupę
+        type: Wybierz typ
+        report: opracowano
+        rest: nieopracowano
+        chart: Wykres opracowania terenu
+        status: "%"
+        table:
+            type: Typ
+            "no": Numer
+            name: Nazwa
+            id: Id
+            notification_date: Data
+            group: Group
+            last_notification_date: Ostatnio opracowano
+            last_notification_group: Ostatnio opracowała grupa...
+    event:
+        name: Wydarzenia
+        pick: Wybierz wydarzenie
+    work:
+        name: Opracowanie terenów
+        start: Data początkowa
+        end: Data końcowa
+        times: razy
+    terrain_card:
+        from: Przydział
+        to: Opracowanie
+        head: Raport opracowania terenów zboru.
+        type: "Typ terenów"
+        group: "Grupa służby"
+        date: Data        
+        creation_date: "Data utworzenia raportu: "
+ca.service_group: "Gr. nr "        

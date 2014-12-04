@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.terrain.evidence;
 
@@ -59,14 +77,14 @@ import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.form.TabbedForm;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.terrains")
 public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
-
-    public static final String TRANSLATION_PREFIX = "ca.terrains.";
 
     protected CaEntityFactory caEntities;
 
@@ -79,9 +97,9 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     protected Button quickNotification;
 
     public TerrainDataTable(SecurityContext security) {
-        super(TabbedForm.class, new TableDataConfig(TRANSLATION_PREFIX) {
+        super(TabbedForm.class, new TableDataConfig(TerrainDataTable.class) {
             {
-                setColumnHeaders("terrain.type", "terrain.no", "terrain.name", "terrain.last_notification", "terrain.current_group", "terrain.archival", "id");
+                setColumnHeaders("type", "no", "name", "last_notification", "current_group", "archival", "id");
                 setVisibleColumns("type", "no", "name", "lastNotificationDate", "assignments", "archival", "id");
             }
         }, security);
@@ -180,16 +198,16 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         form.getLayout().setWidth("800px");
         VerticalLayout formLayout = new VerticalLayout();
 
-        FramesetFieldFactory<? extends Terrain> ff = new FramesetFieldFactory<>(this.caEntities.getTerrainClass());
+        FramesetFieldFactory<? extends Terrain> ff = new FramesetFieldFactory<>(this.caEntities.getTerrainClass(), this.getClass());
         ff.setSingleSelectType(this.caEntities.getPreacherClass(), ComboBox.class);
         form.setFormFieldFactory(ff);
         form.setItemDataSource(item, Arrays.asList(new String[]{"no", "name", "archival"}));
         form.setBuffered(true);
-        form.getField("name").addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_name"), false));
-        form.getField("no").addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_no"), false));
-        ComboBox type = ComponentFactory.createEnumComboBox(t(this.caEntities.getTerrainClass().getCanonicalName() + ".type"), TerrainType.class);
+        form.getField("name").addValidator(new NullValidator(t("invalid_name"), false));
+        form.getField("no").addValidator(new NullValidator(t("invalid_no"), false));
+        ComboBox type = ComponentFactory.createEnumComboBox(t("type"), TerrainType.class);
         type.setPropertyDataSource(item.getItemProperty("type"));
-        type.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_type"), false));
+        type.addValidator(new NullValidator(t("invalid_type"), false));
         form.addField("type", type);
         form.setEnabled(true);
         formLayout.addComponent(form);
@@ -205,10 +223,10 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     }
 
     private void addEditionTabs(TabbedForm form, EntityItem<? extends Terrain> item) {
-        form.getTabs().addTab(this.getGroupTab(item), t(TRANSLATION_PREFIX + "group"));
-        form.getTabs().addTab(this.getNotificationTab(item), t(TRANSLATION_PREFIX + "notifications"));
-        form.getTabs().addTab(this.getFilesTab(item), t(TRANSLATION_PREFIX + "files"));
-        form.getTabs().addTab(this.getNotesTab(item), t(TRANSLATION_PREFIX + "notes"));
+        form.getTabs().addTab(this.getGroupTab(item), t("group"));
+        form.getTabs().addTab(this.getNotificationTab(item), t("notifications"));
+        form.getTabs().addTab(this.getFilesTab(item), t("files"));
+        form.getTabs().addTab(this.getNotesTab(item), t("notes"));
     }
 
     private Component getGroupTab(EntityItem<? extends Terrain> item) {
@@ -256,7 +274,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     protected Map<String, Set<String>> getTabsConfig() {
         return new LinkedHashMap() {
             {
-                put(TRANSLATION_PREFIX + "basic_data", new LinkedHashSet() {
+                put(t("basic_data"), new LinkedHashSet() {
                     {
                         add("no");
                         add("name");
@@ -320,7 +338,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     }
 
     private DateField getDateField() {
-        DateField date = new DateField(t(TRANSLATION_PREFIX + "pick_date"));
+        DateField date = new DateField(t("pick_date"));
         date.setResolution(Resolution.DAY);
         date.setDateFormat("yyyy-MM-dd");
         return date;
@@ -330,7 +348,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         JPAContainer<ServiceGroup> groupsContainer = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.caEntityProviders.getServiceGroupEntityProvider().getEntityManager());
         groupsContainer.setEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
         groupsContainer.addContainerFilter(eq("archival", false));
-        final ComboBox groups = new ComboBox(t(TRANSLATION_PREFIX + "pick_group"), groupsContainer);
+        final ComboBox groups = new ComboBox(t("pick_group"), groupsContainer);
         groups.setConverter(new SingleSelectConverter<ServiceGroup>(groups));
         groups.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         groups.setItemCaptionPropertyId("caption");
@@ -338,7 +356,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
     }
 
     private ComboBox getTypesCombo() {
-        final ComboBox types = ComponentFactory.createEnumComboBox(t(TRANSLATION_PREFIX + "pick_type"), TerrainType.class);
+        final ComboBox types = ComponentFactory.createEnumComboBox(t("pick_type"), TerrainType.class);
         return types;
     }
 
@@ -377,7 +395,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
                     window.setCaEntityProviders(caEntityProviders);
                     getUI().addWindow(window.init());
                 } else {
-                    Notification.show(TRANSLATION_PREFIX + "select_terrain", Notification.Type.ERROR_MESSAGE);
+                    Notification.show("select_terrain", Notification.Type.ERROR_MESSAGE);
                 }
             }
         });

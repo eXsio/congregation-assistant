@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.terrain.evidence;
 
@@ -46,14 +64,14 @@ import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.notifications")
 public class NotificationsDataTable extends JPADataTable<TerrainNotification, Form> {
-
-    public static final String TRANSLATION_PREFIX = "ca.notifications.";
 
     protected CaEntityFactory caEntities;
 
@@ -64,9 +82,9 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     protected CaEntityProviderProvider caEntityProviders;
 
     public NotificationsDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(NotificationsDataTable.class) {
             {
-                setColumnHeaders("terrain.notification_date", "terrain.assignment", "terrain.override_group", "terrain.event", "terrain.notification_comment", "id");
+                setColumnHeaders("notification_date", "assignment", "override_group", "event", "notification_comment", "id");
                 setVisibleColumns("date", "assignment", "overrideGroup", "event", "comment", "id");
             }
         }, security);
@@ -144,7 +162,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     private void handleDateSelection(DateField date, final ComboBox assignment, final ComboBox event) {
-        date.addValidator(new AbstractValidator<Date>(t(TRANSLATION_PREFIX + "invalid_date")) {
+        date.addValidator(new AbstractValidator<Date>(t("invalid_date")) {
 
             @Override
             protected boolean isValidValue(Date value) {
@@ -189,17 +207,17 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     }
 
     private TextArea getCommentField(EntityItem<? extends TerrainNotification> item) {
-        TextArea comment = new TextArea(t(this.caEntities.getTerrainNotificationClass().getCanonicalName() + ".comment"));
+        TextArea comment = new TextArea(t("comment"));
         comment.setPropertyDataSource(item.getItemProperty("comment"));
         comment.setNullRepresentation("");
         return comment;
     }
 
     private DateField getDateField(EntityItem<? extends TerrainNotification> item) {
-        DateField date = new DateField(t(this.caEntities.getTerrainNotificationClass().getCanonicalName() + ".date"));
+        DateField date = new DateField(t("date"));
         date.setPropertyDataSource(item.getItemProperty("date"));
         date.setResolution(Resolution.DAY);
-        date.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_date"), false));
+        date.addValidator(new NullValidator(t("invalid_date"), false));
         date.setDateFormat("yyyy-MM-dd");
         return date;
     }
@@ -207,7 +225,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     private ComboBox getOverrideGroupField(EntityItem<? extends TerrainNotification> item) {
         JPAContainer<? extends ServiceGroup> groups = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.caEntityProviders.getServiceGroupEntityProvider().getEntityManager());
         groups.setEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
-        ComboBox overrideGroup = new ComboBox(t(this.caEntities.getTerrainNotificationClass().getCanonicalName() + ".override_group"), groups);
+        ComboBox overrideGroup = new ComboBox(t("override_group"), groups);
         overrideGroup.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         overrideGroup.setItemCaptionPropertyId("caption");
         overrideGroup.setPropertyDataSource(item.getItemProperty("overrideGroup"));
@@ -219,7 +237,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         JPAContainer<? extends pl.exsio.ca.model.Event> events = JPAContainerFactory.make(this.caEntities.getEventClass(), this.caEntityProviders.getEventEntityProvider().getEntityManager());
         events.setEntityProvider(this.caEntityProviders.getEventEntityProvider());
         events.sort(new Object[]{"startDate"}, new boolean[]{false});
-        ComboBox event = new ComboBox(t(this.caEntities.getTerrainNotificationClass().getCanonicalName() + ".event"), events);
+        ComboBox event = new ComboBox(t("event"), events);
         event.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         event.setItemCaptionPropertyId("name");
         event.setPropertyDataSource(item.getItemProperty("event"));
@@ -231,7 +249,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         JPAContainer<? extends TerrainAssignment> assignments = JPAContainerFactory.make(this.caEntities.getTerrainAssignmentClass(), this.caEntityProviders.getTerrainAssignmentEntityProvider().getEntityManager());
         assignments.setEntityProvider(this.caEntityProviders.getTerrainAssignmentEntityProvider());
         assignments.addContainerFilter(eq("terrain", this.terrain));
-        ComboBox assignment = new ComboBox(t(this.caEntities.getTerrainNotificationClass().getCanonicalName() + ".assignment"), assignments);
+        ComboBox assignment = new ComboBox(t("assignment"), assignments);
         assignment.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         assignment.setItemCaptionPropertyId("caption");
         assignment.setPropertyDataSource(item.getItemProperty("assignment"));
@@ -243,7 +261,7 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
             }
         }
         assignment.setNullSelectionAllowed(false);
-        assignment.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_assignment"), false));
+        assignment.addValidator(new NullValidator(t("invalid_assignment"), false));
         return assignment;
     }
 

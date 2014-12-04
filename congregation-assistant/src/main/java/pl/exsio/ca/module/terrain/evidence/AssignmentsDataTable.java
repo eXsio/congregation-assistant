@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.terrain.evidence;
 
@@ -39,14 +57,14 @@ import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.tr_assignments")
 public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> {
-
-    public static final String TRANSLATION_PREFIX = "ca.tr_assignments.";
 
     protected CaEntityFactory caEntities;
 
@@ -57,9 +75,9 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     protected EntityProvider serviceGroupEntityProvider;
 
     public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(AssignmentsDataTable.class) {
             {
-                setColumnHeaders("terrain.group", "terrain.assignment_start_date", "terrain.assignment_end_date", "preacher.assignment_active", "id");
+                setColumnHeaders("group", "assignment_start_date", "assignment_end_date", "assignment_active", "id");
                 setVisibleColumns("group", "startDate", "endDate", "active", "id");
             }
         }, security);
@@ -138,14 +156,14 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     }
 
     private TextArea getCommentField(EntityItem<? extends TerrainAssignment> item) {
-        TextArea comment = new TextArea(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".comment"));
+        TextArea comment = new TextArea(t("comment"));
         comment.setPropertyDataSource(item.getItemProperty("comment"));
         comment.setNullRepresentation("");
         return comment;
     }
 
     private DateField getEndDateField(EntityItem<? extends TerrainAssignment> item) {
-        DateField end = new DateField(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".end_date"));
+        DateField end = new DateField(t("end_date"));
         end.setPropertyDataSource(item.getItemProperty("endDate"));
         end.setResolution(Resolution.DAY);
         end.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
@@ -153,10 +171,10 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     }
 
     private DateField getStartDateField(EntityItem<? extends TerrainAssignment> item) {
-        DateField start = new DateField(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".start_date"));
+        DateField start = new DateField(t("start_date"));
         start.setPropertyDataSource(item.getItemProperty("startDate"));
         start.setResolution(Resolution.DAY);
-        start.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_start_date"), false));
+        start.addValidator(new NullValidator(t("invalid_start_date"), false));
         start.setDateFormat(CalendarUtil.getDateFormat(this.getLocale()));
         return start;
     }
@@ -165,12 +183,12 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
         JPAContainer<? extends ServiceGroup> groups = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.serviceGroupEntityProvider.getEntityManager());
         groups.setEntityProvider(this.serviceGroupEntityProvider);
         groups.addContainerFilter(eq("archival", false));
-        ComboBox group = new ComboBox(t(this.caEntities.getTerrainAssignmentClass().getCanonicalName() + ".group"), groups);
+        ComboBox group = new ComboBox(t("group"), groups);
         group.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         group.setItemCaptionPropertyId("caption");
         group.setPropertyDataSource(item.getItemProperty("group"));
         group.setConverter(new SingleSelectConverter(group));
-        group.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_group"), false));
+        group.addValidator(new NullValidator(t("invalid_group"), false));
         return group;
     }
 

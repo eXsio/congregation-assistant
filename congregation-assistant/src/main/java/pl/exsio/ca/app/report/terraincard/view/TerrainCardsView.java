@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.app.report.terraincard.view;
 
@@ -27,12 +45,14 @@ import pl.exsio.ca.app.report.terraincard.model.TerrainCardPage;
 import pl.exsio.ca.app.report.terraincard.viewmodel.TerrainCardViewModel;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.TerrainType;
+import pl.exsio.jin.annotation.TranslationPrefix;
 import static pl.exsio.jin.translationcontext.TranslationContext.t;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.report.terrain_card")
 public class TerrainCardsView extends AbstractPdfView {
 
     private TerrainCardViewModel viewModel;
@@ -69,8 +89,8 @@ public class TerrainCardsView extends AbstractPdfView {
         for (int i = 0; i < page.getColumns().size(); i++) {
             TerrainCardColumn column = page.getColumns().get(i);
             table.addCell(this.getColumnTitleCell(column.getTerrainName()), 0, currentCol);
-            table.addCell(this.getColumnDescCell("ca.report.terrain_card.from"), 1, currentCol);
-            table.addCell(this.getColumnDescCell("ca.report.terrain_card.to"), 1, currentCol + 1);
+            table.addCell(this.getColumnDescCell("from"), 1, currentCol);
+            table.addCell(this.getColumnDescCell("to"), 1, currentCol + 1);
             for (int j = 0; j < column.getCells().size(); j++) {
                 TerrainCardCell cell = column.getCells().get(j);
                 boolean odd = j % 2 != 0;
@@ -87,20 +107,20 @@ public class TerrainCardsView extends AbstractPdfView {
     }
     
     private Element getHeader(Map<String, Object> params) throws Exception {
-        StringBuilder sb = new StringBuilder(t("ca.report.terrain_cards.head")).append(" ");
+        StringBuilder sb = new StringBuilder(t("head")).append(" ");
         TerrainType type = this.viewModel.getTypeFromParams(params);
         if(type != null) {
-            sb.append(t("ca.report.terrain_cards.type")).append(": ").append(type.getCaption()).append(". ");
+            sb.append(t("type")).append(": ").append(type.getCaption()).append(". ");
         }
         
         ServiceGroup group = this.viewModel.getGroupFromParams(params);
         if(group != null) {
-            sb.append(t("ca.report.terrain_cards.group")).append(": ").append(group.getCaption()).append(". ");
+            sb.append(t("group")).append(": ").append(group.getCaption()).append(". ");
         }
         
         Date date = this.viewModel.getDateFromParams(params);
         if(date != null) {
-            sb.append(t("ca.report.terrain_cards.date")).append(": ").append(new SimpleDateFormat("yyyy-MM-dd").format(date)).append(".");
+            sb.append(t("date")).append(": ").append(new SimpleDateFormat("yyyy-MM-dd").format(date)).append(".");
         }
         Paragraph p = new Paragraph(sb.toString(), this.getFont());
         p.getFont().setStyle(Font.BOLD);
@@ -116,7 +136,7 @@ public class TerrainCardsView extends AbstractPdfView {
     }
     
     private Element getCreationDate(Date date) throws Exception {
-        Paragraph p = new Paragraph(t("ca.report.terrain_cards.creation_date") + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date), this.getFont());
+        Paragraph p = new Paragraph(t("creation_date") + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date), this.getFont());
         p.setAlignment(Element.ALIGN_LEFT);
         p.getFont().setSize(7);
         return p;

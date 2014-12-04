@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.terrain.evidence;
 
@@ -41,14 +59,14 @@ import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.tr_files")
 public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
-
-    public static final String TRANSLATION_PREFIX = "ca.tr_files.";
 
     protected CaEntityFactory caEntities;
 
@@ -65,9 +83,9 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     protected long lastSize;
 
     public FilesDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(FilesDataTable.class) {
             {
-                setColumnHeaders("file.title", "file.name", "file.created_at", "id");
+                setColumnHeaders("title", "name", "created_at", "id");
                 setVisibleColumns("title", "name", "createdAt", "id");
             }
         }, security);
@@ -175,7 +193,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
             }
 
         };
-        this.uploadField.setButtonCaption(t(this.caEntities.getTerrainFileClass().getCanonicalName() + ".data"));
+        this.uploadField.setButtonCaption(t("data"));
         this.uploadField.setStorageMode(StorageMode.MEMORY);
         this.uploadField.setFieldType(FieldType.BYTE_ARRAY);
         this.uploadField.addValidator(new NullValidator("", false));
@@ -184,7 +202,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     private TextField getTitleField(EntityItem<? extends TerrainFile> item) {
-        TextField title = new TextField(t(this.caEntities.getTerrainFileClass().getCanonicalName() + ".title"));
+        TextField title = new TextField(t("title"));
         title.setPropertyDataSource(item.getItemProperty("title"));
         title.addValidator(new NullValidator("", false));
         title.setNullRepresentation("");
@@ -192,7 +210,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     }
 
     private TextArea getDescriptionField(EntityItem<? extends TerrainFile> item) {
-        TextArea desc = new TextArea(t(this.caEntities.getTerrainFileClass().getCanonicalName() + ".decription"));
+        TextArea desc = new TextArea(t("decription"));
         desc.setPropertyDataSource(item.getItemProperty("description"));
         desc.setNullRepresentation("");
         return desc;

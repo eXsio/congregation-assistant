@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.terrain.report.impl;
 
@@ -30,12 +48,14 @@ import pl.exsio.ca.model.dao.TerrainDao;
 import pl.exsio.ca.model.dao.TerrainNotificationDao;
 import pl.exsio.ca.module.terrain.report.Report;
 import static pl.exsio.ca.module.terrain.report.impl.AbstractReportImpl.MODE_REST;
+import pl.exsio.jin.annotation.TranslationPrefix;
 import static pl.exsio.jin.translationcontext.TranslationContext.t;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.report.event")
 public class EventReportImpl extends AbstractReportImpl {
 
     private HorizontalLayout lastReport;
@@ -47,7 +67,7 @@ public class EventReportImpl extends AbstractReportImpl {
 
     @Override
     public String getName() {
-        return t("ca.report.event");
+        return t("name");
     }
 
     @Override
@@ -231,7 +251,7 @@ public class EventReportImpl extends AbstractReportImpl {
         JPAContainer<pl.exsio.ca.model.Event> container = JPAContainerFactory.make(this.caEntities.getEventClass(), this.caEntityProviders.getEventEntityProvider().getEntityManager());
         container.setEntityProvider(this.caEntityProviders.getEventEntityProvider());
         container.sort(new Object[]{"startDate"}, new boolean[]{false});
-        final ComboBox picker = new ComboBox(t("ca.report.event.pick"), container);
+        final ComboBox picker = new ComboBox(t("pick"), container);
         picker.setNullSelectionAllowed(false);
         picker.setConverter(new SingleSelectConverter<pl.exsio.ca.model.Event>(picker));
         if (!picker.getItemIds().isEmpty()) {

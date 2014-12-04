@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.config.events;
 
@@ -23,17 +41,16 @@ import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
-import pl.exsio.frameset.vaadin.ui.support.component.data.common.DataConfig;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.AclSubjectDataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.events")
 public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event, Form> {
-
-    public static final String TRANSLATION_PREFIX = "ca.events.";
 
     protected CaEntityFactory caEntities;
 
@@ -42,9 +59,9 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
     protected CaRepositoryProvider caRepositories;
 
     public EventsDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(EventsDataTable.class) {
             {
-                setColumnHeaders("event.name", "event.start_date", "event.end_date", "id");
+                setColumnHeaders("name", "start_date", "end_date", "id");
                 setVisibleColumns("name", "startDate", "endDate", "id");
             }
         }, security);
@@ -71,13 +88,13 @@ public class EventsDataTable extends AclSubjectDataTable<pl.exsio.ca.model.Event
 
         VerticalLayout formLayout = new VerticalLayout();
 
-        FramesetFieldFactory<? extends pl.exsio.ca.model.Event> ff = new FramesetFieldFactory<>(this.caEntities.getEventClass());
+        FramesetFieldFactory<? extends pl.exsio.ca.model.Event> ff = new FramesetFieldFactory<>(this.caEntities.getEventClass(), this.getClass());
         form.setFormFieldFactory(ff);
         form.setItemDataSource(item, Arrays.asList(new String[]{"name", "startDate", "endDate"}));
         form.setBuffered(true);
         form.setEnabled(true);
         formLayout.addComponent(form);
-        Validator notNull = new NullValidator(t("ca.events.not_null"), false);
+        Validator notNull = new NullValidator(t("not_null"), false);
         form.getField("name").addValidator(notNull);
         form.getField("startDate").addValidator(notNull);
         ((DateField) form.getField("startDate")).setDateFormat("yyyy-MM-dd");

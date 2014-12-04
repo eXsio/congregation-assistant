@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.config.groups;
 
@@ -38,14 +56,14 @@ import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.ov_assignments")
 public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form> {
-
-    public static final String TRANSLATION_PREFIX = "ca.ov_assignments.";
 
     protected CaEntityFactory caEntities;
 
@@ -56,9 +74,9 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
     protected EntityProvider preacherEntityProvider;
 
     public AssignmentsDataTable(SecurityContext security) {
-        super(Form.class, new TableDataConfig(TRANSLATION_PREFIX) {
+        super(Form.class, new TableDataConfig(AssignmentsDataTable.class) {
             {
-                setColumnHeaders("overseer.preacher", "overseer.group_no", "overseer.assignment_start_date", "overseer.assignment_active", "id");
+                setColumnHeaders("preacher", "group_no", "assignment_start_date", "assignment_active", "id");
                 setVisibleColumns("preacher", "groupNo", "date", "active", "id");
             }
         }, security);
@@ -128,31 +146,31 @@ public class AssignmentsDataTable extends JPADataTable<OverseerAssignment, Form>
     }
 
     private DateField getDateField(EntityItem<? extends OverseerAssignment> item) {
-        DateField date = new DateField(t(this.caEntities.getOverseerAssignmentClass().getCanonicalName() + ".date"));
+        DateField date = new DateField(t("date"));
         date.setPropertyDataSource(item.getItemProperty("date"));
         date.setResolution(Resolution.DAY);
-        date.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_date"), false));
+        date.addValidator(new NullValidator(t("invalid_date"), false));
         date.setDateFormat("yyyy-MM-dd");
         return date;
     }
 
     private TextField getGroupNoField(EntityItem<? extends OverseerAssignment> item) {
-        TextField groupNo = new TextField(t(this.caEntities.getOverseerAssignmentClass().getCanonicalName() + ".groupNo"));
+        TextField groupNo = new TextField(t("groupNo"));
         groupNo.setPropertyDataSource(item.getItemProperty("groupNo"));
         groupNo.setConverter(new StringToLongConverter());
-        groupNo.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_group_no"), false));
+        groupNo.addValidator(new NullValidator(t("invalid_group_no"), false));
         return groupNo;
     }
 
     private ComboBox getPreacherField(EntityItem<? extends OverseerAssignment> item) {
         JPAContainer<? extends Preacher> groups = JPAContainerFactory.make(this.caEntities.getPreacherClass(), this.preacherEntityProvider.getEntityManager());
         groups.setEntityProvider(this.preacherEntityProvider);
-        ComboBox group = new ComboBox(t(this.caEntities.getOverseerAssignmentClass().getCanonicalName() + ".preacher"), groups);
+        ComboBox group = new ComboBox(t("preacher"), groups);
         group.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         group.setItemCaptionPropertyId("caption");
         group.setPropertyDataSource(item.getItemProperty("preacher"));
         group.setConverter(new SingleSelectConverter(group));
-        group.addValidator(new NullValidator(t(TRANSLATION_PREFIX + "invalid_preacher"), false));
+        group.addValidator(new NullValidator(t("invalid_preacher"), false));
         return group;
     }
 

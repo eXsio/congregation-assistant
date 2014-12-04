@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.terrain.evidence;
 
@@ -36,14 +54,14 @@ import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.vaadin.component.InitializableWindow;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.qnotify")
 public class QuickNotifyWindow extends InitializableWindow {
-
-    protected static final String TRANSLATION_PREFIX = "ca.qnotify.";
 
     protected final Set<Terrain> terrainsToNotify;
 
@@ -56,7 +74,7 @@ public class QuickNotifyWindow extends InitializableWindow {
     protected final JPAContainer<Terrain> terrainsContainer;
 
     public QuickNotifyWindow(Set<Terrain> terrainsToNotify, JPAContainer<Terrain> terrainsContainer) {
-        super(t(TRANSLATION_PREFIX + "title"));
+        super(t("title"));
         this.terrainsToNotify = terrainsToNotify;
         this.terrainsContainer = terrainsContainer;
     }
@@ -174,9 +192,9 @@ public class QuickNotifyWindow extends InitializableWindow {
             }
         }
         if (!wrongDates.isEmpty()) {
-            Notification.show(t(TRANSLATION_PREFIX + "wrong_dates") + ": " + wrongDates.toString(), Notification.Type.ERROR_MESSAGE);
+            Notification.show(t("wrong_dates") + ": " + wrongDates.toString(), Notification.Type.ERROR_MESSAGE);
         } else {
-            Notification.show(t(TRANSLATION_PREFIX + "success"));
+            Notification.show(t("success"));
         }
         this.terrainsContainer.refresh();
         this.terrainsToNotify.clear();

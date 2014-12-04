@@ -1,7 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * The MIT License
+ *
+ * Copyright 2014 exsio.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package pl.exsio.ca.module.terrain.report.impl;
 
@@ -33,7 +51,6 @@ import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -49,11 +66,13 @@ import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
 import pl.exsio.ca.module.terrain.report.Report;
 import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.vaadin.ui.support.component.ComponentFactory;
+import pl.exsio.jin.annotation.TranslationPrefix;
 
 /**
  *
  * @author exsio
  */
+@TranslationPrefix("ca.report.abstract")
 public abstract class AbstractReportImpl extends VerticalLayout implements Report {
 
     protected static final int MODE_WORK = 0;
@@ -62,10 +81,10 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
 
     protected static final String ACTIVE_BUTTON_STYLE = "button-selected";
 
-    protected Button rest = new Button(t("ca.report.work.rest"));
+    protected Button rest = new Button(t("rest"));
     ;
 
-    protected Button report = new Button(t("ca.report.work.report"));
+    protected Button report = new Button(t("report"));
     ;
 
     protected int lastMode = MODE_WORK;
@@ -125,11 +144,11 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
         container.addContainerProperty("percent", Number.class, null);
         container.addContainerProperty("color", Color.class, null);
         Item report = container.addItem("report");
-        report.getItemProperty("label").setValue(t("ca.report.event.report") + " (" + new Double(reportCount).intValue() + "/" + new Double(allCount).intValue() + ")");
+        report.getItemProperty("label").setValue(t("report") + " (" + new Double(reportCount).intValue() + "/" + new Double(allCount).intValue() + ")");
         report.getItemProperty("percent").setValue(reportPercent);
         report.getItemProperty("color").setValue(colors[4]);
         Item rest = container.addItem("rest");
-        rest.getItemProperty("label").setValue(t("ca.report.event.rest") + " (" + new Double(allCount - reportCount).intValue() + "/" + new Double(allCount).intValue() + ")");
+        rest.getItemProperty("label").setValue(t("rest") + " (" + new Double(allCount - reportCount).intValue() + "/" + new Double(allCount).intValue() + ")");
         rest.getItemProperty("percent").setValue(restPercent);
         rest.getItemProperty("color").setValue(colors[3]);
         container.sort(new Object[]{"terrain_no"}, new boolean[]{true});
@@ -195,11 +214,11 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
         ds.setYPropertyId("percent");
         ds.setNamePropertyId("label");
         ds.addAttributeToPropertyIdMapping("color", "color");
-        ds.setName(t("ca.report.event.status"));
+        ds.setName(t("status"));
         final Chart chart = new Chart();
         final Configuration configuration = new Configuration();
         configuration.getChart().setType(ChartType.PIE);
-        configuration.getTitle().setText(t("ca.report.event.chart"));
+        configuration.getTitle().setText(t("chart"));
         Tooltip tooltip = new Tooltip();
         tooltip.setValueDecimals(1);
         tooltip.setPointFormat("{point.y}%");
@@ -224,7 +243,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
         };
         table.setConverter("notification_date", dateConverter);
         table.setVisibleColumns(new Object[]{"terrain_type", "terrain_no", "terrain_name", "notification_date", "group", "terrain_id"});
-        table.setColumnHeaders(t(new String[]{"event_terrain.type", "event_terrain.no", "event_terrain.name", "terrain.last_notification_date", "event_terrain.group", "id"}));
+        table.setColumnHeaders(t(new String[]{"table.type", "table.no", "table.name", "table.last_notification_date", "table.group", "table.id"}));
         table.setWidth("740px");
         return table;
     }
@@ -244,7 +263,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
         JPAContainer<ServiceGroup> groupsContainer = JPAContainerFactory.make(this.caEntities.getServiceGroupClass(), this.caEntityProviders.getServiceGroupEntityProvider().getEntityManager());
         groupsContainer.setEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
         groupsContainer.addContainerFilter(eq("archival", false));
-        final ComboBox groups = new ComboBox(t("ca.report.event.group"), groupsContainer);
+        final ComboBox groups = new ComboBox(t("group"), groupsContainer);
         groups.setConverter(new SingleSelectConverter<ServiceGroup>(groups));
         groups.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         groups.setItemCaptionPropertyId("caption");
@@ -252,7 +271,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
     }
 
     protected ComboBox getTypesCombo() {
-        final ComboBox types = ComponentFactory.createEnumComboBox(t("ca.report.event.type"), TerrainType.class);
+        final ComboBox types = ComponentFactory.createEnumComboBox(t("type"), TerrainType.class);
         return types;
     }
 
