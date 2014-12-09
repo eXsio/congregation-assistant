@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Czas wygenerowania: 09 Lip 2014, 09:45
--- Wersja serwera: 5.6.17-0ubuntu0.14.04.1
+-- Czas wygenerowania: 09 Gru 2014, 11:46
+-- Wersja serwera: 5.6.19-0ubuntu0.14.04.1
 -- Wersja PHP: 5.5.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Baza danych: `congregation-assistant`
+-- Baza danych: `ca_tmp`
 --
 
 -- --------------------------------------------------------
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `acl_entry` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `acl_entry_idx_1` (`acl_object_identity`,`ace_order`),
   KEY `sid` (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=113 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=228 ;
 
 --
 -- Zrzut danych tabeli `acl_entry`
@@ -110,23 +110,50 @@ INSERT INTO `acl_entry` (`id`, `acl_object_identity`, `ace_order`, `sid`, `mask`
 (63, 8, 4, 1, 4, 1, 0, 0),
 (64, 8, 5, 1, 2, 1, 0, 0),
 (65, 8, 6, 2, 1, 1, 0, 0),
-(69, 12, 0, 1, 1, 1, 0, 0),
-(70, 13, 0, 1, 1, 1, 0, 0),
-(80, 9, 0, 1, 1, 1, 0, 0),
-(81, 9, 1, 1, 4, 1, 0, 0),
-(82, 9, 2, 1, 16, 1, 0, 0),
-(83, 9, 3, 1, 2, 1, 0, 0),
-(84, 9, 4, 1, 8, 1, 0, 0),
-(94, 10, 0, 1, 1, 1, 0, 0),
-(95, 10, 1, 1, 16, 1, 0, 0),
-(96, 10, 2, 1, 2, 1, 0, 0),
-(97, 10, 3, 1, 4, 1, 0, 0),
-(98, 10, 4, 1, 8, 1, 0, 0),
-(108, 11, 0, 1, 1, 1, 0, 0),
-(109, 11, 1, 1, 8, 1, 0, 0),
-(110, 11, 2, 1, 16, 1, 0, 0),
-(111, 11, 3, 1, 4, 1, 0, 0),
-(112, 11, 4, 1, 2, 1, 0, 0);
+(147, 13, 0, 1, 1, 1, 0, 0),
+(148, 13, 1, 1, 4, 1, 0, 0),
+(149, 13, 2, 1, 16, 1, 0, 0),
+(150, 13, 3, 1, 2, 1, 0, 0),
+(151, 13, 4, 1, 8, 1, 0, 0),
+(152, 13, 5, 2, 1, 1, 0, 0),
+(153, 9, 0, 1, 1, 1, 0, 0),
+(154, 9, 1, 1, 4, 1, 0, 0),
+(155, 9, 2, 1, 16, 1, 0, 0),
+(156, 9, 3, 1, 2, 1, 0, 0),
+(157, 9, 4, 1, 8, 1, 0, 0),
+(158, 9, 5, 2, 1, 1, 0, 0),
+(159, 10, 0, 1, 1, 1, 0, 0),
+(160, 10, 1, 1, 16, 1, 0, 0),
+(161, 10, 2, 1, 2, 1, 0, 0),
+(162, 10, 3, 1, 4, 1, 0, 0),
+(163, 10, 4, 1, 8, 1, 0, 0),
+(164, 10, 5, 2, 1, 1, 0, 0),
+(165, 11, 0, 1, 1, 1, 0, 0),
+(166, 11, 1, 1, 8, 1, 0, 0),
+(167, 11, 2, 1, 16, 1, 0, 0),
+(168, 11, 3, 1, 4, 1, 0, 0),
+(169, 11, 4, 1, 2, 1, 0, 0),
+(170, 11, 5, 2, 1, 1, 0, 0),
+(178, 12, 0, 1, 1, 1, 0, 0),
+(179, 12, 1, 1, 8, 1, 0, 0),
+(180, 12, 2, 1, 4, 1, 0, 0),
+(181, 12, 3, 1, 2, 1, 0, 0),
+(182, 12, 4, 1, 16, 1, 0, 0),
+(183, 12, 5, 2, 1, 1, 0, 0),
+(184, 12, 6, 4, 2, 1, 0, 0),
+(185, 12, 7, 4, 1, 1, 0, 0),
+(201, 14, 0, 1, 1, 1, 0, 0),
+(202, 14, 1, 1, 2, 1, 0, 0),
+(203, 14, 2, 1, 16, 1, 0, 0),
+(204, 14, 3, 1, 4, 1, 0, 0),
+(205, 14, 4, 1, 8, 1, 0, 0),
+(206, 14, 5, 2, 1, 1, 0, 0),
+(222, 15, 0, 1, 16, 1, 0, 0),
+(223, 15, 1, 1, 2, 1, 0, 0),
+(224, 15, 2, 1, 8, 1, 0, 0),
+(225, 15, 3, 1, 4, 1, 0, 0),
+(226, 15, 4, 1, 1, 1, 0, 0),
+(227, 15, 5, 2, 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -145,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `acl_object_identity` (
   UNIQUE KEY `acl_object_identity_idx_1` (`object_id_class`,`object_id_identity`),
   KEY `parent_object` (`parent_object`),
   KEY `owner_sid` (`owner_sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Zrzut danych tabeli `acl_object_identity`
@@ -164,7 +191,9 @@ INSERT INTO `acl_object_identity` (`id`, `object_id_class`, `object_id_identity`
 (10, 2, 10, NULL, 3, 1),
 (11, 2, 11, NULL, 3, 1),
 (12, 2, 13, NULL, 3, 1),
-(13, 2, 12, NULL, 3, 1);
+(13, 2, 12, NULL, 3, 1),
+(14, 2, 14, NULL, 5, 1),
+(15, 2, 15, NULL, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `acl_sid` (
   `sid` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `acl_sid_idx_1` (`sid`,`principal`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Zrzut danych tabeli `acl_sid`
@@ -187,7 +216,45 @@ CREATE TABLE IF NOT EXISTS `acl_sid` (
 INSERT INTO `acl_sid` (`id`, `principal`, `sid`) VALUES
 (3, 1, 'admin@frameset.com'),
 (1, 0, 'ROLE_ADMIN'),
-(2, 0, 'ROLE_USER');
+(4, 0, 'ROLE_TERRAIN_EDITOR'),
+(2, 0, 'ROLE_USER'),
+(5, 1, 'sdymitrow@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `ca_events`
+--
+
+CREATE TABLE IF NOT EXISTS `ca_events` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` date NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `event_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `ca_overseer_assignments`
+--
+
+CREATE TABLE IF NOT EXISTS `ca_overseer_assignments` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `is_active` tinyint(1) NOT NULL,
+  `created_at` date NOT NULL,
+  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `date` date NOT NULL,
+  `group_id` bigint(20) NOT NULL,
+  `preacher_id` bigint(20) NOT NULL,
+  `group_no` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_obg27dmq08kovbjbfumr4v111` (`group_id`),
+  KEY `FK_qs8gbwnh7kl82snok4lm28222` (`preacher_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -207,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `ca_preachers` (
   `user_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_kdu88d24t45cty544che467sb` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -244,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `ca_preacher_priviledges` (
   `preacher_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_fbd8jrmboxx39p0uqxqurhw59` (`preacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -257,8 +324,8 @@ CREATE TABLE IF NOT EXISTS `ca_service_groups` (
   `is_archival` tinyint(1) NOT NULL,
   `created_at` date NOT NULL,
   `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -277,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `ca_terrains` (
   `last_notification_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniqueTerrain` (`type`,`terrain_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -398,7 +465,13 @@ CREATE TABLE IF NOT EXISTS `persistent_logins` (
 --
 
 INSERT INTO `persistent_logins` (`username`, `series`, `token`, `last_used`) VALUES
-('admin@frameset.com', 't06wxsMtoAwEtXEoI+uhWA==', 'Wf4p4nD5qxfuA4OothMWOA==', '2014-07-09 07:17:31');
+('kanik.slawomir@gmail.com', '9xjm7d0RXqYNj1cImjRWaA==', 'OjispU41tdjXnqR4KMbtdw==', '2014-08-09 15:50:26'),
+('sdymitrow@gmail.com', 'a24Q3Yjb2SCtMSyy1hmLLA==', 'Fcm40+YbsryR0E6LaATTdw==', '2014-10-16 12:46:10'),
+('bogackig1@gmail.com', 'iilg9pjaiFDSd7PpOE+epA==', 'rDZn/I+oFm168wPdc/tw2w==', '2014-08-23 11:05:26'),
+('sdymitrow@gmail.com', 'kg2cGhJD7XZDl8N5LTaJFw==', 'udZJdpaGMPP5nbmMGXiaIg==', '2014-12-07 18:44:23'),
+('sdymitrow@gmail.com', 'NFLlXmd1xNZ1yw1DK2yf1Q==', 'hn3CICI/UBB5jnbyx3NAWQ==', '2014-11-27 08:52:02'),
+('kamil.szczechowicz@gmail.com', 'QN8Tr6ew3KbnZZNYq21ZRQ==', 'Anu3oLBjCOH+JIT7+Acs6g==', '2014-08-26 11:11:40'),
+('sdymitrow@gmail.com', 'sgvx0fMUonV3tgn+Ik7E3A==', 'MKsaIcs7E5wxMhQE+3zk3w==', '2014-10-31 18:05:55');
 
 -- --------------------------------------------------------
 
@@ -417,8 +490,8 @@ CREATE TABLE IF NOT EXISTS `security_groups` (
 --
 
 INSERT INTO `security_groups` (`id`, `group_name`) VALUES
-(1, 'Admins'),
-(2, 'Users');
+(1, 'Administratorzy'),
+(2, 'Uzytkownicy');
 
 -- --------------------------------------------------------
 
@@ -452,7 +525,7 @@ CREATE TABLE IF NOT EXISTS `security_roles` (
   `role_label` varchar(255) DEFAULT NULL,
   `role_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Zrzut danych tabeli `security_roles`
@@ -460,7 +533,29 @@ CREATE TABLE IF NOT EXISTS `security_roles` (
 
 INSERT INTO `security_roles` (`id`, `role_label`, `role_name`) VALUES
 (1, 'Administrator', 'ROLE_ADMIN'),
-(2, 'User', 'ROLE_USER');
+(2, 'User', 'ROLE_USER'),
+(3, 'Edytor terenów', 'ROLE_TERRAIN_EDITOR');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `security_roles_child_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `security_roles_child_roles` (
+  `role_id` bigint(20) NOT NULL,
+  `child_role_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`role_id`,`child_role_id`),
+  KEY `ca_child_role` (`child_role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Zrzut danych tabeli `security_roles_child_roles`
+--
+
+INSERT INTO `security_roles_child_roles` (`role_id`, `child_role_id`) VALUES
+(1, 2),
+(3, 2);
 
 -- --------------------------------------------------------
 
@@ -478,15 +573,24 @@ CREATE TABLE IF NOT EXISTS `security_users` (
   `phone_no` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Zrzut danych tabeli `security_users`
 --
 
 INSERT INTO `security_users` (`id`, `first_name`, `is_enabled`, `last_name`, `password`, `username`, `phone_no`) VALUES
-(1, 'Application', 1, 'Administrator', '$2a$10$q1jYQ2xdqywKqlxiINu0xujkYLLn7rRSUtbzavThYunDC.8bafKcq', 'admin@frameset.com', NULL),
-(2, 'John', 1, 'Doe', '$2a$10$M8GnZv6AlK0OkgqC.dLXLOOzmlW6PjjS9VdMexFAiPNAIzDnMa3uS', 'user@frameset.com', NULL);
+(1, 'Sławomir', 1, 'Dymitrow', '$2a$10$Um.Ir0tZIqos7ta9tJXZ/.KDHQiYp2N71NZAu2Q.xCCzczZfODXuC', 'sdymitrow@gmail.com', NULL),
+(3, 'Sławomir', 1, 'Kanik', '$2a$10$PTdiJ0Scj/SfykJA8NTAfO3IZ0kAc3kjCTSjprYahHZO/VRXJuI26', 'kanik.slawomir@gmail.com', NULL),
+(4, 'Robert', 1, 'Kozieł', '$2a$10$TdE144bus5xbjvWKvgQy.uDEtLmLclimqM.1RAMSgmkc0v/bzpXZy', 'rob.koziel@gmail.com', NULL),
+(5, 'Grzegorz', 1, 'Bogacki', '$2a$10$8BIVad8sbfK/KN9hutZ9P.J9OZzJMWXycW/pCd4cQUciAvlrAsWqy', 'bogackig1@gmail.com', NULL),
+(6, 'Marian', 1, 'Tańcula', '$2a$10$8yrMkn4YKEYx7oR6uwVgOuUj80dr1tGagOTBEg54iKAg3mneYwP4K', 'mariano56@op.pl', '660989417'),
+(7, 'Kamil', 1, 'Szczechowicz', '$2a$10$.HrBl1xNkyVbggQ54jL2Nu/mqS0ss7Fby4u1tU2pTILWznw5sDA0G', 'kamil.szczechowicz@gmail.com', NULL),
+(8, 'Paweł', 1, 'Główka', '$2a$10$OEEoXYjztjPRtNEivbFZl.9f4QTYA1iwC/c5ObYQall9kNDSHRP2q', 'pawelreno@gmail.com', NULL),
+(9, 'Andrzej', 1, 'Doniec', '$2a$10$BxCi1WjHkpgRtDAlDKxl2ew2JOfMjz45HxWzhZvRdwUvHqSs9KNdG', 'andrzej.doniec@gmail.com', NULL),
+(10, 'Dawid', 1, 'Gomółka', '$2a$10$HaddTpaL749lhYyYGM2C1OdtS2QpszLSn.AGK7FJH1SyPkCMCWd1q', 'dawid@davex.com.pl', NULL),
+(11, 'Robert', 1, 'Drożdż', '$2a$10$jzaNYjZThDS2I0WaJuMqCeGAl9C/6d2VesJZsiLhQR0COCDU0Q7n.', 'robert.drozdz@outlook.com', NULL),
+(12, 'Krystian', 0, 'Wlazło', '$2a$10$MxEdz970FQKCeaPjQ2.LG.KBLv24HNwmwbxvsDvmsrRFcUDhsRtOG', 'krystian.wlazlo2014@gmail.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -507,7 +611,16 @@ CREATE TABLE IF NOT EXISTS `security_users_groups` (
 
 INSERT INTO `security_users_groups` (`user_id`, `group_id`) VALUES
 (1, 1),
-(2, 2);
+(3, 2),
+(4, 2),
+(5, 2),
+(6, 2),
+(7, 2),
+(8, 2),
+(9, 2),
+(10, 2),
+(11, 2),
+(12, 2);
 
 -- --------------------------------------------------------
 
@@ -542,24 +655,26 @@ CREATE TABLE IF NOT EXISTS `vaadin_frames` (
   `parent_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_hxb6jbp6flyvak2xd6kv59v9j` (`parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Zrzut danych tabeli `vaadin_frames`
 --
 
 INSERT INTO `vaadin_frames` (`id`, `icon`, `is_default`, `tree_left`, `tree_level`, `menu_label`, `module_id`, `tree_right`, `slug`, `title`, `parent_id`) VALUES
-(1, NULL, 0, 1, 0, '', '', 22, '', 'FramesTree', NULL),
-(2, 'HOME', 1, 3, 2, 'core.frames.home', 'homeModule', 4, 'home', 'core.frames.home', 8),
-(3, 'COGS', 0, 6, 1, 'core.frames.settings', NULL, 15, 'settings', 'core.frames.settings', 1),
-(4, 'USER', 0, 7, 2, 'core.frames.settings.users', 'manageUsersModule', 8, 'users', 'core.frames.settings.users', 3),
-(5, 'USERS', 0, 9, 2, 'core.frames.settings.groups', 'manageGroupsModule', 10, 'groups', 'core.frames.settings.groups', 3),
-(6, 'LOCK', 0, 11, 2, 'core.frames.settings.roles', 'manageRolesModule', 12, 'roles', 'core.frames.settings.roles', 3),
-(7, 'SITEMAP', 0, 13, 2, 'core.frames.settings.frames', 'manageFramesModule', 14, 'frames', 'core.frames.settings.frames', 3),
-(8, 'HOME', 0, 2, 1, 'core.frames.start', NULL, 5, '', 'core.frames.start', 1),
-(9, 'BOOK', 0, 16, 1, 'Zbór', NULL, 21, 'congregation', 'Zbór', 1),
-(10, 'BRIEFCASE', 0, 17, 2, 'Głosiciele', 'caPreachersConfigModule', 18, 'preachers', 'Głosiciele', 9),
-(11, 'USERS', 0, 19, 2, 'Grupy Slużby', 'caGroupsConfigModule', 20, 'service-groups', 'Grupy Slużby', 9);
+(1, NULL, 0, 1, 0, '', '', 26, '', 'FramesTree', NULL),
+(3, 'COGS', 0, 16, 1, 'core.frames.settings', NULL, 25, 'settings', 'core.frames.settings', 1),
+(4, 'USER', 0, 17, 2, 'core.frames.settings.users', 'manageUsersModule', 18, 'users', 'core.frames.settings.users', 3),
+(5, 'USERS', 0, 19, 2, 'core.frames.settings.groups', 'manageGroupsModule', 20, 'groups', 'core.frames.settings.groups', 3),
+(6, 'LOCK', 0, 21, 2, 'core.frames.settings.roles', 'manageRolesModule', 22, 'roles', 'core.frames.settings.roles', 3),
+(7, 'SITEMAP', 0, 22, 2, 'core.frames.settings.frames', 'manageFramesModule', 23, 'frames', 'core.frames.settings.frames', 3),
+(9, 'BOOK', 0, 8, 1, 'Zbór', NULL, 15, 'congregation', 'Zbór', 1),
+(10, 'BRIEFCASE', 0, 9, 2, 'Głosiciele', 'caPreachersConfigModule', 10, 'preachers', 'Głosiciele', 9),
+(11, 'USERS', 0, 11, 2, 'Grupy Slużby', 'caGroupsConfigModule', 12, 'service-groups', 'Grupy Slużby', 9),
+(12, 'MAP_MARKER', 0, 2, 1, 'Tereny', NULL, 7, 'terrains', 'Tereny', 1),
+(13, 'LIST_ALT', 1, 3, 2, 'Ewidencja', 'caTerrainEvidenceModule', 4, 'evidence', 'Ewidencja', 12),
+(14, 'CALENDAR', 0, 13, 2, 'Wydarzenia', 'caEventsConfigModule', 14, 'events', 'Wydarzenia', 9),
+(15, 'BRIEFCASE', 0, 5, 2, 'Raporty', 'caTerrainReportModule', 6, 'reports', 'Raporty', 12);
 
 --
 -- Ograniczenia dla zrzutów tabel
@@ -581,6 +696,13 @@ ALTER TABLE `acl_object_identity`
   ADD CONSTRAINT `acl_object_identity_ibfk_3` FOREIGN KEY (`owner_sid`) REFERENCES `acl_sid` (`id`);
 
 --
+-- Ograniczenia dla tabeli `ca_overseer_assignments`
+--
+ALTER TABLE `ca_overseer_assignments`
+  ADD CONSTRAINT `FK_obg27dmq08kovbjbfumr4v111` FOREIGN KEY (`group_id`) REFERENCES `ca_service_groups` (`id`),
+  ADD CONSTRAINT `FK_qs8gbwnh7kl82snok4lm28222` FOREIGN KEY (`preacher_id`) REFERENCES `ca_preachers` (`id`);
+
+--
 -- Ograniczenia dla tabeli `ca_preachers`
 --
 ALTER TABLE `ca_preachers`
@@ -590,8 +712,8 @@ ALTER TABLE `ca_preachers`
 -- Ograniczenia dla tabeli `ca_preacher_assignments`
 --
 ALTER TABLE `ca_preacher_assignments`
-  ADD CONSTRAINT `FK_qs8gbwnh7kl82snok4lm28762` FOREIGN KEY (`preacher_id`) REFERENCES `ca_preachers` (`id`),
-  ADD CONSTRAINT `FK_obg27dmq08kovbjbfumr4v0fj` FOREIGN KEY (`group_id`) REFERENCES `ca_service_groups` (`id`);
+  ADD CONSTRAINT `FK_obg27dmq08kovbjbfumr4v0fj` FOREIGN KEY (`group_id`) REFERENCES `ca_service_groups` (`id`),
+  ADD CONSTRAINT `FK_qs8gbwnh7kl82snok4lm28762` FOREIGN KEY (`preacher_id`) REFERENCES `ca_preachers` (`id`);
 
 --
 -- Ograniczenia dla tabeli `ca_preacher_priviledges`
@@ -622,8 +744,8 @@ ALTER TABLE `ca_terrain_notes`
 -- Ograniczenia dla tabeli `ca_terrain_notifications`
 --
 ALTER TABLE `ca_terrain_notifications`
-  ADD CONSTRAINT `FK_77f251bm1cs1qlrfw49ov2om8` FOREIGN KEY (`override_group_id`) REFERENCES `ca_service_groups` (`id`),
   ADD CONSTRAINT `FK_77f251bm1cs1qlrfw49ov2333` FOREIGN KEY (`event_id`) REFERENCES `ca_events` (`id`),
+  ADD CONSTRAINT `FK_77f251bm1cs1qlrfw49ov2om8` FOREIGN KEY (`override_group_id`) REFERENCES `ca_service_groups` (`id`),
   ADD CONSTRAINT `FK_eml25xy4koa1rbb8068xrilqo` FOREIGN KEY (`terrain_assignment_id`) REFERENCES `ca_terrain_assignments` (`id`);
 
 --
@@ -638,6 +760,13 @@ ALTER TABLE `core_frames`
 ALTER TABLE `security_groups_roles`
   ADD CONSTRAINT `FK_8ypp543ldubcu4lfddgw0c8ej` FOREIGN KEY (`role_id`) REFERENCES `security_roles` (`id`),
   ADD CONSTRAINT `FK_muujmsb31emg6darjuxw9m4ea` FOREIGN KEY (`group_id`) REFERENCES `security_groups` (`id`);
+
+--
+-- Ograniczenia dla tabeli `security_roles_child_roles`
+--
+ALTER TABLE `security_roles_child_roles`
+  ADD CONSTRAINT `ca_child_role` FOREIGN KEY (`child_role_id`) REFERENCES `security_roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ca_role` FOREIGN KEY (`role_id`) REFERENCES `security_roles` (`id`) ON DELETE CASCADE;
 
 --
 -- Ograniczenia dla tabeli `security_users_groups`
@@ -662,40 +791,3 @@ ALTER TABLE `vaadin_frames`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `ca_preacher_assignments`
---
-
-CREATE TABLE IF NOT EXISTS `ca_overseer_assignments` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `is_active` tinyint(1) NOT NULL,
-  `created_at` date NOT NULL,
-  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `date` date NOT NULL,
-  `group_id` bigint(20) NOT NULL,
-  `preacher_id` bigint(20) NOT NULL,
-  `group_no` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_obg27dmq08kovbjbfumr4v111` (`group_id`),
-  KEY `FK_qs8gbwnh7kl82snok4lm28222` (`preacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- Ograniczenia dla tabeli `ca_preacher_assignments`
---
-ALTER TABLE `ca_overseer_assignments`
-  ADD CONSTRAINT `FK_qs8gbwnh7kl82snok4lm28222` FOREIGN KEY (`preacher_id`) REFERENCES `ca_preachers` (`id`),
-  ADD CONSTRAINT `FK_obg27dmq08kovbjbfumr4v111` FOREIGN KEY (`group_id`) REFERENCES `ca_service_groups` (`id`);
-
-CREATE TABLE IF NOT EXISTS `ca_events` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `created_at` date NOT NULL,
-  `created_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `event_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
