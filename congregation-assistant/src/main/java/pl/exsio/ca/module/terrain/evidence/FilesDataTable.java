@@ -37,6 +37,7 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
@@ -47,9 +48,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.Locale;
-import org.vaadin.easyuploads.UploadField;
-import org.vaadin.easyuploads.UploadField.FieldType;
-import org.vaadin.easyuploads.UploadField.StorageMode;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainFile;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
@@ -60,6 +58,9 @@ import pl.exsio.frameset.vaadin.ui.support.component.data.table.DataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.TableDataConfig;
 import pl.exsio.jin.annotation.TranslationPrefix;
+import pl.exsio.plupload.Plupload;
+import pl.exsio.plupload.PluploadFile;
+import pl.exsio.plupload.field.PluploadField;
 
 /**
  *
@@ -73,8 +74,6 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
     protected CaRepositoryProvider caRepositories;
 
     protected Terrain terrain;
-
-    protected UploadField uploadField;
 
     protected String lastFileName;
 
@@ -182,23 +181,31 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
         return true;
     }
 
-    private UploadField getFileField(EntityItem<? extends TerrainFile> item) {
-        this.uploadField = new UploadField() {
-            @Override
-            protected String getDisplayDetails() {
-                lastFileName = this.getLastFileName();
-                lastMimeType = this.getLastMimeType();
-                lastSize = this.getLastFileSize();
-                return this.getLastFileName();
-            }
+    private Field getFileField(EntityItem<? extends TerrainFile> item) {
 
-        };
-        this.uploadField.setButtonCaption(t("data"));
-        this.uploadField.setStorageMode(StorageMode.MEMORY);
-        this.uploadField.setFieldType(FieldType.BYTE_ARRAY);
-        this.uploadField.addValidator(new NullValidator("", false));
-        this.uploadField.setPropertyDataSource(item.getItemProperty("data"));
-        return this.uploadField;
+        PluploadField<byte[]> upload = new PluploadField(byte[].class);
+        upload.getUploader().addFileUploadedListener(new Plupload.FileUploadedListener() {
+
+            @Override
+            public void onFileUploaded(PluploadFile file) {
+                lastFileName = file.getName();
+                lastMimeType = file.getType();
+                lastSize = file.getSize();
+            }
+        });
+
+        upload.getUploader().setCaption(t("data"));
+        upload.addValidator(new NullValidator("", false));
+        upload.setPropertyDataSource(item.getItemProperty("data"));
+        upload.getUploader().addClickListener(new Button.ClickListener() {
+
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                upload.getUploader().refresh();
+            }
+        });
+        return upload;
+
     }
 
     private TextField getTitleField(EntityItem<? extends TerrainFile> item) {
