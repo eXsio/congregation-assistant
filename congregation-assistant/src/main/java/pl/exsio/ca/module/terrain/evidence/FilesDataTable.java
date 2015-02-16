@@ -183,7 +183,7 @@ public class FilesDataTable extends JPADataTable<TerrainFile, Form> {
 
     private Field getFileField(EntityItem<? extends TerrainFile> item) {
 
-        PluploadField<byte[]> upload = new PluploadField(byte[].class);
+        final PluploadField<byte[]> upload = new PluploadField(byte[].class);
         upload.getUploader().addFileUploadedListener(new Plupload.FileUploadedListener() {
 
             @Override
