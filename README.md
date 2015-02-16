@@ -1,2 +1,2 @@
-congregation-assistant
+congregation-assistant 
 ======================
