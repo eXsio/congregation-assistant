@@ -4,7 +4,7 @@
 
     <groupId>pl.exsio</groupId>
     <artifactId>congregation-assistant</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>congregation-assistant</name>
@@ -13,7 +13,7 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
-        <vaadin.plugin.version>7.3.6</vaadin.plugin.version>
+        <vaadin.plugin.version>7.4.1</vaadin.plugin.version>
         <netbeans.hint.license>mit</netbeans.hint.license>
     </properties>
     
@@ -21,10 +21,6 @@
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
-        </repository>
-        <repository>
-            <id>escsa</id>
-            <url>http://escsa.eu:7575/repository/snapshots</url>
         </repository>
     </repositories>
     
@@ -58,12 +54,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>frameset-vaadin</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>pl.exsio</groupId>
             <artifactId>plupload-vaadin</artifactId>
-            <version>1.4.3</version>
+            <version>2.0.1</version>
         </dependency>
     </dependencies>
 
@@ -95,6 +91,7 @@
                 <artifactId>vaadin-maven-plugin</artifactId>
                 <version>${vaadin.plugin.version}</version>
                 <configuration>
+                    <gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
                     <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
                     <!-- <runTarget>mobilemail</runTarget> -->
                     <!-- We are doing "inplace" but into subdir VAADIN/widgetsets. This 
