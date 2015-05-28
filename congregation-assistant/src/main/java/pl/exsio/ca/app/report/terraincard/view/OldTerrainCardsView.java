@@ -27,12 +27,9 @@ import com.lowagie.text.Cell;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
@@ -56,25 +53,17 @@ import static pl.exsio.jin.translationcontext.TranslationContext.t;
  * @author exsio
  */
 @TranslationPrefix("ca.report.terrain_card")
-public class TerrainCardsView extends AbstractPdfView {
+public class OldTerrainCardsView extends AbstractPdfView {
 
     private TerrainCardViewModel viewModel;
 
     private static final int START_COL = 0;
 
     private static final int START_ROW = 2;
-    
-    private static final String BACKGROUND_PATH = "/img/back.png";
 
     @Override
     protected void buildPdfDocument(Map<String, Object> map, Document dcmnt, PdfWriter writer, HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
 
-        PdfContentByte canvas = writer.getDirectContentUnder();
-        Image back = Image.getInstance(getClass().getClassLoader().getResource(BACKGROUND_PATH));
-        back.scaleAbsolute(PageSize.A4.getWidth(),PageSize.A4.getHeight());
-        back.setAbsolutePosition(0, 0);
-        canvas.addImage(back);
-        
         LinkedList<TerrainCardPage> pages = this.viewModel.getPages(map);
         int pagesCount = pages.size();
         for (int i = 0; i < pagesCount; i++) {
@@ -84,7 +73,6 @@ public class TerrainCardsView extends AbstractPdfView {
             dcmnt.add(this.getPageCounter(pagesCount, i + 1));
             if (i < pages.size() - 1) {
                 dcmnt.newPage();
-                canvas.addImage(back);
             }
         }
 
