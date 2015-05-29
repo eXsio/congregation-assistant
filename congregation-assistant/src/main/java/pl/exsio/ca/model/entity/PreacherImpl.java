@@ -235,7 +235,7 @@ public class PreacherImpl implements Preacher {
 
     @Override
     public String getCaption() {
-        return this.firstName+ " "+this.lastName;
+        return this.firstName.substring(0, 1)+ ". "+this.lastName;
     }
     
     @Override

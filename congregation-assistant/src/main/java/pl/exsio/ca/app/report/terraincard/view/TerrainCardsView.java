@@ -62,9 +62,11 @@ public class TerrainCardsView extends AbstractPdfView {
 
     private static final int START_COL = 0;
 
-    private static final int START_ROW = 2;
+    private static final int START_ROW = 3;
     
     private static final String BACKGROUND_PATH = "/img/back.png";
+    
+    private static final Color BACK_COLOR = new Color(244, 206, 138);
 
     @Override
     protected void buildPdfDocument(Map<String, Object> map, Document dcmnt, PdfWriter writer, HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
@@ -77,11 +79,10 @@ public class TerrainCardsView extends AbstractPdfView {
         
         LinkedList<TerrainCardPage> pages = this.viewModel.getPages(map);
         int pagesCount = pages.size();
+        
         for (int i = 0; i < pagesCount; i++) {
-            dcmnt.add(this.getHeader(map));
+            
             dcmnt.add(this.buildTable(pages.get(i)));
-            dcmnt.add(this.getCreationDate(new Date()));
-            dcmnt.add(this.getPageCounter(pagesCount, i + 1));
             if (i < pages.size() - 1) {
                 dcmnt.newPage();
                 canvas.addImage(back);
@@ -92,23 +93,24 @@ public class TerrainCardsView extends AbstractPdfView {
 
     private Element buildTable(TerrainCardPage page) throws Exception {
         Table table = new Table(this.viewModel.getTableColumnsNo() * 2);
-        table.setBorderWidth(1);
-        table.setPadding(1);
-        table.setSpacing(1);
+        table.setBorderWidth(0);
+        table.setPadding(0.565f);
+        table.setSpacing(0.7f);
         table.setWidth(100);
+        table.setAlignment(Element.ALIGN_RIGHT);
+
         int currentCol = START_COL;
         int currentRow = START_ROW;
         for (int i = 0; i < page.getColumns().size(); i++) {
             TerrainCardColumn column = page.getColumns().get(i);
-            table.addCell(this.getColumnTitleCell(column.getTerrainName()), 0, currentCol);
-            table.addCell(this.getColumnDescCell("from"), 1, currentCol);
-            table.addCell(this.getColumnDescCell("to"), 1, currentCol + 1);
+            table.addCell(this.getColumnSpacingCell(4), 0, currentCol);
+            table.addCell(this.getColumnTitleCell(column.getTerrainName()), 1, currentCol);
+            table.addCell(this.getColumnSpacingCell(3), 2, currentCol);
             for (int j = 0; j < column.getCells().size(); j++) {
                 TerrainCardCell cell = column.getCells().get(j);
-                boolean odd = j % 2 != 0;
-                table.addCell(this.getNotificationCell(cell.getGroup(), odd, 2), currentRow, currentCol);
-                table.addCell(this.getNotificationCell(cell.getFrom(), odd, 1), currentRow + 1, currentCol);
-                table.addCell(this.getNotificationCell(cell.getTo(), odd, 1), currentRow + 1, currentCol + 1);
+                table.addCell(this.getNotificationCell("            "+cell.getGroup(), 2,  6), currentRow, currentCol);
+                table.addCell(this.getNotificationCell(cell.getFrom(), 1, 7), currentRow + 1, currentCol);
+                table.addCell(this.getNotificationCell(cell.getTo(), 1, 7), currentRow + 1, currentCol + 1);
                 currentRow += 2;
             }
             currentCol += 2;
@@ -117,78 +119,42 @@ public class TerrainCardsView extends AbstractPdfView {
 
         return table;
     }
-    
-    private Element getHeader(Map<String, Object> params) throws Exception {
-        StringBuilder sb = new StringBuilder(t("head")).append(" ");
-        TerrainType type = this.viewModel.getTypeFromParams(params);
-        if(type != null) {
-            sb.append(t("type")).append(": ").append(type.getCaption()).append(". ");
-        }
-        
-        ServiceGroup group = this.viewModel.getGroupFromParams(params);
-        if(group != null) {
-            sb.append(t("group")).append(": ").append(group.getCaption()).append(". ");
-        }
-        
-        Date date = this.viewModel.getDateFromParams(params);
-        if(date != null) {
-            sb.append(t("date")).append(": ").append(new SimpleDateFormat("yyyy-MM-dd").format(date)).append(".");
-        }
-        Paragraph p = new Paragraph(sb.toString(), this.getFont());
-        p.getFont().setStyle(Font.BOLD);
-        p.getFont().setSize(9);
-        return p;
-    }
 
-    private Element getPageCounter(int pagesCount, int currentPage) throws Exception {
-        Paragraph p = new Paragraph(currentPage + " / " + pagesCount, this.getFont());
-        p.setAlignment(Element.ALIGN_RIGHT);
-        p.getFont().setSize(8);
-        return p;
-    }
-    
-    private Element getCreationDate(Date date) throws Exception {
-        Paragraph p = new Paragraph(t("creation_date") + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date), this.getFont());
-        p.setAlignment(Element.ALIGN_LEFT);
-        p.getFont().setSize(7);
-        return p;
-    }
-
-    private Cell getNotificationCell(String groupName, boolean odd, int colSpan) throws Exception {
+    private Cell getNotificationCell(String groupName, int colSpan, int size) throws Exception {
         Paragraph p = new Paragraph(groupName, this.getFont());
-        if (groupName.equals(TerrainCardViewModel.EMPTY_CELL_VALUE)) {
-            p.getFont().setColor(Color.WHITE);
+        if (groupName.trim().equalsIgnoreCase(TerrainCardViewModel.EMPTY_CELL_VALUE)) {
+            p.getFont().setColor(BACK_COLOR);
         }
-        p.getFont().setSize(7);
+        p.getFont().setSize(size);
         Cell cell = new Cell(p);
-        if (odd) {
-            cell.setBackgroundColor(new Color(240, 240, 240));
-        }
+        cell.setBorder(0);
         cell.setColspan(colSpan);
+        return cell;
+    }
+    
+    private Cell getColumnSpacingCell(int size) throws Exception {
+        Paragraph p = new Paragraph(TerrainCardViewModel.EMPTY_CELL_VALUE, this.getFont());
+        p.getFont().setColor(BACK_COLOR);
+        p.getFont().setSize(size);
+        Cell cell = new Cell(p);
+        cell.setBorder(0);
         return cell;
     }
 
     private Cell getColumnTitleCell(String title) throws Exception {
 
-        Paragraph p = new Paragraph(title, this.getFont());
-        p.getFont().setSize(10);
-        p.getFont().setStyle(Font.BOLDITALIC);
+        Paragraph p = new Paragraph("         "+title, this.getFont());
+        int size = 8;
+        if(title.length() > 18) {
+            size = 6;
+        }
+        p.getFont().setSize(size);
+        p.getFont().setStyle(Font.ITALIC);
         p.setSpacingAfter(2);
         p.setSpacingBefore(2);
         Cell cell = new Cell(p);
         cell.setColspan(2);
-        cell.setBackgroundColor(new Color(230, 230, 230));
-        return cell;
-    }
-
-    private Cell getColumnDescCell(String desc) throws Exception {
-        Paragraph p = new Paragraph(t(desc), this.getFont());
-        p.getFont().setSize(8);
-        p.getFont().setStyle(Font.BOLDITALIC);
-        p.setSpacingAfter(2);
-        p.setSpacingBefore(2);
-        Cell cell = new Cell(p);
-        cell.setBackgroundColor(new Color(230, 230, 230));
+         cell.setBorder(0);
         return cell;
     }
 

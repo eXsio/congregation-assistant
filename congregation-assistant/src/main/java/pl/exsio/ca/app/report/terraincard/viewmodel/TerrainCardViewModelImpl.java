@@ -58,7 +58,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
     private static final int TABLE_COLS = 5;
 
-    private static final int TABLE_ROWS = 21;
+    private static final int TABLE_ROWS = 28;
 
     private CaRepositoryProvider caRepositories;
 
@@ -67,7 +67,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
     private LinkedHashMap<Terrain, LinkedList<TerrainCardCell>> cellsMap;
 
     public TerrainCardViewModelImpl() {
-        this.sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.sdf = new SimpleDateFormat("yyyy-MM");
     }
 
     @Override
