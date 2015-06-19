@@ -26,7 +26,6 @@ package pl.exsio.ca.model.entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 import java.util.SortedSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,10 +42,12 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
+import pl.exsio.ca.model.TerrainOwner;
 import pl.exsio.frameset.security.userdetails.UserDetailsProvider;
 
 /**
@@ -84,8 +85,12 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     protected boolean active;
 
     @ManyToOne(targetEntity = ServiceGroupImpl.class)
-    @JoinColumn(name = "group_id", nullable = false)
+    @JoinColumn(name = "group_id", nullable = true)
     protected ServiceGroup group;
+    
+    @ManyToOne(targetEntity = PreacherImpl.class)
+    @JoinColumn(name = "preacher_id", nullable = true)
+    protected Preacher preacher;
 
     @ManyToOne(targetEntity = TerrainImpl.class)
     @JoinColumn(name = "terrain_id", nullable = false)
@@ -188,12 +193,22 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     @Override
     public String getCaption() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String caption = this.group.getCaption() + " (" + sdf.format(this.startDate);
+        String caption = getOwner().getCaption() + " (" + sdf.format(this.startDate);
         if (this.endDate instanceof Date) {
             caption += " - " + sdf.format(this.endDate);
         }
         caption += ")";
         return caption;
+    }
+    
+    @Override
+    public Preacher getPreacher() {
+        return preacher;
+    }
+    
+    @Override
+    public void setPreacher(Preacher preacher) {
+        this.preacher = preacher;
     }
 
     @Override
@@ -236,6 +251,11 @@ public class TerrainAssignmentImpl implements TerrainAssignment {
     @Override
     public boolean isExpired() {
         return this.endDate instanceof Date && this.endDate.before(new Date());
+    }
+    
+    @Override
+    public TerrainOwner getOwner() {
+        return group != null ? group : preacher;
     }
 
 }

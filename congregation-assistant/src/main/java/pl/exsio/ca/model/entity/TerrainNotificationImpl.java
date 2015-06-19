@@ -38,6 +38,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import pl.exsio.ca.model.Event;
+import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.TerrainNotification;
@@ -77,6 +78,10 @@ public class TerrainNotificationImpl implements TerrainNotification {
     @ManyToOne(targetEntity = ServiceGroupImpl.class)
     @JoinColumn(name = "override_group_id", nullable = true)
     protected ServiceGroup overrideGroup;
+    
+    @ManyToOne(targetEntity = PreacherImpl.class)
+    @JoinColumn(name = "override_preacher_id", nullable = true)
+    protected Preacher overridePreacher;
 
     @ManyToOne(targetEntity = EventImpl.class)
     @JoinColumn(name = "event_id", nullable = true)
@@ -86,6 +91,16 @@ public class TerrainNotificationImpl implements TerrainNotification {
     public void prePersist() {
         this.createdAt = new Date();
         this.createdBy = UserDetailsProvider.getUserDetails().getUsername();
+    }
+
+    @Override
+    public Preacher getOverridePreacher() {
+        return overridePreacher;
+    }
+
+    @Override
+    public void setOverridePreacher(Preacher overridePreacher) {
+        this.overridePreacher = overridePreacher;
     }
 
     @Override

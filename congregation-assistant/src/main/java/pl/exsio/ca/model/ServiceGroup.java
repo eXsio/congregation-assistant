@@ -32,7 +32,7 @@ import java.util.SortedSet;
  *
  * @author exsio
  */
-public interface ServiceGroup extends Serializable {
+public interface ServiceGroup extends Serializable, TerrainOwner {
 
     Long getId();
 
@@ -53,8 +53,6 @@ public interface ServiceGroup extends Serializable {
     boolean isArchival();
     
     void setArchival(boolean archival);
-    
-    String getCaption();
     
     String getCaption(OverseerAssignment assignment);
 }

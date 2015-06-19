@@ -38,6 +38,7 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
@@ -47,11 +48,14 @@ import java.text.DateFormat;
 import java.util.Locale;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.TerrainAssignment;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
+import pl.exsio.ca.util.XorValidator;
+import pl.exsio.ca.util.XorValueChangeListener;
 import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.util.CalendarUtil;
@@ -73,12 +77,14 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     protected Terrain terrain;
 
     protected EntityProvider serviceGroupEntityProvider;
+    
+    protected EntityProvider preacherEntityProvider;
 
     public AssignmentsDataTable(SecurityContext security) {
         super(Form.class, new TableDataConfig(AssignmentsDataTable.class) {
             {
-                setColumnHeaders("group", "assignment_start_date", "assignment_end_date", "assignment_active", "id");
-                setVisibleColumns("group", "startDate", "endDate", "active", "id");
+                setColumnHeaders("owner", "assignment_start_date", "assignment_end_date", "assignment_active", "id");
+                setVisibleColumns("owner", "startDate", "endDate", "active", "id");
             }
         }, security);
     }
@@ -138,7 +144,16 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
 
         VerticalLayout formLayout = new VerticalLayout();
 
-        form.addField("group", this.getGroupField(item));
+        Field group = this.getGroupField(item);
+        Field preacher = this.getPreacherField(item);
+
+        group.addValueChangeListener(new XorValueChangeListener(preacher));
+        preacher.addValueChangeListener(new XorValueChangeListener(group));
+        group.addValidator(new XorValidator(preacher));
+        preacher.addValidator(new XorValidator(group));
+        
+        form.addField("group", group);
+        form.addField("preacher", preacher);
         form.addField("startDate", this.getStartDateField(item));
         form.addField("endDate", this.getEndDateField(item));
         form.addField("comment", this.getCommentField(item));
@@ -188,8 +203,20 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
         group.setItemCaptionPropertyId("caption");
         group.setPropertyDataSource(item.getItemProperty("group"));
         group.setConverter(new SingleSelectConverter(group));
-        group.addValidator(new NullValidator(t("invalid_group"), false));
+        group.setNullSelectionAllowed(true);
         return group;
+    }
+    
+    private ComboBox getPreacherField(EntityItem<? extends TerrainAssignment> item) throws UnsupportedFilterException {
+        JPAContainer<? extends Preacher> groups = JPAContainerFactory.make(this.caEntities.getPreacherClass(), this.preacherEntityProvider.getEntityManager());
+        groups.setEntityProvider(this.preacherEntityProvider);
+        ComboBox preacher = new ComboBox(t("preacher"), groups);
+        preacher.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        preacher.setItemCaptionPropertyId("caption");
+        preacher.setPropertyDataSource(item.getItemProperty("preacher"));
+        preacher.setConverter(new SingleSelectConverter(preacher));
+        preacher.setNullSelectionAllowed(true);
+        return preacher;
     }
 
     @Override
@@ -247,5 +274,11 @@ public class AssignmentsDataTable extends JPADataTable<TerrainAssignment, Form> 
     public void setServiceGroupEntityProvider(EntityProvider serviceGroupEntityProvider) {
         this.serviceGroupEntityProvider = serviceGroupEntityProvider;
     }
+
+    public void setPreacherEntityProvider(EntityProvider preacherEntityProvider) {
+        this.preacherEntityProvider = preacherEntityProvider;
+    }
+    
+    
 
 }

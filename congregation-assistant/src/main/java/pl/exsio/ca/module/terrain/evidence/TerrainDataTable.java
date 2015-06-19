@@ -62,6 +62,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
+import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
@@ -69,6 +70,7 @@ import pl.exsio.ca.model.TerrainType;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
+import pl.exsio.ca.util.XorValueChangeListener;
 import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.forms.fieldfactory.FramesetFieldFactory;
@@ -145,7 +147,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
                         if (assignments != null && !assignments.isEmpty()) {
                             TerrainAssignment lastAssignment = assignments.last();
                             if (!lastAssignment.isExpired()) {
-                                return lastAssignment.getGroup().getCaption();
+                                return lastAssignment.getOwner().getCaption();
                             } else {
                                 return "";
                             }
@@ -170,10 +172,11 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         controls = super.decorateControls(controls);
         final ComboBox types = this.getTypesCombo();
         final ComboBox groups = this.getGroupsCombo();
+        final ComboBox preachers = this.getPreachersCombo();
         final DateField date = this.getDateField();
         Button printCards = this.getPrintCardsButton(types, groups, date);
 
-        this.handleFilterActions(types, groups, date);
+        this.handleFilterActions(types, groups, preachers, date);
         if (this.security.canWrite()) {
             controls.addComponent(quickNotification);
             controls.setComponentAlignment(quickNotification, Alignment.MIDDLE_CENTER);
@@ -181,6 +184,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         controls.addComponent(printCards);
         controls.addComponent(types);
         controls.addComponent(groups);
+        controls.addComponent(preachers);
         controls.addComponent(date);
         controls.setComponentAlignment(addButton, Alignment.MIDDLE_CENTER);
         controls.setComponentAlignment(editButton, Alignment.MIDDLE_CENTER);
@@ -234,6 +238,7 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         table.setCaEntities(this.caEntities);
         table.setCaRepositories(this.caRepositories);
         table.setServiceGroupEntityProvider(this.caEntityProviders.getServiceGroupEntityProvider());
+        table.setPreacherEntityProvider(this.caEntityProviders.getPreacherEntityProvider());
         table.setTerrain(item.getEntity());
         table.setApplicationEventPublisher(this.aep);
         table.setEntityProvider(this.caEntityProviders.getTerrainAssignmentEntityProvider());
@@ -328,10 +333,13 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         return printCards;
     }
 
-    private void handleFilterActions(ComboBox types, ComboBox groups, DateField date) {
-        Property.ValueChangeListener listener = this.getFiltersHandler(types, groups, date);
+    private void handleFilterActions(ComboBox types, ComboBox groups, ComboBox preachers, DateField date) {
+        Property.ValueChangeListener listener = this.getFiltersHandler(types, groups, preachers, date);
         types.addValueChangeListener(listener);
+        groups.addValueChangeListener(new XorValueChangeListener(preachers));
         groups.addValueChangeListener(listener);
+        preachers.addValueChangeListener(new XorValueChangeListener(groups));
+        preachers.addValueChangeListener(listener);
         date.addValueChangeListener(listener);
 
         this.handleQuickNotificationClick();
@@ -354,13 +362,24 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
         groups.setItemCaptionPropertyId("caption");
         return groups;
     }
+    
+    private ComboBox getPreachersCombo() throws UnsupportedFilterException {
+        JPAContainer<Preacher> preachersContainer = JPAContainerFactory.make(this.caEntities.getPreacherClass(), this.caEntityProviders.getPreacherEntityProvider().getEntityManager());
+        preachersContainer.setEntityProvider(this.caEntityProviders.getPreacherEntityProvider());
+        preachersContainer.addContainerFilter(eq("archival", false));
+        final ComboBox preachers = new ComboBox(t("pick_preacher"), preachersContainer);
+        preachers.setConverter(new SingleSelectConverter<ServiceGroup>(preachers));
+        preachers.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        preachers.setItemCaptionPropertyId("caption");
+        return preachers;
+    }
 
     private ComboBox getTypesCombo() {
         final ComboBox types = ComponentFactory.createEnumComboBox(t("pick_type"), TerrainType.class);
         return types;
     }
 
-    private Property.ValueChangeListener getFiltersHandler(final ComboBox types, final ComboBox groups, final DateField date) {
+    private Property.ValueChangeListener getFiltersHandler(final ComboBox types, final ComboBox groups, final ComboBox preachers, final DateField date) {
         Property.ValueChangeListener listener = new Property.ValueChangeListener() {
 
             @Override
@@ -373,6 +392,9 @@ public class TerrainDataTable extends JPADataTable<Terrain, TabbedForm> {
 
                 if (groups.getValue() != null) {
                     terrains.addContainerFilter(joinFilter("assignments", new Filter[]{eq("active", true), eq("group", groups.getValue())}));
+                }
+                if (preachers.getValue() != null) {
+                    terrains.addContainerFilter(joinFilter("assignments", new Filter[]{eq("preacher", preachers.getValue())}));
                 }
 
                 if (date.getValue() != null) {

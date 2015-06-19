@@ -33,7 +33,7 @@ import pl.exsio.frameset.security.model.User;
  *
  * @author exsio
  */
-public interface Preacher extends Serializable {
+public interface Preacher extends Serializable, TerrainOwner {
 
     Long getId();
 
@@ -72,6 +72,5 @@ public interface Preacher extends Serializable {
     boolean isArchival();
     
     void setArchival(boolean archival);
-    
-    String getCaption();
+
 }

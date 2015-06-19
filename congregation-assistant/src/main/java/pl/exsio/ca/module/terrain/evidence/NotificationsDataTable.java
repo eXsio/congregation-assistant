@@ -45,6 +45,7 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
@@ -53,6 +54,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
@@ -60,6 +62,7 @@ import pl.exsio.ca.model.TerrainNotification;
 import pl.exsio.ca.model.entity.factory.CaEntityFactory;
 import pl.exsio.ca.model.entity.provider.provider.CaEntityProviderProvider;
 import pl.exsio.ca.model.repository.provider.CaRepositoryProvider;
+import pl.exsio.ca.util.XorValueChangeListener;
 import static pl.exsio.jin.translationcontext.TranslationContext.t;
 import pl.exsio.frameset.security.context.SecurityContext;
 import pl.exsio.frameset.vaadin.ui.support.component.data.table.JPADataTable;
@@ -84,8 +87,8 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
     public NotificationsDataTable(SecurityContext security) {
         super(Form.class, new TableDataConfig(NotificationsDataTable.class) {
             {
-                setColumnHeaders("notification_date", "assignment", "override_group", "event", "notification_comment", "id");
-                setVisibleColumns("date", "assignment", "overrideGroup", "event", "comment", "id");
+                setColumnHeaders("notification_date", "assignment", "event", "override_group", "override_preacher", "notification_comment", "id");
+                setVisibleColumns("date", "assignment", "event", "overrideGroup", "overridePreacher", "comment", "id");
             }
         }, security);
     }
@@ -126,9 +129,16 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         this.handleDateSelection(date, assignment, event);
         this.handleAssignmentSelectionChange(assignment, date);
 
+        Field overrideGroup = this.getOverrideGroupField(item);
+        Field overridePreacher = this.getOverridePreacherField(item);
+        
+        overrideGroup.addValueChangeListener(new XorValueChangeListener(overridePreacher));
+        overridePreacher.addValueChangeListener(new XorValueChangeListener(overrideGroup));
+        
         form.addField("assignment", assignment);
         form.addField("date", date);
-        form.addField("overrideGroup", this.getOverrideGroupField(item));
+        form.addField("overrideGroup", overrideGroup);
+        form.addField("overridePreacher", overridePreacher);
         form.addField("event", event);
         form.addField("comment", this.getCommentField(item));
 
@@ -229,6 +239,17 @@ public class NotificationsDataTable extends JPADataTable<TerrainNotification, Fo
         overrideGroup.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
         overrideGroup.setItemCaptionPropertyId("caption");
         overrideGroup.setPropertyDataSource(item.getItemProperty("overrideGroup"));
+        overrideGroup.setConverter(new SingleSelectConverter(overrideGroup));
+        return overrideGroup;
+    }
+    
+    private ComboBox getOverridePreacherField(EntityItem<? extends TerrainNotification> item) {
+        JPAContainer<? extends Preacher> groups = JPAContainerFactory.make(this.caEntities.getPreacherClass(), this.caEntityProviders.getPreacherEntityProvider().getEntityManager());
+        groups.setEntityProvider(this.caEntityProviders.getPreacherEntityProvider());
+        ComboBox overrideGroup = new ComboBox(t("override_preacher"), groups);
+        overrideGroup.setItemCaptionMode(AbstractSelect.ItemCaptionMode.PROPERTY);
+        overrideGroup.setItemCaptionPropertyId("caption");
+        overrideGroup.setPropertyDataSource(item.getItemProperty("overridePreacher"));
         overrideGroup.setConverter(new SingleSelectConverter(overrideGroup));
         return overrideGroup;
     }

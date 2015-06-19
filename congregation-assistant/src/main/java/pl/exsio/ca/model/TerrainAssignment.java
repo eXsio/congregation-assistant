@@ -39,6 +39,10 @@ public interface TerrainAssignment extends Serializable, Comparable<TerrainAssig
     ServiceGroup getGroup();
 
     void setGroup(ServiceGroup group);
+    
+    void setPreacher(Preacher preacher);
+    
+    Preacher getPreacher();
 
     Terrain getTerrain();
 
@@ -71,4 +75,6 @@ public interface TerrainAssignment extends Serializable, Comparable<TerrainAssig
     boolean isNotificationDateValid(Date date);
     
     boolean isExpired();
+    
+    TerrainOwner getOwner();
 }

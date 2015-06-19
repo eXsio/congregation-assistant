@@ -56,6 +56,10 @@ public interface TerrainNotification extends Serializable, Comparable<TerrainNot
     
     ServiceGroup getOverrideGroup();
     
+    void setOverridePreacher(Preacher preacher);
+    
+    Preacher getOverridePreacher();
+    
     void setEvent(Event event);
     
     Event getEvent();

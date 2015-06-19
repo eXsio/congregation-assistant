@@ -35,6 +35,7 @@ import pl.exsio.ca.app.report.terraincard.model.TerrainCardCell;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardColumn;
 import pl.exsio.ca.app.report.terraincard.model.TerrainCardPage;
 import pl.exsio.ca.model.OverseerAssignment;
+import pl.exsio.ca.model.Preacher;
 import pl.exsio.ca.model.ServiceGroup;
 import pl.exsio.ca.model.Terrain;
 import pl.exsio.ca.model.TerrainAssignment;
@@ -151,10 +152,8 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
         TerrainAssignment assignment = notification.getAssignment();
 
         Date from = this.getFrom(i, notification, assignment, notifications);
-        ServiceGroup group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup() : notification.getAssignment().getGroup();
-        OverseerAssignment latestAssignment = this.getOverseerAssignment(group, notification.getDate());
-
-        cell.setGroup(group.getCaption(latestAssignment));
+        
+        cell.setGroup(getCellCaption(notification));
         cell.setFrom(sdf.format(from));
         cell.setTo(sdf.format(notification.getDate()));
 
@@ -163,6 +162,19 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
             TerrainCardCell lastCell = this.createLastCell(assignment, notification);
             terrainCells.add(lastCell);
         }
+    }
+
+    protected String getCellCaption(TerrainNotification notification) {
+        String caption;
+        if(notification.getOverrideGroup() != null  || notification.getAssignment().getGroup() != null) {
+            ServiceGroup group = notification.getOverrideGroup() instanceof ServiceGroup ? notification.getOverrideGroup() : notification.getAssignment().getGroup();
+            OverseerAssignment latestAssignment = this.getOverseerAssignment(group, notification.getDate());
+            caption = group.getCaption(latestAssignment);
+        } else {
+            Preacher preacher = notification.getOverridePreacher() instanceof Preacher ? notification.getOverridePreacher() : notification.getAssignment().getPreacher();
+            caption = preacher.getCaption();
+        }
+        return caption;
     }
     
     private OverseerAssignment getOverseerAssignment(ServiceGroup group, Date date) {
@@ -201,7 +213,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
         if (!lastCellAssignment.isExpired()) {
             lastCell.setFrom(sdf.format(lastCellFrom));
-            lastCell.setGroup(lastCellAssignment.getGroup().getCaption());
+            lastCell.setGroup(lastCellAssignment.getOwner().getCaption());
         } else {
             lastCell.setFrom(EMPTY_CELL_VALUE);
             lastCell.setGroup(EMPTY_CELL_VALUE);
@@ -213,7 +225,7 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
     private TerrainCardCell createVoidCell(Terrain terrain) {
         TerrainCardCell voidCell = new TerrainCardCell();
         TerrainAssignment lastAssignment = terrain.getAssignments().last();
-        voidCell.setGroup(lastAssignment.getGroup().getCaption());
+        voidCell.setGroup(lastAssignment.getOwner().getCaption());
         voidCell.setFrom(sdf.format(lastAssignment.getStartDate()));
         voidCell.setTo(EMPTY_CELL_VALUE);
         return voidCell;
@@ -287,7 +299,9 @@ public class TerrainCardViewModelImpl implements TerrainCardViewModel {
 
     @Override
     public ServiceGroup getGroupFromParams(Map<String, Object> params) throws NumberFormatException {
-        ServiceGroup group = (params.get(PARAM_GROUP) == null || (params.get(PARAM_GROUP).equals("")) ? null : this.caRepositories.getServiceGroupRepository().findOne(Long.valueOf(params.get(PARAM_GROUP).toString())));
+        Object param = params.get(PARAM_GROUP);
+        
+        ServiceGroup group = (param == null || (param.equals("") || Long.valueOf(param.toString()) <=0) ? null : this.caRepositories.getServiceGroupRepository().findOne(Long.valueOf(param.toString())));
         return group;
     }
 

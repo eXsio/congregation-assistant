@@ -791,3 +791,14 @@ ALTER TABLE `vaadin_frames`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+/* migration */
+ALTER TABLE `ca_terrain_assignments`
+    MODIFY COLUMN `group_id` bigint(20) DEFAULT NULL,
+    ADD COLUMN `preacher_id` bigint(20) DEFAULT NULL,
+    ADD CONSTRAINT `FK_nrhtskx7upe2wshs1agagabab` FOREIGN KEY (`preacher_id`) REFERENCES `ca_preachers` (`id`);
+
+ALTER TABLE `ca_terrain_notifications`
+    ADD COLUMN `override_preacher_id` bigint(20) DEFAULT NULL,
+ADD CONSTRAINT `FK_77f251bm1cs1qlrbubugaga` FOREIGN KEY (`override_preacher_id`) REFERENCES `ca_preachers` (`id`);

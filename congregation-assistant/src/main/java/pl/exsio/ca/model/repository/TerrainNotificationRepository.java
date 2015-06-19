@@ -47,11 +47,11 @@ public interface TerrainNotificationRepository extends GenericJpaRepository<Terr
     Iterable<TerrainNotification> findByTerrain(Terrain terrain);
 
     @Override
-    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t join a.group g  where a.terrain =?1 and n.date >=?2 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t left join a.group g left join a.preacher p  where a.terrain =?1 and n.date >=?2 order by n.date asc")
     LinkedHashSet<TerrainNotification> findForTerrainCard(Terrain terrain, Date date);
 
     @Override
-    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t join a.group g where a.terrain =?1 order by n.date asc")
+    @Query("select n from caTerrainNotificationImpl n join n.assignment a join a.terrain t left join a.group g left join a.preacher p where a.terrain =?1 order by n.date asc")
     LinkedHashSet<TerrainNotification> findForTerrainCard(Terrain terrain);
 
     @Override

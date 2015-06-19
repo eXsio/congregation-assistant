@@ -23,8 +23,8 @@ ca.preachers:
     phoneNo: Telefon
     basic_data: Dane podstawowe
     priviledges: Przywileje
-    group_assignment: Przydział do grupy
-    group: Przypisanie do grupy
+    group_assignment: Przydział
+    group: Przypisanie
     id: Id
 ca.priviledges:
     button:
@@ -95,12 +95,12 @@ ca.pr_assignments:
         delete: ""
         edit: ""
     msg:
-        created: Dodano nowe przypisanie do grupy
-        deleted: Przypisanie do grupy zostało usunięte
-        edited: Przypisanie do grupy zostało zaktualizowane
+        created: Dodano nowe przypisanie
+        deleted: Przypisanie zostało usunięte
+        edited: Przypisanie zostało zaktualizowane
     window:
-        create: Nowe przypisanie do grupy
-        edit: Edycja przypisania do grupy
+        create: Nowe przypisanie
+        edit: Edycja przypisania
     confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
     invalid_group: Przypisanie musi mieć grupę
     invalid_no: Przypisanie musi mieć datę
@@ -136,10 +136,10 @@ ca.terrains:
     archival: Archiwalny?
     type: Typ
     basic_data: Podstawowe dane
-    group: Przypisanie do grupy
+    group: Przypisanie
     notifications: Zgłoszenia opracowania
     id: Id
-    current_group: Obecna grupa
+    current_group: Obecny właściciel
     last_notification: Ostatnie opracowanie
     core.yes: Tak
     core.no: Nie
@@ -148,6 +148,7 @@ ca.terrains:
     terrains: Tereny zboru
     pick_type: Typ..
     pick_group: Grupa..
+    pick_preacher: Głosiciel..
     pick_date: Ostatnie opracowanie..    
 ca.terrain_type:
     city: miejski
@@ -159,20 +160,21 @@ ca.tr_assignments:
         delete: ""
         edit: ""
     msg:
-        created: Dodano nowe przypisanie do grupy
-        deleted: Przypisanie do grupy zostało usunięte
-        edited: Przypisanie do grupy zostało zaktualizowane
+        created: Dodano nowe przypisanie
+        deleted: Przypisanie zostało usunięte
+        edited: Przypisanie zostało zaktualizowane
     window:
-        create: Nowe przypisanie do grupy
-        edit: Edycja przypisania do grupy
+        create: Nowe przypisanie
+        edit: Edycja przypisania
     confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
-    invalid_group: Przypisanie musi mieć grupę
+    preacher_or_group: Przypisanie musi mieć grupę lub głosiciela
     invalid_start_date: Przypisanie musi mieć datę początkową
     group: Grupa
+    preacher: Głosiciel
+    owner: Właściciel
     start_date: Data początku
     end_date: Data końca
     comment: Komentarz
-    group: Grupa
     assignment_start_date: Data początku
     assignment_end_date: Data końca
     assignment_active: Aktywne?
@@ -192,16 +194,17 @@ ca.notifications:
         create: Nowe zgłoszenie opracowania
         edit: Edycja zgłoszenia opracowania
     confirmation.delete: Czy napewno chcesz usunąc to zgłoszenie?
-    invalid_assignment: Zgłoszenie opracowania musi być powiązane przypisanie terenu do grupy
-    invalid_date: Zgłoszenie musi mieć prawidłową datę (zgodną z wybranym przypisaniem terenu do grupy)
-    assignment: Przypisanie terenu do grupy
+    invalid_assignment: Zgłoszenie opracowania musi być powiązane przypisanie terenu
+    invalid_date: Zgłoszenie musi mieć prawidłową datę (zgodną z wybranym przypisaniem terenu)
+    assignment: Przypisanie terenu
     date: Data opracowania
-    override_group: Delegacja do grupy
+    override_group: Delegacja (gr)
+    override_preacher: Delegacja (gł)
     event: Powiązane wydarzenie
     comment: Komentarz
     notification_date: Data opracowania
     notification_comment: Komentarz
-    current_group: Obecna grupa
+    current_group: Obecny właściciel
     last_notification: Ostatnie opracowanie
     id: Id
 ca.qnotify:
@@ -252,12 +255,12 @@ ca.ov_assignments:
         delete: ""
         edit: ""
     msg:
-        created: Dodano nowe przypisanie nadzorcy do grupy
-        deleted: Przypisanie nadzorcy do grupy zostało usunięte
-        edited: Przypisanie nadzorcy do grupy zostało zaktualizowane
+        created: Dodano nowe przypisanie nadzorcy
+        deleted: Przypisanie nadzorcy zostało usunięte
+        edited: Przypisanie nadzorcy zostało zaktualizowane
     window:
         create: Nowe przypisanie nadzorcy
-        edit: Edycja przypisania nadzorcy do grupy
+        edit: Edycja przypisania nadzorcy
     confirmation.delete: Czy napewno chcesz usunąc to przypisanie?
     invalid_preacher: Przypisanie nadzorcy musi mieć głosiciela
     invalid_date: Przypisanie nadzorcy musi mieć datę początku
