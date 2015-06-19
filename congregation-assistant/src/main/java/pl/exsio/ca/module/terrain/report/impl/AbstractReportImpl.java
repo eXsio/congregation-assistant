@@ -200,7 +200,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
             item.setId(terrain.getId());
             item.setName(terrain.getName());
             item.setNo(terrain.getNo());
-            item.setType(type);
+            item.setType(terrain.getType());
             if (itemsMap.containsKey(terrain)) {
                 item.setCount(item.getCount() + itemsMap.get(terrain).getCount());
             }
