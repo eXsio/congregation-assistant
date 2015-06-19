@@ -310,7 +310,7 @@ ca.report:
             name: Nazwa
             id: Id
             notification_date: Data
-            group: Group
+            owner: Opracowano przez
             last_notification_date: Ostatnio opracowano
             last_notification_group: Ostatnio opracowała grupa...
     event:

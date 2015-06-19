@@ -165,7 +165,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
             item.getItemProperty("terrain_type").setValue(terrain.getType());
             item.getItemProperty("notification_date").setValue(terrain.getLastNotificationDate());
             if (!terrain.getAssignments().isEmpty()) {
-                item.getItemProperty("group").setValue(terrain.getAssignments().last().getGroup().getCaption());
+                item.getItemProperty("group").setValue(terrain.getAssignments().last().getOwner().getCaption());
             }
             item.getItemProperty("terrain_id").setValue(terrain.getId());
         }
@@ -196,7 +196,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
             Terrain terrain = assignment.getTerrain();
             TerrainWorkItem item = new TerrainWorkItem();
             item.setDate(notification.getDate());
-            item.setGroup(assignment.getGroup().getCaption());
+            item.setGroup(assignment.getOwner().getCaption());
             item.setId(terrain.getId());
             item.setName(terrain.getName());
             item.setNo(terrain.getNo());
@@ -243,7 +243,7 @@ public abstract class AbstractReportImpl extends VerticalLayout implements Repor
         };
         table.setConverter("notification_date", dateConverter);
         table.setVisibleColumns(new Object[]{"terrain_type", "terrain_no", "terrain_name", "notification_date", "group", "terrain_id"});
-        table.setColumnHeaders(t(new String[]{"table.type", "table.no", "table.name", "table.last_notification_date", "table.group", "table.id"}));
+        table.setColumnHeaders(t(new String[]{"table.type", "table.no", "table.name", "table.last_notification_date", "table.owner", "table.id"}));
         table.setWidth("740px");
         return table;
     }
