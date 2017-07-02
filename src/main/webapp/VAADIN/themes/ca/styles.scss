@@ -1,0 +1,8 @@
+/* Import all the mixins for this theme */
+@import "ca.scss";
+
+/* Output the actual theme selectors */
+.ca {
+	@include ca;
+}
+
